@@ -1,196 +1,641 @@
-# Top GPTs
+# Awesome Gemini Omni Prompts
 
-This repository is a curated list of top GPT models available in GPT Store, which can be used without needing a ChatGPT Plus subscription. These models cover a wide range of applications and use cases, demonstrating the versatility and power of GPTs in various domains.
+[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+[![Stars](https://img.shields.io/github/stars/Anil-matcha/Awesome-Gemini-Omni-API-Prompts?style=flat-square)](https://github.com/Anil-matcha/Awesome-Gemini-Omni-API-Prompts/stargazers)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](LICENSE)
 
-The conversion is done using this popular repo https://github.com/SamurAIGPT/Open-Custom-GPT
+A curated collection of high-quality prompts and patterns for **Gemini Omni** — Google's native multimodal video model announced at Google I/O 2026. This repository is your go-to reference for prompting Gemini Omni across text-to-video, image-to-video, audio-to-lip-sync, and conversational video editing — covering cinematic shots, character-consistent stories, product ads, anime, scientific visualization, B-roll, and more.
 
+Whether you're building a video generation app, exploring the Gemini API, or chasing cleaner prompt patterns, you'll find ready-to-use prompts here that unlock Gemini Omni's full potential.
 
+Join the discussion: https://www.reddit.com/r/GeminiOmni/
 
-https://github.com/Anil-matcha/Top-GPTs/assets/4326215/7eeacbc7-f1a5-4aef-98a0-9495b596a168
+> **Want to use Gemini Omni without a Google account?** Try **[MuAPI](https://muapi.ai)** — a hosted media API that gives you Gemini Omni text-to-video, image-to-video, and reference-based remixing with a simple REST call. [Get your API key →](https://muapi.ai)
 
-Want to add authentication, analytics and monetization to your GPT ? -> Check https://gpt-auth.com/
+> **API Usage:** All prompts are designed for the [Gemini API](https://ai.google.dev/gemini-api/docs) using model `gemini-omni` (or `gemini-omni-flash` for faster, cheaper generations).
 
+```python
+from google import genai
 
-## GPT Demos
+client = genai.Client()
+operation = client.models.generate_videos(
+    model="gemini-omni",
+    prompt="<paste any prompt from this list>",
+    config={"aspect_ratio": "16:9", "duration_seconds": 8, "resolution": "1080p"},
+)
+while not operation.done:
+    operation = client.operations.get(operation)
+video = operation.response.generated_videos[0]
+video.video.save("output.mp4")
+```
 
-1. [A I Bestie](https://customgpt.thesamur.ai/demo/a-i-bestie)
-2. [10X Engineer](https://customgpt.thesamur.ai/demo/10x-engineer)
-3. [20K Vocab Builder](https://customgpt.thesamur.ai/demo/20k-vocab-builder)
-4. [42Master Beck](https://customgpt.thesamur.ai/demo/42master-beck)
-5. [Aboutme](https://customgpt.thesamur.ai/demo/aboutme)
-6. [Ads Generator By Joe](https://customgpt.thesamur.ai/demo/ads-generator-by-joe)
-7. [Agi Zip](https://customgpt.thesamur.ai/demo/agi-zip)
-8. [Ai Doctor](https://customgpt.thesamur.ai/demo/ai-doctor)
-9. [Ai Lover](https://customgpt.thesamur.ai/demo/ai-lover)
-10. [Ai Paper Polisher Pro](https://customgpt.thesamur.ai/demo/ai-paper-polisher-pro)
-11. [Ai Pdf](https://customgpt.thesamur.ai/demo/ai-pdf)
-12. [Ai算命](https://customgpt.thesamur.ai/demo/ai算命)
-13. [All In Gpt](https://customgpt.thesamur.ai/demo/all-in-gpt)
-14. [Ask_Ida C](https://customgpt.thesamur.ai/demo/ask_ida-c)
-15. [Assistente Ai Per Ceo Marketing Oriented](https://customgpt.thesamur.ai/demo/assistente-ai-per-ceo-marketing-oriented)
-16. [Auto Stock Analyst Expert](https://customgpt.thesamur.ai/demo/auto-stock-analyst-expert)
-17. [Babyagi Txt](https://customgpt.thesamur.ai/demo/babyagi-txt)
-18. [Blog Expert](https://customgpt.thesamur.ai/demo/blog-expert)
-19. [Blog Post Generator](https://customgpt.thesamur.ai/demo/blog-post-generator)
-20. [Book To Prompt](https://customgpt.thesamur.ai/demo/book-to-prompt)
-21. [Breakdown Outline Any Topic](https://customgpt.thesamur.ai/demo/breakdown-outline-any-topic)
-22. [Calendar Gpt](https://customgpt.thesamur.ai/demo/calendar-gpt)
-23. [Canva](https://customgpt.thesamur.ai/demo/canva)
-24. [Captain Action](https://customgpt.thesamur.ai/demo/captain-action)
-25. [Cauldron](https://customgpt.thesamur.ai/demo/cauldron)
-26. [Ceo Gpt](https://customgpt.thesamur.ai/demo/ceo-gpt)
-27. [Character Forger](https://customgpt.thesamur.ai/demo/character-forger)
-28. [Chibi Kohaku 猫音コハク](https://customgpt.thesamur.ai/demo/chibi-kohaku-猫音コハク)
-29. [Choose Your Own Adventure](https://customgpt.thesamur.ai/demo/choose-your-own-adventure)
-30. [Cipheron](https://customgpt.thesamur.ai/demo/cipheron)
-31. [Cleargpt](https://customgpt.thesamur.ai/demo/cleargpt)
-32. [Code Explainer](https://customgpt.thesamur.ai/demo/code-explainer)
-33. [Codecopilot](https://customgpt.thesamur.ai/demo/codecopilot)
-34. [Coloring Book Hero](https://customgpt.thesamur.ai/demo/coloring-book-hero)
-35. [Consistency Crafter 2024](https://customgpt.thesamur.ai/demo/consistency-crafter-2024)
-36. [Convertanything](https://customgpt.thesamur.ai/demo/convertanything)
-37. [Cosmic Dream](https://customgpt.thesamur.ai/demo/cosmic-dream)
-38. [Creative Writing Coach](https://customgpt.thesamur.ai/demo/creative-writing-coach)
-39. [Cross Border Investigation Assistant 跨境偵查小助手](https://customgpt.thesamur.ai/demo/cross-border-investigation-assistant-跨境偵查小助手)
-40. [Curatorgpt](https://customgpt.thesamur.ai/demo/curatorgpt)
-41. [Customer Service Gpt](https://customgpt.thesamur.ai/demo/customer-service-gpt)
-42. [Data Analysis](https://customgpt.thesamur.ai/demo/data-analysis)
-43. [Designergpt](https://customgpt.thesamur.ai/demo/designergpt)
-44. [Devrelguide](https://customgpt.thesamur.ai/demo/devrelguide)
-45. [Diffusion Master](https://customgpt.thesamur.ai/demo/diffusion-master)
-46. [Domainsgpt](https://customgpt.thesamur.ai/demo/domainsgpt)
-47. [Email Proofreader](https://customgpt.thesamur.ai/demo/email-proofreader)
-48. [Email Responder Pro](https://customgpt.thesamur.ai/demo/email-responder-pro)
-49. [Emojai](https://customgpt.thesamur.ai/demo/emojai)
-50. [Fantasy Book Weaver](https://customgpt.thesamur.ai/demo/fantasy-book-weaver)
-51. [Framergpt](https://customgpt.thesamur.ai/demo/framergpt)
-52. [Game Time](https://customgpt.thesamur.ai/demo/game-time)
-53. [Genz 4 Meme](https://customgpt.thesamur.ai/demo/genz-4-meme)
-54. [Get Simpsonized](https://customgpt.thesamur.ai/demo/get-simpsonized)
-55. [Gif Pt](https://customgpt.thesamur.ai/demo/gif-pt)
-56. [Girlfriend Emma](https://customgpt.thesamur.ai/demo/girlfriend-emma)
-57. [Gpt Builder](https://customgpt.thesamur.ai/demo/gpt-builder)
-58. [Gpt Customizer File Finder Json Action Creator](https://customgpt.thesamur.ai/demo/gpt-customizer-file-finder-json-action-creator)
-59. [Gpt Shop Keeper](https://customgpt.thesamur.ai/demo/gpt-shop-keeper)
-60. [Grimoire](https://customgpt.thesamur.ai/demo/grimoire)
-61. [Gymstreak Workout Creator](https://customgpt.thesamur.ai/demo/gymstreak-workout-creator)
-62. [High Quality Review Analyzer](https://customgpt.thesamur.ai/demo/high-quality-review-analyzer)
-63. [Hormozigpt](https://customgpt.thesamur.ai/demo/hormozigpt)
-64. [Hot Mods](https://customgpt.thesamur.ai/demo/hot-mods)
-65. [Humanwritergpt](https://customgpt.thesamur.ai/demo/humanwritergpt)
-66. [Id Photo Pro](https://customgpt.thesamur.ai/demo/id-photo-pro)
-67. [Img2Img](https://customgpt.thesamur.ai/demo/img2img)
-68. [Interview Coach](https://customgpt.thesamur.ai/demo/interview-coach)
-69. [Istioguru](https://customgpt.thesamur.ai/demo/istioguru)
-70. [Koegpt](https://customgpt.thesamur.ai/demo/koegpt)
-71. [Langgpt](https://customgpt.thesamur.ai/demo/langgpt)
-72. [Laundry Buddy](https://customgpt.thesamur.ai/demo/laundry-buddy)
-73. [Leetcode Problem Solver](https://customgpt.thesamur.ai/demo/leetcode-problem-solver)
-74. [Logogpt](https://customgpt.thesamur.ai/demo/logogpt)
-75. [Makise Kurisu](https://customgpt.thesamur.ai/demo/makise-kurisu)
-76. [Manga Miko Anime Girlfriend](https://customgpt.thesamur.ai/demo/manga-miko-anime-girlfriend)
-77. [Math Mentor](https://customgpt.thesamur.ai/demo/math-mentor)
-78. [Meme Magic](https://customgpt.thesamur.ai/demo/meme-magic)
-79. [Metabolismboostergpt](https://customgpt.thesamur.ai/demo/metabolismboostergpt)
-80. [Midjourney Generator](https://customgpt.thesamur.ai/demo/midjourney-generator)
-81. [Moby Dick Rpg](https://customgpt.thesamur.ai/demo/moby-dick-rpg)
-82. [Mocktail Mixologist](https://customgpt.thesamur.ai/demo/mocktail-mixologist)
-83. [Mr Ranedeer](https://customgpt.thesamur.ai/demo/mr-ranedeer)
-84. [Music Writer](https://customgpt.thesamur.ai/demo/music-writer)
-85. [Muskgpt](https://customgpt.thesamur.ai/demo/muskgpt)
-86. [Mystic 占卜](https://customgpt.thesamur.ai/demo/mystic-占卜)
-87. [Naruto Gpt](https://customgpt.thesamur.ai/demo/naruto-gpt)
-88. [Nomad List](https://customgpt.thesamur.ai/demo/nomad-list)
-89. [Ocr Gpt](https://customgpt.thesamur.ai/demo/ocr-gpt)
-90. [Openapi Builder](https://customgpt.thesamur.ai/demo/openapi-builder)
-91. [Openstorytelling Plus](https://customgpt.thesamur.ai/demo/openstorytelling-plus)
-92. [Paw Pal](https://customgpt.thesamur.ai/demo/paw-pal)
-93. [Phoenix Ink](https://customgpt.thesamur.ai/demo/phoenix-ink)
-94. [Photogasm 2 0](https://customgpt.thesamur.ai/demo/photogasm-2-0)
-95. [Pic Book Artist](https://customgpt.thesamur.ai/demo/pic-book-artist)
-96. [Plugin Surf](https://customgpt.thesamur.ai/demo/plugin-surf)
-97. [Quality Raters Seo Guide](https://customgpt.thesamur.ai/demo/quality-raters-seo-guide)
-98. [Researchgpt](https://customgpt.thesamur.ai/demo/researchgpt)
-99. [Retro Adventures](https://customgpt.thesamur.ai/demo/retro-adventures)
-100. [Roleplayhumanwritinggpt](https://customgpt.thesamur.ai/demo/roleplayhumanwritinggpt)
-101. [Sales Cold Email Coach](https://customgpt.thesamur.ai/demo/sales-cold-email-coach)
-102. [Sarcastic Humorist](https://customgpt.thesamur.ai/demo/sarcastic-humorist)
-103. [Scholarai](https://customgpt.thesamur.ai/demo/scholarai)
-104. [Screenplay Gpt](https://customgpt.thesamur.ai/demo/screenplay-gpt)
-105. [Secret Code Guardian](https://customgpt.thesamur.ai/demo/secret-code-guardian)
-106. [Secret Keeper](https://customgpt.thesamur.ai/demo/secret-keeper)
-107. [Simpsonize Me](https://customgpt.thesamur.ai/demo/simpsonize-me)
-108. [Sous Chef](https://customgpt.thesamur.ai/demo/sous-chef)
-109. [Starter Pack Generator](https://customgpt.thesamur.ai/demo/starter-pack-generator)
-110. [Sticker Whiz](https://customgpt.thesamur.ai/demo/sticker-whiz)
-111. [Story Spock](https://customgpt.thesamur.ai/demo/story-spock)
-112. [Storybook Vision](https://customgpt.thesamur.ai/demo/storybook-vision)
-113. [Super Describe](https://customgpt.thesamur.ai/demo/super-describe)
-114. [Synthia](https://customgpt.thesamur.ai/demo/synthia)
-115. [Tailwindcss Previewer](https://customgpt.thesamur.ai/demo/tailwindcss-previewer)
-116. [Tailwindgpt](https://customgpt.thesamur.ai/demo/tailwindgpt)
-117. [Take Code Captures](https://customgpt.thesamur.ai/demo/take-code-captures)
-118. [Taxgpt](https://customgpt.thesamur.ai/demo/taxgpt)
-119. [Tech Support Advisor](https://customgpt.thesamur.ai/demo/tech-support-advisor)
-120. [The Negotiator](https://customgpt.thesamur.ai/demo/the-negotiator)
-121. [The Rizz Game](https://customgpt.thesamur.ai/demo/the-rizz-game)
-122. [The Secret Of Monkey Island Amsterdam](https://customgpt.thesamur.ai/demo/the-secret-of-monkey-island-amsterdam)
-123. [The Shaman](https://customgpt.thesamur.ai/demo/the-shaman)
-124. [Therapistgpt](https://customgpt.thesamur.ai/demo/therapistgpt)
-125. [Toongpt](https://customgpt.thesamur.ai/demo/toongpt)
-126. [Trey Ratcliff S Photo Critique Gpt](https://customgpt.thesamur.ai/demo/trey-ratcliff-s-photo-critique-gpt)
-127. [Tweetx Enhancer](https://customgpt.thesamur.ai/demo/tweetx-enhancer)
-128. [Universal Primer](https://customgpt.thesamur.ai/demo/universal-primer)
-129. [Video Game Almanac](https://customgpt.thesamur.ai/demo/video-game-almanac)
-130. [Video Script Generator](https://customgpt.thesamur.ai/demo/video-script-generator)
-131. [Viral Hooks Generator](https://customgpt.thesamur.ai/demo/viral-hooks-generator)
-132. [Virtual Sweetheart](https://customgpt.thesamur.ai/demo/virtual-sweetheart)
-133. [Visual Weather Artist Gpt](https://customgpt.thesamur.ai/demo/visual-weather-artist-gpt)
-134. [Watercolor Illustrator Gpt](https://customgpt.thesamur.ai/demo/watercolor-illustrator-gpt)
-135. [Weather Artist](https://customgpt.thesamur.ai/demo/weather-artist)
-136. [What Should I Watch](https://customgpt.thesamur.ai/demo/what-should-i-watch)
-137. [Writing Assistant](https://customgpt.thesamur.ai/demo/writing-assistant)
-138. [X Optimizer Gpt](https://customgpt.thesamur.ai/demo/x-optimizer-gpt)
-139. [Xhs Writer Mary](https://customgpt.thesamur.ai/demo/xhs-writer-mary)
-140. [Youtubegpt](https://customgpt.thesamur.ai/demo/youtubegpt)
-141. [Yt Summarizer](https://customgpt.thesamur.ai/demo/yt-summarizer)
-142. [Yt Transcriber](https://customgpt.thesamur.ai/demo/yt-transcriber)
-143. [All Around Writer Professional Version](https://customgpt.thesamur.ai/demo/all-around-writer-professional-version)
-144. [中医专家](https://customgpt.thesamur.ai/demo/中医专家)
-145. [凌凤箫](https://customgpt.thesamur.ai/demo/凌凤箫)
-146. [嘴臭王](https://customgpt.thesamur.ai/demo/嘴臭王)
-147. [天官庙的刘半仙](https://customgpt.thesamur.ai/demo/天官庙的刘半仙)
-148. [子言女友](https://customgpt.thesamur.ai/demo/子言女友)
-149. [孫子 Saysay Ai](https://customgpt.thesamur.ai/demo/孫子-saysay-ai)
-150. [完蛋 我爱上了姐姐](https://customgpt.thesamur.ai/demo/完蛋-我爱上了姐姐)
-151. [完蛋 我被美女包围了 Ai同人](https://customgpt.thesamur.ai/demo/完蛋-我被美女包围了-ai同人)
-152. [小坏蛋](https://customgpt.thesamur.ai/demo/小坏蛋)
-153. [小红书写作专家](https://customgpt.thesamur.ai/demo/小红书写作专家)
-154. [广告文案大师](https://customgpt.thesamur.ai/demo/广告文案大师)
-155. [悲慘世界 Rpg](https://customgpt.thesamur.ai/demo/悲慘世界-rpg)
-156. [情感对话大师 帮你回复女生](https://customgpt.thesamur.ai/demo/情感对话大师-帮你回复女生)
-157. [攻击型领导](https://customgpt.thesamur.ai/demo/攻击型领导)
-158. [春霞つくし Tsukushi Harugasumi](https://customgpt.thesamur.ai/demo/春霞つくし-tsukushi-harugasumi)
-159. [极简翻译](https://customgpt.thesamur.ai/demo/极简翻译)
-160. [枫叶林](https://customgpt.thesamur.ai/demo/枫叶林)
-161. [武林秘传 江湖探险](https://customgpt.thesamur.ai/demo/武林秘传-江湖探险)
-162. [猫耳美少女イラストメーカー](https://customgpt.thesamur.ai/demo/猫耳美少女イラストメーカー)
-163. [王阳明](https://customgpt.thesamur.ai/demo/王阳明)
-164. [痤疮治疗指南](https://customgpt.thesamur.ai/demo/痤疮治疗指南)
-165. [知识渊博的健身教练](https://customgpt.thesamur.ai/demo/知识渊博的健身教练)
-166. [短视频脚本](https://customgpt.thesamur.ai/demo/短视频脚本)
-167. [科技文章翻译](https://customgpt.thesamur.ai/demo/科技文章翻译)
-168. [老妈 我爱你](https://customgpt.thesamur.ai/demo/老妈-我爱你)
-169. [老爸 该怎么办](https://customgpt.thesamur.ai/demo/老爸-该怎么办)
-170. [脏话连篇](https://customgpt.thesamur.ai/demo/脏话连篇)
-171. [英文校正Gpt](https://customgpt.thesamur.ai/demo/英文校正gpt)
-172. [行业洞察家](https://customgpt.thesamur.ai/demo/行业洞察家)
-173. [解梦大师](https://customgpt.thesamur.ai/demo/解梦大师)
-174. [超级Dalle](https://customgpt.thesamur.ai/demo/超级dalle)
-175. [金庸群俠傳](https://customgpt.thesamur.ai/demo/金庸群俠傳)
-176. [鐵公雞](https://customgpt.thesamur.ai/demo/鐵公雞)
-177. [非虚构作品的阅读高手](https://customgpt.thesamur.ai/demo/非虚构作品的阅读高手)
-178. [骂醒恋爱脑](https://customgpt.thesamur.ai/demo/骂醒恋爱脑)
-179. [My Excellent Classmates Help With My Homework](https://customgpt.thesamur.ai/demo/my-excellent-classmates-help-with-my-homework)
-180. [Clubgpt Developer Team In One Gpt](https://customgpt.thesamur.ai/demo/clubgpt-developer-team-in-one-gpt)
-181. [算命先生](https://customgpt.thesamur.ai/demo/算命先生)
+---
+
+## Why Gemini Omni?
+
+Gemini Omni is a leap beyond specialized video models because it is a true omni-modal system — one model that ingests text, images, audio, and video, and outputs video grounded in real-world knowledge.
+
+- **Native multimodality** — Mix text, reference images, audio tracks, and source clips in a single prompt
+- **Character consistency** — Faces, outfits, and props stay coherent across scenes, lighting, and actions
+- **Reference-based editing** — Apply a style image, transfer motion from a clip, or swap an environment with plain language
+- **Conversational remixing** — Iterate with chat-style follow-ups like "make the last 3 seconds slower" or "swap the city for Tokyo at night"
+- **Audio-grounded lip-sync** — Provide a voice track and Omni animates accurate mouth shapes and timing
+- **Physics-aware** — Better grasp of gravity, momentum, fluids, and cloth than older diffusion-only video models
+
+---
+
+## Table of Contents
+
+- [Cinematic Text-to-Video](#cinematic-text-to-video)
+- [Image-to-Video (Animate a Still)](#image-to-video-animate-a-still)
+- [Character Consistency & Multi-Scene Stories](#character-consistency--multi-scene-stories)
+- [Product Ads & Commercials](#product-ads--commercials)
+- [Lifestyle, Travel & B-Roll](#lifestyle-travel--b-roll)
+- [Anime & Stylized Animation](#anime--stylized-animation)
+- [Scientific & Educational Visualization](#scientific--educational-visualization)
+- [Action, Combat & VFX Sequences](#action-combat--vfx-sequences)
+- [Conversational Edits & Remixes](#conversational-edits--remixes)
+- [Audio-Driven & Lip-Sync](#audio-driven--lip-sync)
+- [Resources & API Docs](#resources--api-docs)
+- [Contributing](#contributing)
+
+---
+
+## Cinematic Text-to-Video
+
+Prompts that lean on cinematography vocabulary — lens, lighting, blocking, camera move — to get filmic results in a single shot.
+
+### 35mm Rain-Soaked Tokyo Alley
+
+**Prompt:**
+```
+35mm anamorphic film, rain-soaked back alley in Shinjuku at 2 AM, neon kanji signage reflecting in puddles, a lone woman in a translucent vinyl raincoat walks toward camera holding a clear umbrella, slow dolly-in from low angle, shallow depth of field with bokeh streetlights, steam rising from a ramen stall in the background, authentic 35mm grain, cool teal shadows with warm magenta highlights, 8 seconds, 24fps, no captions, no watermark
+```
+
+---
+
+### Golden Hour Drone Reveal — Coastal Cliffs
+
+**Prompt:**
+```
+Aerial drone shot beginning tight on a lone surfer paddling on glassy water at golden hour, slow upward pull-back and rotate revealing 800-foot Big Sur sea cliffs, ribbons of mist clinging to the rock face, soft volumetric god rays, photorealistic, cinematic color grade, 10 seconds, smooth gimbal motion, no jitter
+```
+
+---
+
+### Cyberpunk Subway Push-In
+
+**Prompt:**
+```
+Low-angle tracking shot through a futuristic Tokyo subway car at night, holographic ads flickering on the windows, a hooded protagonist with cybernetic eyes sits in the foreground, train lights strobe across her face as the camera slowly pushes in, depth of field racks from background passengers to her glowing pupils, Blade Runner 2049 color palette, anamorphic lens flares, 8 seconds, 1080p
+```
+
+---
+
+### Slow-Motion Splash — Macro
+
+**Prompt:**
+```
+Extreme macro slow-motion at 1000fps, a single red strawberry plunging into a glass of milk, crown-shaped splash freezing mid-air, soft north-facing window light, white seamless background, hyper-detailed water droplets, photoreal, 6 seconds, square 1:1 framing
+```
+
+---
+
+### Wes Anderson Symmetrical Hotel Lobby
+
+**Prompt:**
+```
+Wes Anderson style, perfectly symmetrical wide shot of a pastel-pink hotel lobby, two bellhops in matching mustard uniforms stand frozen at attention either side of a brass elevator, the elevator doors slide open in unison, a tiny dog wearing a bow tie trots out toward camera, slow dolly-in, flat lighting, ornate wallpaper, 4:3 aspect ratio, 7 seconds
+```
+
+---
+
+### One-Take Restaurant Walk-Through
+
+**Prompt:**
+```
+Single continuous Steadicam take, camera enters a bustling Michelin-starred kitchen, weaves between chefs flambéing pans and plating dishes, pushes through swinging doors into the candlelit dining room, settles on a couple sharing a toast at a corner booth, warm tungsten light, shallow depth of field, real ambient sound, 15 seconds, 24fps cinematic
+```
+
+---
+
+### Black-and-White Noir Interrogation
+
+**Prompt:**
+```
+High-contrast black-and-white film noir, single overhead pendant light swinging over a metal table, a detective in a fedora leans forward into frame casting hard venetian-blind shadows across his face, cigarette smoke curls upward, 35mm film grain, 1940s aesthetic, slight camera shake handheld, 8 seconds
+```
+
+---
+
+## Image-to-Video (Animate a Still)
+
+Upload a reference image and use these prompts to bring it to life — Gemini Omni keeps the subject's identity and composition while adding motion.
+
+### Subtle Portrait Reanimation
+
+**Reference:** portrait photo of a person.
+**Prompt:**
+```
+Using the attached image as the first frame, animate the subject with subtle natural motion: gentle breathing, slight hair movement from a soft breeze, eyes blink twice with realistic timing, micro-expression shift from neutral to a faint smile, camera holds locked-off, 5 seconds, photorealistic, do not change facial structure or clothing
+```
+
+---
+
+### Painting Comes Alive
+
+**Reference:** any classical painting.
+**Prompt:**
+```
+Treat the attached painting as a living scene. Animate elements naturally within the original brushstroke style — clouds drift, foliage sways, water ripples, fabric moves with the wind, any animals breathe. Camera performs a slow 5% push-in. Preserve the original color palette, lighting, and painterly texture. 8 seconds, 16:9.
+```
+
+---
+
+### Product Shot → Rotating Hero
+
+**Reference:** product photo on a clean background.
+**Prompt:**
+```
+Use the attached product image as the subject. Generate a 360° turntable rotation with smooth deceleration on the front-facing pose. Studio softbox lighting, gentle bloom on glossy highlights, soft contact shadow on a seamless background. Match exact product geometry, label, and color. 6 seconds, 1:1 aspect ratio, no morphing or warping.
+```
+
+---
+
+### Architectural Render → Walkthrough
+
+**Reference:** still 3D render of a building exterior.
+**Prompt:**
+```
+Use the attached render as the establishing frame. Animate a cinematic flythrough: camera starts at street level, smoothly cranes up to reveal the rooftop, drifts laterally past the glass facade catching golden hour reflections, ends on a dramatic dutch-tilt hero pose. Trees sway gently, pedestrians walk in the background, water features ripple. 12 seconds, 1080p, 24fps.
+```
+
+---
+
+### Pet Portrait → Anime Episode
+
+**Reference:** photo of a pet.
+**Prompt:**
+```
+Convert the attached pet photo into a cel-shaded anime snapshot, then animate it as if it were a clip from a Studio Ghibli film. The pet looks toward camera, ears twitch, tilts its head curiously, blinks, soft wind ruffles fur. Hand-painted background of a sunlit meadow with floating dandelion seeds. Maintain the pet's exact coat colors and markings. 6 seconds, 16:9.
+```
+
+---
+
+## Character Consistency & Multi-Scene Stories
+
+Gemini Omni's long context lets it carry the same character across multiple shots. Combine a character reference image with scene-by-scene prompting.
+
+### Three-Scene Mini-Film From One Reference
+
+**Reference:** single portrait of the protagonist.
+**Prompt:**
+```
+The attached image is the main character. Generate three connected shots, same person in all three, identical face, hair, and wardrobe throughout:
+1) 0–4s: Wide shot, she walks out of a Parisian apartment building into morning light, holding a paper coffee cup, slow dolly-back
+2) 4–8s: Medium shot, she stops at a flower stall, smiles at the vendor, picks up a bouquet, soft sidelight
+3) 8–12s: Close-up, she sits on a bench by the Seine, looks off-camera contemplatively, gentle breeze in hair
+Cinematic 35mm look throughout, consistent color grade, no cuts to other characters.
+```
+
+---
+
+### Hero Walking Cycle Across Environments
+
+**Reference:** character reference (full body).
+**Prompt:**
+```
+Using the attached character as the subject, generate a continuous walking sequence where the environment transitions seamlessly every 3 seconds: 0–3s desert dunes at sunset, 3–6s neon-soaked rainy city street, 6–9s misty alpine forest, 9–12s clean white infinity studio. Character stride, outfit, and proportions remain identical throughout. Camera tracks alongside in profile, locked focal length, 12 seconds, 16:9.
+```
+
+---
+
+### Interview Two-Shot With Reaction
+
+**References:** two character portraits.
+**Prompt:**
+```
+Image 1 is the interviewer, image 2 is the guest. Generate a sit-down podcast scene: medium two-shot, both seated at a wooden table with microphones, warm studio lighting. Interviewer asks an animated question with hand gestures, guest listens, nods thoughtfully, then begins to respond with a slight laugh. Camera holds locked, both faces remain perfectly consistent with the reference photos. 10 seconds, 16:9, real ambient room tone.
+```
+
+---
+
+### Same Outfit, Five Locations Lookbook
+
+**Reference:** full-body fashion photo.
+**Prompt:**
+```
+Use the attached photo as the model. Generate a fashion lookbook video where she wears the exact same outfit across five locations, 2 seconds each: rooftop helipad, marble museum hallway, neon arcade, desert highway, foggy pine forest. Static elegant pose with subtle wind motion, identical outfit details and styling in every shot, smooth match-cuts on her silhouette between locations. 10 seconds, 9:16 vertical.
+```
+
+---
+
+## Product Ads & Commercials
+
+Punchy short-form ads with reference-image product fidelity.
+
+### Beverage Hero — Splash & Reveal
+
+**Reference:** product bottle image.
+**Prompt:**
+```
+Use the attached bottle as the hero product, maintain exact label and shape. Generate a premium drink commercial: 0–2s ice cubes tumble in slow motion through black background, 2–4s liquid splash forms around the bottle as it lands center frame, 4–6s droplets bead on glass and slowly run down, dynamic rim lighting, brand color glow accent, ends on a still hero shot with empty space top-right for a tagline. 6 seconds, 9:16, photorealistic, no text generated.
+```
+
+---
+
+### Skincare Routine — Calm and Clinical
+
+**Reference:** serum bottle image.
+**Prompt:**
+```
+Soft, clinical skincare ad using the attached serum bottle. Macro close-ups intercut: dropper releasing a single golden drop, drop landing on a glass surface, hands gently massaging serum into porcelain skin, bottle rotating slowly under diffuse overhead light. Pale beige and ivory palette, gentle ambient piano, 8 seconds, 1:1.
+```
+
+---
+
+### Sneaker Drop — Hype Reveal
+
+**Reference:** sneaker image.
+**Prompt:**
+```
+High-energy sneaker reveal using the attached shoe. Black studio, smoke swirls around the floor, sneaker descends from above on an invisible mount and lands with a soft impact kicking up dust, light rays sweep across it, slow 270° camera orbit hero shot at the end. Maintain exact colorway and material detail of the reference. 7 seconds, 9:16, aggressive bass-heavy audio cue at the impact frame.
+```
+
+---
+
+### Café Lifestyle Ad — Human Hands Only
+
+**Reference:** coffee bag image.
+**Prompt:**
+```
+Cozy artisanal coffee ad using the attached bag. Only show human hands and the product: hands grinding beans, hands pouring from a gooseneck kettle in slow motion bloom, hands sliding a latte across a wooden counter, the bag appears in the final frame next to the finished cup. Warm morning window light, shallow depth of field, 35mm, 10 seconds, 16:9.
+```
+
+---
+
+## Lifestyle, Travel & B-Roll
+
+High-utility footage prompts for vloggers, editors, and content producers.
+
+### Bali Sunrise Surf B-Roll Pack Vibe
+
+**Prompt:**
+```
+Documentary travel B-roll, Uluwatu Bali at sunrise: surfers paddling out silhouetted against orange horizon, drone reveal over breaking waves onto limestone cliffs, close-up of dewdrops on frangipani flower, hands wax-rubbing a longboard, woman in linen wrap walking down wooden steps to the beach. Multiple short clips edited as one continuous mood reel, golden warm grade, ambient ocean and bird sounds, 15 seconds, 16:9, 24fps.
+```
+
+---
+
+### Cozy Apartment Morning Routine
+
+**Prompt:**
+```
+Slice-of-life morning routine in a sunlit minimalist apartment, no faces shown above the shoulders. Series of natural moments: linen curtains billowing, espresso machine pulling a shot, slippers crossing a wood floor, a hand opens a journal and writes, steam rises from an oat-milk latte. Soft beige and cream palette, natural window light, gentle ambient room sounds, 12 seconds, 9:16.
+```
+
+---
+
+### Street Food Night Market Walk
+
+**Prompt:**
+```
+First-person POV walking through a Bangkok night market, handheld natural sway, vendors flame-grilling skewers on the left, lantern strings glowing overhead, steam billowing from noodle pots, motorbikes weaving past, camera occasionally drifts down to a hand carrying a paper plate of pad thai. Real ambient market chatter, sizzling, music bleed. 12 seconds, 9:16, 30fps.
+```
+
+---
+
+### Office Documentary B-Roll
+
+**Prompt:**
+```
+Generic startup office documentary B-roll, no recognizable faces. Series of natural workplace clips: hand sliding a sticky note onto a whiteboard, fingers typing on a mechanical keyboard in shallow depth of field, two colleagues laughing in soft focus behind a glass wall, latte being placed on a desk next to a laptop, plants gently swaying near a window. Warm neutral grade, 35mm look, 10 seconds, 16:9.
+```
+
+---
+
+## Anime & Stylized Animation
+
+Prompts that lean into hand-drawn or stylized aesthetics.
+
+### Studio Ghibli Countryside Open
+
+**Prompt:**
+```
+Studio Ghibli style hand-painted animation, a young girl in a yellow sundress runs through a sunlit field of tall grass, hair and dress flowing behind her, dandelion seeds float through the air, fluffy clouds drift across a deep blue sky, the camera pulls back to reveal a wooden farmhouse in the distance. Soft pastel palette, gentle orchestral score, 10 seconds, 16:9, traditional cel-animation aesthetic.
+```
+
+---
+
+### 90s Shōnen Transformation Sequence
+
+**Prompt:**
+```
+Late-90s shōnen anime aesthetic, dramatic transformation: a teenage hero stands on a cliff, wind whipping his hair, energy aura begins to glow blue around him, ground cracks, debris floats upward, he yells skyward, lightning streaks across the storm clouds, his hair shifts to gold in a final freeze-frame pose. Hand-drawn linework, speed-line streaks, cel-shaded color, dramatic Akira Yamaoka style synth score implied, 8 seconds, 4:3.
+```
+
+---
+
+### Cyberpunk Anime City Drift
+
+**Prompt:**
+```
+Anime in the style of Satoshi Kon's "Paprika": dense neon Tokyo skyline at night, camera floats forward between skyscrapers, holographic koi fish swim through the air, rain falls upward in slow motion, a girl in a red coat stands on a rooftop watching it all, her scarf trailing in the wind. Painterly backgrounds, vivid saturated palette, dreamlike pacing, 10 seconds, 21:9 cinemascope.
+```
+
+---
+
+### Chibi 8-Bit Mascot Loop
+
+**Prompt:**
+```
+Loopable 4-second chibi animation, pixel-art 8-bit style, a tiny round orange cat mascot bounces in place, blinks, waves a paw at the camera, transparent background. Crunchy chiptune coin-pickup sound effect on the wave. 4 seconds, 1:1, exact frame-perfect loop.
+```
+
+---
+
+## Scientific & Educational Visualization
+
+Gemini Omni can render abstract concepts as intuitive animations.
+
+### Photosynthesis at the Cellular Level
+
+**Prompt:**
+```
+Scientifically grounded 3D animation of photosynthesis inside a single plant cell. Sunlight photons stream into a chloroplast, water molecules split, oxygen bubbles released, glucose molecules assemble. Clean educational style, soft volumetric light, labels appear in clean sans-serif as each step occurs (CO₂ → O₂, H₂O, glucose). 12 seconds, 16:9, narration-ready pacing with natural pauses.
+```
+
+---
+
+### Orbital Mechanics — Earth–Moon System
+
+**Prompt:**
+```
+Accurate astronomical visualization, Earth and Moon orbiting their barycenter, accelerated 30-day time-lapse, photoreal planet textures, tidal locking shown by a small marker on the Moon's near side, starfield background with subtle parallax, smooth slow camera rotation. 10 seconds, 16:9, scientifically accurate distances are not to scale but motion is.
+```
+
+---
+
+### How a Black Hole Bends Light
+
+**Prompt:**
+```
+Educational gravitational-lensing visualization. Camera drifts toward a Schwarzschild black hole, background starfield warps around an event horizon, photon sphere becomes visible, accretion disk appears tilted, light from a galaxy behind the hole bends into a perfect Einstein ring as we approach. Photoreal sci-vis style, no UI overlay, 12 seconds, 21:9.
+```
+
+---
+
+## Action, Combat & VFX Sequences
+
+### Two-Character Sword Duel — Reference Both
+
+**References:** two character images.
+**Prompt:**
+```
+Image 1 and image 2 are the two combatants. Generate a 10-second cinematic sword duel under a stormy bamboo forest at night. Choreography: clash 1 sparks fly, parry, character 1 advances with three quick strikes, character 2 dodges and counters with a sweeping cut, locked-blade standoff with both faces close to camera, slow dolly-around. Rain falls throughout, lightning flashes punctuate the impacts. Maintain both characters' exact faces and costumes. 10 seconds, 21:9 cinemascope.
+```
+
+---
+
+### Car Chase Tunnel Drift
+
+**Prompt:**
+```
+First-person chase cam mounted to the front of a matte-black sports car drifting through a neon-lit tunnel at night, tail lights of a target car visible ahead, sparks fly off the guardrail on a hard left, lens vibration sells the speed, motion blur on tunnel lights creating streaks. Realistic Dolby-style engine roar implied. 8 seconds, 21:9 cinemascope, 30fps.
+```
+
+---
+
+### Magic Casting With Particle FX
+
+**Reference:** character image.
+**Prompt:**
+```
+Use the attached character as the caster. They stand in a stone amphitheater, raise both hands, a swirling vortex of glowing blue runes assembles between their palms, then erupts upward into a phoenix made of fire that screeches and dissolves into embers. Photoreal VFX, slow-mo at the apex, debris and embers ride the wind, locked-off wide camera. 8 seconds, 21:9.
+```
+
+---
+
+## Conversational Edits & Remixes
+
+Gemini Omni's killer feature is chat-style iterative editing. Use these as follow-up prompts after a first generation.
+
+### Mood Shift
+
+**Prompt:**
+```
+Keep everything the same but make it golden hour instead of midday, warmer color temperature, longer shadows, soft volumetric god rays through the window.
+```
+
+---
+
+### Subject Swap (Preserve Motion)
+
+**Prompt:**
+```
+Same shot, same camera move, same lighting — but replace the woman with a man in his 50s wearing a navy peacoat. Keep all action and timing identical.
+```
+
+---
+
+### Time Remap
+
+**Prompt:**
+```
+Slow down the final 3 seconds to half speed, add subtle motion blur, keep the first 5 seconds at original speed. End on a freeze-frame of the last clear frame.
+```
+
+---
+
+### Style Transfer From Reference Image
+
+**Reference:** a stylized art piece.
+**Prompt:**
+```
+Re-render the previous clip in the visual style of the attached image — match its color palette, brush texture, and lighting language. Preserve the original motion, framing, and subject identity exactly.
+```
+
+---
+
+### Background Replacement
+
+**Prompt:**
+```
+Same subject, same lighting on the subject — but replace the background with a snowy mountain ridge at dusk. Add gentle snowfall in front of and behind the subject for parallax depth. Match the new background's color cast onto the rim light of the subject's face.
+```
+
+---
+
+## Audio-Driven & Lip-Sync
+
+Provide an audio file to drive lip-sync and timing.
+
+### Voice-Over to Talking Head
+
+**References:** character image + audio file (voice line).
+**Prompt:**
+```
+Use the attached image as the speaker and the attached audio as their voice. Generate a clean medium-close talking-head shot, eye-level, soft key light. Sync mouth shapes exactly to the audio phonemes, natural micro head movements and blinks, warm conference-room background slightly out of focus. Duration matches the audio. 16:9, broadcast quality.
+```
+
+---
+
+### Music Video Mood Cut
+
+**References:** character image + music track.
+**Prompt:**
+```
+Generate a moody music video using the attached portrait as the artist and the attached track as the audio. The artist sings the lyrics with accurate lip-sync, intercut with abstract B-roll: smoke curling in red light, rain on a windshield, a city skyline at twilight. Match cuts to the song's downbeats. Duration matches the audio. 9:16 vertical, cinematic color.
+```
+
+---
+
+### Sound-Driven Dance Loop
+
+**References:** character image + 4-second drum loop.
+**Prompt:**
+```
+Use the attached character. Generate a perfectly looped 4-second dance clip synced to the attached beat — feet hit on the kick, shoulders pop on the snare. Black infinity background with hard rim lights, slow camera orbit one full rotation. Seamless loop start-to-end. 9:16.
+```
+
+---
+
+## Resources & API Docs
+
+### Official References
+- [Gemini API Documentation](https://ai.google.dev/gemini-api/docs)
+- [Google AI Studio](https://aistudio.google.com)
+- [Vertex AI — Generative Media](https://cloud.google.com/vertex-ai/generative-ai/docs)
+- [Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing)
+
+### API Quick Reference
+
+```python
+from google import genai
+
+client = genai.Client()
+
+# Text-to-video
+operation = client.models.generate_videos(
+    model="gemini-omni",
+    prompt="your prompt here",
+    config={
+        "aspect_ratio": "16:9",     # 16:9, 9:16, 1:1, 21:9, 4:3
+        "duration_seconds": 8,       # 4–15s standard
+        "resolution": "1080p",       # 720p, 1080p, 4k
+        "fps": 24,                   # 24 or 30
+        "negative_prompt": "blurry, low quality, watermark",
+    },
+)
+
+# Image-to-video (reference)
+operation = client.models.generate_videos(
+    model="gemini-omni",
+    prompt="animate the subject walking forward into the rain",
+    image="reference.png",
+    config={"aspect_ratio": "9:16", "duration_seconds": 6},
+)
+
+# Conversational edit (follow-up on prior generation)
+operation = client.models.edit_video(
+    model="gemini-omni",
+    source_video_id=prev_video.id,
+    prompt="make it golden hour and slow down the last 2 seconds",
+)
+```
+
+### Prompt Engineering Tips
+
+1. **Lead with cinematography vocabulary** — Specify lens (35mm, anamorphic, macro), camera move (dolly-in, crane, Steadicam, locked-off), and lighting (golden hour, volumetric, hard rim).
+2. **Structure as Subject → Motion → Camera → Mood** — Keep each layer explicit; Gemini Omni follows multi-clause prompts reliably.
+3. **Anchor identity with reference images** — For any character or product, attach a reference and write *"use the attached image as the subject, preserve face/label/colorway exactly."*
+4. **Use explicit durations and timestamps** — `0–4s wide shot, 4–8s push-in, 8–12s close-up` gives Omni a cut list to follow.
+5. **Specify aspect ratio in-prompt as a backup** — Even if you set it in config, mention `9:16 vertical` or `21:9 cinemascope` in the text.
+6. **Negative cues work** — Add `no captions, no watermark, no morphing` to suppress common artifacts.
+7. **For consistency across scenes** — Repeat the identity descriptor in each scene block ("same woman in the same red coat") rather than relying on coreference.
+8. **For edits, isolate what's changing** — *"Keep everything identical except…"* outperforms re-describing the whole scene.
+
+---
+
+## Use Gemini Omni via MuAPI
+
+[MuAPI](https://muapi.ai) provides Gemini Omni as a hosted API — no Google account or Cloud project required. Supports text-to-video, image-to-video, and audio-driven generation.
+
+### Text-to-Video
+
+```python
+import httpx, time
+
+API_KEY = "your-muapi-key"
+BASE = "https://api.muapi.ai/api/v1"
+
+# Submit
+resp = httpx.post(
+    f"{BASE}/gemini-omni-text-to-video",
+    headers={"x-api-key": API_KEY},
+    json={
+        "prompt": "Golden hour drone shot over Big Sur cliffs revealing a lone surfer paddling on glassy water",
+        "aspect_ratio": "16:9",
+        "duration": 8,
+    },
+)
+request_id = resp.json()["request_id"]
+
+# Poll
+while True:
+    result = httpx.get(f"{BASE}/predictions/{request_id}/result", headers={"x-api-key": API_KEY}).json()
+    if result["status"] == "completed":
+        print(result["outputs"])
+        break
+    time.sleep(5)
+```
+
+### Image-to-Video
+
+```python
+# Upload your reference image first
+with open("character.png", "rb") as f:
+    upload = httpx.post(f"{BASE}/upload_file", headers={"x-api-key": API_KEY}, files={"file": f})
+image_url = upload.json()["url"]
+
+# Submit
+resp = httpx.post(
+    f"{BASE}/gemini-omni-image-to-video",
+    headers={"x-api-key": API_KEY},
+    json={
+        "prompt": "Animate the subject walking forward with subtle natural motion, 9:16",
+        "image_url": image_url,
+        "duration": 6,
+    },
+)
+request_id = resp.json()["request_id"]
+```
+
+Get your API key at [muapi.ai](https://muapi.ai).
+
+---
+
+## Contributing
+
+Contributions are welcome! Submit a Pull Request to add your best Gemini Omni prompts.
+
+**Guidelines:**
+- Include the full prompt text in a fenced code block.
+- Note any required reference images, audio, or source videos.
+- Categorize appropriately — open an issue first if you think a new section is warranted.
+- Provide a source link (X/Twitter, blog, etc.) if the prompt isn't original.
+- Example output clips are encouraged but not required.
+
+---
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Anil-matcha/Awesome-Gemini-Omni-API-Prompts&type=Date)](https://star-history.com/#Anil-matcha/Awesome-Gemini-Omni-API-Prompts&Date)
+
+---
+
+## License
+
+This project is licensed under the Creative Commons Attribution 4.0 International License — see the [LICENSE](LICENSE) file for details.
+
+*Community-maintained. Not affiliated with Google or DeepMind.*
