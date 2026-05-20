@@ -10,7 +10,7 @@ Whether you're building a video generation app, exploring the Gemini API, or cha
 
 Join the discussion: https://www.reddit.com/r/GeminiOmniAI/
 
-> **Want to use Gemini Omni without a Google account?** Try **[MuAPI](https://muapi.ai)** — a hosted media API that gives you Gemini Omni text-to-video, image-to-video, and reference-based remixing with a simple REST call. [Get your API key →](https://muapi.ai)
+> **Want to use Gemini Omni without a Google account?** Try **[MuAPI](https://muapi.ai/gemini-omni)** — a hosted media API that gives you Gemini Omni text-to-video, image-to-video, and reference-based remixing with a simple REST call. [Get your API key →](https://muapi.ai)
 
 > **API Usage:** All prompts are designed for the [Gemini API](https://ai.google.dev/gemini-api/docs) using model `gemini-omni` (or `gemini-omni-flash` for faster, cheaper generations).
 
