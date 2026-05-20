@@ -1,13 +1,15 @@
-# Awesome Gemini Omni Prompts
+# Awesome Google Gemini Omni Prompts
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![PyPI version](https://img.shields.io/pypi/v/gemini-omni-api.svg)](https://pypi.org/project/gemini-omni-api/)
 [![Stars](https://img.shields.io/github/stars/Anil-matcha/Awesome-Gemini-Omni-API-Prompts?style=flat-square)](https://github.com/Anil-matcha/Awesome-Gemini-Omni-API-Prompts/stargazers)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](LICENSE)
+[![Google Gemini Omni](https://img.shields.io/badge/Model-Google%20Gemini%20Omni-blue)](https://muapi.ai/gemini-omni)
+[![Google AI](https://img.shields.io/badge/Powered%20by-Google%20AI-orange)](https://muapi.ai)
 
-A curated collection of high-quality prompts and patterns for **Gemini Omni** — a natively multimodal any-to-any video model. This repository is your go-to reference for prompting Gemini Omni across text-to-video, image-to-video, audio-to-lip-sync, and video editing — covering cinematic shots, character-consistent stories, product ads, anime, scientific visualization, B-roll, and more.
+A curated collection of high-quality prompts and patterns for **Google Gemini Omni** — Google's natively multimodal any-to-any video generation model. This repository is your go-to reference for prompting Google Gemini Omni across text-to-video, image-to-video, audio-to-lip-sync, and video editing — covering cinematic shots, character-consistent stories, product ads, anime, scientific visualization, B-roll, and more.
 
-Whether you're building a video generation app or chasing cleaner prompt patterns, you'll find ready-to-use prompts here that unlock Gemini Omni's full potential.
+Whether you're building a video generation app with the Gemini Omni API or chasing cleaner prompt patterns, you'll find ready-to-use prompts here that unlock Google Gemini Omni's full potential.
 
 Join the discussion: https://www.reddit.com/r/GeminiOmniAI/
 
@@ -28,9 +30,9 @@ print(result["outputs"])
 
 ---
 
-## Why Gemini Omni?
+## Why Google Gemini Omni?
 
-Gemini Omni is a leap beyond specialized video models because it is a true omni-modal system — one model that ingests text, images, audio, and video, and outputs video grounded in real-world knowledge.
+**Google Gemini Omni** is a leap beyond specialized video models because it is Google's true omni-modal system — one model that ingests text, images, audio, and video, and outputs video grounded in real-world knowledge.
 
 - **Native multimodality** — Mix text, reference images, audio tracks, and source clips in a single prompt
 - **Character consistency** — Faces, outfits, and props stay coherent across scenes, lighting, and actions
@@ -128,7 +130,7 @@ High-contrast black-and-white film noir, single overhead pendant light swinging 
 
 ## Image-to-Video (Animate a Still)
 
-Upload a reference image and use these prompts to bring it to life — Gemini Omni keeps the subject's identity and composition while adding motion.
+Upload a reference image and use these prompts to bring it to life — Google Gemini Omni keeps the subject's identity and composition while adding motion.
 
 ### Subtle Portrait Reanimation
 
@@ -182,7 +184,7 @@ Convert the attached pet photo into a cel-shaded anime snapshot, then animate it
 
 ## Character Consistency & Multi-Scene Stories
 
-Gemini Omni's long context lets it carry the same character across multiple shots. Combine a character reference image with scene-by-scene prompting.
+Google Gemini Omni's long context lets it carry the same character across multiple shots. Combine a character reference image with scene-by-scene prompting.
 
 ### Three-Scene Mini-Film From One Reference
 
@@ -354,7 +356,7 @@ Loopable 4-second chibi animation, pixel-art 8-bit style, a tiny round orange ca
 
 ## Scientific & Educational Visualization
 
-Gemini Omni can render abstract concepts as intuitive animations.
+Google Gemini Omni can render abstract concepts as intuitive animations.
 
 ### Photosynthesis at the Cellular Level
 
@@ -416,7 +418,7 @@ Use the attached character as the caster. They stand in a stone amphitheater, ra
 
 ## Conversational Edits & Remixes
 
-Gemini Omni's killer feature is chat-style iterative editing. Use these as follow-up prompts after a first generation.
+Google Gemini Omni's killer feature is chat-style iterative editing. Use these as follow-up prompts after a first generation.
 
 ### Mood Shift
 
@@ -500,10 +502,10 @@ Use the attached character. Generate a perfectly looped 4-second dance clip sync
 
 ## Resources & API Docs
 
-### Prompt Engineering Tips
+### Prompt Engineering Tips for Google Gemini Omni
 
 1. **Lead with cinematography vocabulary** — Specify lens (35mm, anamorphic, macro), camera move (dolly-in, crane, Steadicam, locked-off), and lighting (golden hour, volumetric, hard rim).
-2. **Structure as Subject → Motion → Camera → Mood** — Keep each layer explicit; Gemini Omni follows multi-clause prompts reliably.
+2. **Structure as Subject → Motion → Camera → Mood** — Keep each layer explicit; Google Gemini Omni follows multi-clause prompts reliably.
 3. **Anchor identity with reference images** — For any character or product, attach a reference and write *"use the attached image as the subject, preserve face/label/colorway exactly."*
 4. **Use explicit durations and timestamps** — `0–4s wide shot, 4–8s push-in, 8–12s close-up` gives Omni a cut list to follow.
 5. **Specify aspect ratio in-prompt as a backup** — Even if you set it in the API, mention `9:16 vertical` in the text too.
@@ -513,9 +515,9 @@ Use the attached character. Generate a perfectly looped 4-second dance clip sync
 
 ---
 
-## Use Gemini Omni via MuAPI
+## Use Google Gemini Omni via MuAPI
 
-[MuAPI](https://muapi.ai) provides Gemini Omni as a hosted REST API — no extra account required.
+[MuAPI](https://muapi.ai) provides the Google Gemini Omni API as a hosted REST service — no extra account required.
 
 ### Installation
 
@@ -702,7 +704,7 @@ Get your API key at [muapi.ai](https://muapi.ai).
 
 ## Contributing
 
-Contributions are welcome! Submit a Pull Request to add your best Gemini Omni prompts.
+Contributions are welcome! Submit a Pull Request to add your best Google Gemini Omni prompts.
 
 **Guidelines:**
 - Include the full prompt text in a fenced code block.
