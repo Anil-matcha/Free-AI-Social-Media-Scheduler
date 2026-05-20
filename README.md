@@ -1,32 +1,29 @@
 # Awesome Gemini Omni Prompts
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+[![PyPI version](https://img.shields.io/pypi/v/gemini-omni-api.svg)](https://pypi.org/project/gemini-omni-api/)
 [![Stars](https://img.shields.io/github/stars/Anil-matcha/Awesome-Gemini-Omni-API-Prompts?style=flat-square)](https://github.com/Anil-matcha/Awesome-Gemini-Omni-API-Prompts/stargazers)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](LICENSE)
 
-A curated collection of high-quality prompts and patterns for **Gemini Omni** — Google's native multimodal video model announced at Google I/O 2026. This repository is your go-to reference for prompting Gemini Omni across text-to-video, image-to-video, audio-to-lip-sync, and conversational video editing — covering cinematic shots, character-consistent stories, product ads, anime, scientific visualization, B-roll, and more.
+A curated collection of high-quality prompts and patterns for **Gemini Omni** — a natively multimodal any-to-any video model. This repository is your go-to reference for prompting Gemini Omni across text-to-video, image-to-video, audio-to-lip-sync, and video editing — covering cinematic shots, character-consistent stories, product ads, anime, scientific visualization, B-roll, and more.
 
-Whether you're building a video generation app, exploring the Gemini API, or chasing cleaner prompt patterns, you'll find ready-to-use prompts here that unlock Gemini Omni's full potential.
+Whether you're building a video generation app or chasing cleaner prompt patterns, you'll find ready-to-use prompts here that unlock Gemini Omni's full potential.
 
 Join the discussion: https://www.reddit.com/r/GeminiOmniAI/
 
-> **Want to use Gemini Omni without a Google account?** Try **[MuAPI](https://muapi.ai/gemini-omni)** — a hosted media API that gives you Gemini Omni text-to-video, image-to-video, and reference-based remixing with a simple REST call. [Get your API key →](https://muapi.ai)
-
-> **API Usage:** All prompts are designed for the [Gemini API](https://ai.google.dev/gemini-api/docs) using model `gemini-omni` (or `gemini-omni-flash` for faster, cheaper generations).
+> **API access:** All prompts work with **[MuAPI](https://muapi.ai/gemini-omni)** — a hosted media API that gives you Gemini Omni text-to-video, image-to-video, and video-edit with a simple REST call. [Get your API key →](https://muapi.ai)
 
 ```python
-from google import genai
+from gemini_omni_api import GeminiOmniAPI
 
-client = genai.Client()
-operation = client.models.generate_videos(
-    model="gemini-omni",
+api = GeminiOmniAPI(api_key="your-muapi-key")
+job = api.text_to_video(
     prompt="<paste any prompt from this list>",
-    config={"aspect_ratio": "16:9", "duration_seconds": 8, "resolution": "1080p"},
+    duration=8,
+    aspect_ratio="16:9",
 )
-while not operation.done:
-    operation = client.operations.get(operation)
-video = operation.response.generated_videos[0]
-video.video.save("output.mp4")
+result = api.wait_for_completion(job["request_id"])
+print(result["outputs"])
 ```
 
 ---
@@ -57,6 +54,7 @@ Gemini Omni is a leap beyond specialized video models because it is a true omni-
 - [Conversational Edits & Remixes](#conversational-edits--remixes)
 - [Audio-Driven & Lip-Sync](#audio-driven--lip-sync)
 - [Resources & API Docs](#resources--api-docs)
+- [Use Gemini Omni via MuAPI](#use-gemini-omni-via-muapi)
 - [Contributing](#contributing)
 
 ---
@@ -502,55 +500,13 @@ Use the attached character. Generate a perfectly looped 4-second dance clip sync
 
 ## Resources & API Docs
 
-### Official References
-- [Gemini API Documentation](https://ai.google.dev/gemini-api/docs)
-- [Google AI Studio](https://aistudio.google.com)
-- [Vertex AI — Generative Media](https://cloud.google.com/vertex-ai/generative-ai/docs)
-- [Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing)
-
-### API Quick Reference
-
-```python
-from google import genai
-
-client = genai.Client()
-
-# Text-to-video
-operation = client.models.generate_videos(
-    model="gemini-omni",
-    prompt="your prompt here",
-    config={
-        "aspect_ratio": "16:9",     # 16:9, 9:16, 1:1, 21:9, 4:3
-        "duration_seconds": 8,       # 4–15s standard
-        "resolution": "1080p",       # 720p, 1080p, 4k
-        "fps": 24,                   # 24 or 30
-        "negative_prompt": "blurry, low quality, watermark",
-    },
-)
-
-# Image-to-video (reference)
-operation = client.models.generate_videos(
-    model="gemini-omni",
-    prompt="animate the subject walking forward into the rain",
-    image="reference.png",
-    config={"aspect_ratio": "9:16", "duration_seconds": 6},
-)
-
-# Conversational edit (follow-up on prior generation)
-operation = client.models.edit_video(
-    model="gemini-omni",
-    source_video_id=prev_video.id,
-    prompt="make it golden hour and slow down the last 2 seconds",
-)
-```
-
 ### Prompt Engineering Tips
 
 1. **Lead with cinematography vocabulary** — Specify lens (35mm, anamorphic, macro), camera move (dolly-in, crane, Steadicam, locked-off), and lighting (golden hour, volumetric, hard rim).
 2. **Structure as Subject → Motion → Camera → Mood** — Keep each layer explicit; Gemini Omni follows multi-clause prompts reliably.
 3. **Anchor identity with reference images** — For any character or product, attach a reference and write *"use the attached image as the subject, preserve face/label/colorway exactly."*
 4. **Use explicit durations and timestamps** — `0–4s wide shot, 4–8s push-in, 8–12s close-up` gives Omni a cut list to follow.
-5. **Specify aspect ratio in-prompt as a backup** — Even if you set it in config, mention `9:16 vertical` or `21:9 cinemascope` in the text.
+5. **Specify aspect ratio in-prompt as a backup** — Even if you set it in the API, mention `9:16 vertical` in the text too.
 6. **Negative cues work** — Add `no captions, no watermark, no morphing` to suppress common artifacts.
 7. **For consistency across scenes** — Repeat the identity descriptor in each scene block ("same woman in the same red coat") rather than relying on coreference.
 8. **For edits, isolate what's changing** — *"Keep everything identical except…"* outperforms re-describing the whole scene.
@@ -559,57 +515,186 @@ operation = client.models.edit_video(
 
 ## Use Gemini Omni via MuAPI
 
-[MuAPI](https://muapi.ai) provides Gemini Omni as a hosted API — no Google account or Cloud project required. Supports text-to-video, image-to-video, and audio-driven generation.
+[MuAPI](https://muapi.ai) provides Gemini Omni as a hosted REST API — no extra account required.
 
-### Text-to-Video
+### Installation
+
+```bash
+pip install gemini-omni-api
+```
+
+Or clone this repo and install directly:
+
+```bash
+git clone https://github.com/Anil-matcha/Awesome-Gemini-Omni-API-Prompts.git
+cd Awesome-Gemini-Omni-API-Prompts
+pip install -r requirements.txt
+cp .env.example .env   # add your MUAPI_API_KEY
+```
+
+### Python Wrapper — Quick Start
 
 ```python
-import httpx, time
+from gemini_omni_api import GeminiOmniAPI
+
+api = GeminiOmniAPI(api_key="your-muapi-key")  # or set MUAPI_API_KEY env var
+
+# ── Text-to-video ────────────────────────────────────────────────────────────
+job = api.text_to_video(
+    prompt="Golden hour drone shot over Big Sur cliffs revealing a lone surfer on glassy water",
+    duration=8,           # 4 | 6 | 8 | 10
+    aspect_ratio="16:9",  # "16:9" | "9:16"
+    audio_id="aoede",     # optional — one of 30 named voices
+    seed=42,              # optional — for reproducibility
+)
+result = api.wait_for_completion(job["request_id"])
+print(result["outputs"])
+
+# ── Image-to-video ───────────────────────────────────────────────────────────
+image_url = api.upload_file("reference.png")   # upload local file → public URL
+
+job = api.image_to_video(
+    prompt="Animate the subject walking forward with subtle natural motion",
+    image_urls=[image_url],  # list of 1–7 image URLs (each ≤20 MB)
+    duration=6,
+    aspect_ratio="9:16",
+)
+result = api.wait_for_completion(job["request_id"])
+
+# ── Video edit ───────────────────────────────────────────────────────────────
+video_url = api.upload_file("source_clip.mp4")
+
+job = api.video_edit(
+    prompt="Restyle the entire clip as a hand-drawn Studio Ghibli animation",
+    video_url=video_url,
+    trim_start=0,
+    trim_end=8,            # max 10 s window
+    duration=8,
+    aspect_ratio="16:9",
+)
+result = api.wait_for_completion(job["request_id"])
+
+# ── Video edit with images + video ───────────────────────────────────────────
+# When video_url is set, up to 5 image_urls are allowed (video uses 2 of 7 slots)
+job = api.video_edit(
+    prompt="Add bioluminescent fireflies reacting to the leaves in the scene",
+    video_url=video_url,
+    image_urls=[image_url],  # up to 5 when video is also provided
+    duration=8,
+)
+```
+
+### REST API Reference
+
+All endpoints follow the same submit → poll pattern:
+
+```
+POST https://api.muapi.ai/api/v1/{endpoint}   →  {"request_id": "abc123", "status": "processing"}
+GET  https://api.muapi.ai/api/v1/predictions/{request_id}/result  →  poll until status == "completed"
+```
+
+#### Text-to-Video
+
+```python
+import requests, time
 
 API_KEY = "your-muapi-key"
 BASE = "https://api.muapi.ai/api/v1"
 
-# Submit
-resp = httpx.post(
+resp = requests.post(
     f"{BASE}/gemini-omni-text-to-video",
     headers={"x-api-key": API_KEY},
     json={
-        "prompt": "Golden hour drone shot over Big Sur cliffs revealing a lone surfer paddling on glassy water",
-        "aspect_ratio": "16:9",
-        "duration": 8,
+        "prompt": "35mm anamorphic rain-soaked Tokyo alley at 2 AM, slow dolly-in",
+        "duration": 8,           # 4 | 6 | 8 | 10
+        "aspect_ratio": "16:9",  # "16:9" | "9:16"
+        # "audio_ids": "aoede",  # optional voice
+        # "seed": 42,            # optional seed
     },
 )
 request_id = resp.json()["request_id"]
 
-# Poll
 while True:
-    result = httpx.get(f"{BASE}/predictions/{request_id}/result", headers={"x-api-key": API_KEY}).json()
-    if result["status"] == "completed":
-        print(result["outputs"])
+    r = requests.get(f"{BASE}/predictions/{request_id}/result", headers={"x-api-key": API_KEY}).json()
+    if r["status"] == "completed":
+        print(r["outputs"])
         break
     time.sleep(5)
 ```
 
-### Image-to-Video
+#### Image-to-Video
 
 ```python
-# Upload your reference image first
-with open("character.png", "rb") as f:
-    upload = httpx.post(f"{BASE}/upload_file", headers={"x-api-key": API_KEY}, files={"file": f})
-image_url = upload.json()["url"]
+# Upload reference image(s) first
+with open("reference.png", "rb") as f:
+    image_url = requests.post(
+        f"{BASE}/upload_file", headers={"x-api-key": API_KEY}, files={"file": f}
+    ).json()["url"]
 
-# Submit
-resp = httpx.post(
+resp = requests.post(
     f"{BASE}/gemini-omni-image-to-video",
     headers={"x-api-key": API_KEY},
     json={
-        "prompt": "Animate the subject walking forward with subtle natural motion, 9:16",
-        "image_url": image_url,
+        "prompt": "Animate the subject with subtle breathing and gentle hair movement",
+        "image_urls": [image_url],  # list of 1–7 URLs
         "duration": 6,
+        "aspect_ratio": "9:16",
     },
 )
-request_id = resp.json()["request_id"]
 ```
+
+#### Video Edit
+
+```python
+with open("clip.mp4", "rb") as f:
+    video_url = requests.post(
+        f"{BASE}/upload_file", headers={"x-api-key": API_KEY}, files={"file": f}
+    ).json()["url"]
+
+resp = requests.post(
+    f"{BASE}/gemini-omni-video-edit",
+    headers={"x-api-key": API_KEY},
+    json={
+        "prompt": "Change the season to winter, add falling snow",
+        "video_url": video_url,
+        "trim_start": 0,
+        "trim_end": 8,    # max 10 s window; source video max 30 s
+        "duration": 8,
+        "aspect_ratio": "16:9",
+        # "image_urls": [...],  # optional reference images (max 5 when video is set)
+    },
+)
+```
+
+### API Parameters
+
+| Parameter | T2V | I2V | V2V | Values |
+|-----------|:---:|:---:|:---:|--------|
+| `prompt` | ✓ | ✓ | ✓ | string (required) |
+| `duration` | ✓ | ✓ | ✓ | `4` \| `6` \| `8` \| `10` (default `8`) |
+| `aspect_ratio` | ✓ | ✓ | ✓ | `"16:9"` \| `"9:16"` (default `"16:9"`) |
+| `audio_ids` | ✓ | ✓ | ✓ | one of 30 voice names (optional) |
+| `seed` | ✓ | ✓ | ✓ | int 0–2147483647 (optional) |
+| `image_urls` | — | ✓ | opt | list of 1–7 URLs, each ≤20 MB |
+| `video_url` | — | — | opt | URL, max 100 MB / 30 s |
+| `trim_start` | — | — | ✓ | float seconds (default `0`) |
+| `trim_end` | — | — | ✓ | float seconds, max 10 s window (default `10`) |
+
+**Image slot budget (V2V):** 7 slots total — video uses 2, each `audio_ids` voice uses 1.
+So with a video: max 5 `image_urls`.
+
+**Available `audio_ids` voices:**
+`achernar` · `achird` · `algenib` · `algieba` · `alnilam` · `aoede` · `autonoe` · `callirrhoe` · `charon` · `despina` · `enceladus` · `erinome` · `fenrir` · `gacrux` · `iapetus` · `kore` · `laomedeia` · `leda` · `orus` · `puck` · `pulcherrima` · `rasalgethi` · `sadachbia` · `sadaltager` · `schedar` · `sulafat` · `umbriel` · `vindemiatrix` · `zephyr` · `zubenelgenubi`
+
+### MCP Server
+
+Run Gemini Omni as an MCP tool server for AI agent frameworks:
+
+```bash
+python mcp_server.py
+```
+
+Tools exposed: `text_to_video`, `image_to_video`, `video_edit`, `upload_file`, `get_task_status`, `wait_for_completion`.
 
 Get your API key at [muapi.ai](https://muapi.ai).
 
@@ -638,4 +723,4 @@ Contributions are welcome! Submit a Pull Request to add your best Gemini Omni pr
 
 This project is licensed under the Creative Commons Attribution 4.0 International License — see the [LICENSE](LICENSE) file for details.
 
-*Community-maintained. Not affiliated with Google or DeepMind.*
+*Community-maintained.*
