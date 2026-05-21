@@ -29,15 +29,18 @@ job = api.text_to_video(
     prompt="<paste any T2V prompt from this list>",
     duration=8,
     aspect_ratio="16:9",
+    resolution="1080p",
+    audio_ids=["aoede"],      # optional — list of up to 3 voice names
 )
 
 # ── Image-to-Video ────────────────────────────────────────────────────────────
 image_url = api.upload_file("reference.png")   # upload local file → public URL
 job = api.image_to_video(
     prompt="<paste any I2V prompt from this list>",
-    image_urls=[image_url],   # 1–7 reference images, each ≤20 MB
+    image_urls=[image_url],   # 1–5 reference images, each ≤20 MB
     duration=6,
     aspect_ratio="9:16",
+    resolution="1080p",
 )
 
 # ── Video Edit (V2V) ──────────────────────────────────────────────────────────
@@ -49,6 +52,7 @@ job = api.video_edit(
     trim_end=8,               # max 10 s window; source clip max 30 s
     duration=8,
     aspect_ratio="16:9",
+    resolution="1080p",
 )
 
 result = api.wait_for_completion(job["request_id"])
@@ -630,8 +634,10 @@ Use the attached character. Generate a perfectly looped 4-second dance clip sync
 | Mode | Endpoint | Key inputs |
 |------|----------|------------|
 | Text-to-Video | `POST /gemini-omni-text-to-video` | `prompt` |
-| Image-to-Video | `POST /gemini-omni-image-to-video` | `prompt`, `image_urls` (1–7) |
+| Image-to-Video | `POST /gemini-omni-image-to-video` | `prompt`, `image_urls` (1–5) |
 | Video Edit | `POST /gemini-omni-video-edit` | `prompt`, `video_url` and/or `image_urls` |
+| Audio Profile | `POST /gemini-omni-audio` | `audio_id`, `name` |
+| Character | `POST /gemini-omni-character` | `images_list`, `descriptions` |
 
 All modes return `{"request_id": "..."}`. Poll `GET /predictions/{request_id}/result` until `status == "completed"`.
 
@@ -660,10 +666,11 @@ api = GeminiOmniAPI(api_key="your-muapi-key")  # or set MUAPI_API_KEY env var
 # ── Text-to-video ────────────────────────────────────────────────────────────
 job = api.text_to_video(
     prompt="Golden hour drone shot over Big Sur cliffs revealing a lone surfer on glassy water",
-    duration=8,           # 4 | 6 | 8 | 10
-    aspect_ratio="16:9",  # "16:9" | "9:16"
-    audio_id="aoede",     # optional — one of 30 named voices
-    seed=42,              # optional — for reproducibility
+    duration=8,             # 4 | 6 | 8 | 10
+    aspect_ratio="16:9",    # "16:9" | "9:16"
+    resolution="1080p",     # "720p" | "1080p" | "4k"
+    audio_ids=["aoede"],    # optional — list of up to 3 voice names
+    seed=42,                # optional — for reproducibility
 )
 result = api.wait_for_completion(job["request_id"])
 print(result["outputs"])
@@ -673,9 +680,10 @@ image_url = api.upload_file("reference.png")   # upload local file → public UR
 
 job = api.image_to_video(
     prompt="Animate the subject walking forward with subtle natural motion",
-    image_urls=[image_url],  # list of 1–7 image URLs (each ≤20 MB)
+    image_urls=[image_url],  # list of 1–5 image URLs (each ≤20 MB)
     duration=6,
     aspect_ratio="9:16",
+    resolution="1080p",
 )
 result = api.wait_for_completion(job["request_id"])
 
@@ -689,17 +697,58 @@ job = api.video_edit(
     trim_end=8,            # max 10 s window
     duration=8,
     aspect_ratio="16:9",
+    resolution="1080p",
 )
 result = api.wait_for_completion(job["request_id"])
 
 # ── Video edit with images + video ───────────────────────────────────────────
-# When video_url is set, up to 5 image_urls are allowed (video uses 2 of 7 slots)
+# When video_url is set, up to 5 image_urls are allowed
 job = api.video_edit(
     prompt="Add bioluminescent fireflies reacting to the leaves in the scene",
     video_url=video_url,
     image_urls=[image_url],  # up to 5 when video is also provided
     duration=8,
 )
+result = api.wait_for_completion(job["request_id"])
+```
+
+### Audio Profile & Character
+
+Create reusable voice profiles and characters to reference in your video generations:
+
+```python
+# ── Create an audio profile ──────────────────────────────────────────────────
+job = api.create_audio_profile(
+    audio_id="aoede",                          # base voice from AUDIO_IDS
+    name="My Narrator Voice",
+    voice_description="Warm, calm storytelling tone with slight British inflection",
+    example_dialogue="Welcome to the story. Let's begin.",
+)
+profile = api.wait_for_completion(job["request_id"])
+profile_id = profile["outputs"][0]             # use this ID in audio_ids
+
+# ── Create a character ───────────────────────────────────────────────────────
+char_image_url = api.upload_file("hero_portrait.png")
+
+job = api.create_character(
+    image_url=char_image_url,
+    descriptions="A confident young woman with short dark hair and a leather jacket",
+    character_name="Alex",
+    audio_ids=["aoede"],                       # optional voice association
+)
+character = api.wait_for_completion(job["request_id"])
+character_id = character["outputs"][0]         # use this ID in character_ids
+
+# ── Use character + audio in a video generation ──────────────────────────────
+job = api.text_to_video(
+    prompt="Alex walks into a sunlit café and orders a coffee, looking around curiously",
+    duration=8,
+    resolution="1080p",
+    character_ids=[character_id],
+    audio_ids=["aoede"],
+)
+result = api.wait_for_completion(job["request_id"])
+print(result["outputs"])
 ```
 
 ### REST API Reference
@@ -724,10 +773,12 @@ resp = requests.post(
     headers={"x-api-key": API_KEY},
     json={
         "prompt": "35mm anamorphic rain-soaked Tokyo alley at 2 AM, slow dolly-in",
-        "duration": 8,           # 4 | 6 | 8 | 10
-        "aspect_ratio": "16:9",  # "16:9" | "9:16"
-        # "audio_ids": "aoede",  # optional voice
-        # "seed": 42,            # optional seed
+        "duration": 8,              # 4 | 6 | 8 | 10
+        "aspect_ratio": "16:9",     # "16:9" | "9:16"
+        "resolution": "1080p",      # "720p" | "1080p" | "4k"
+        # "audio_ids": ["aoede"],   # optional — list of up to 3 voices
+        # "character_ids": [...],   # optional character IDs
+        # "seed": 42,               # optional seed
     },
 )
 request_id = resp.json()["request_id"]
@@ -754,9 +805,12 @@ resp = requests.post(
     headers={"x-api-key": API_KEY},
     json={
         "prompt": "Animate the subject with subtle breathing and gentle hair movement",
-        "image_urls": [image_url],  # list of 1–7 URLs
+        "image_urls": [image_url],  # list of 1–5 URLs
         "duration": 6,
         "aspect_ratio": "9:16",
+        "resolution": "1080p",      # "720p" | "1080p" | "4k"
+        # "audio_ids": ["aoede"],   # optional — list of up to 3 voices
+        # "character_ids": [...],   # optional character IDs
     },
 )
 ```
@@ -776,12 +830,54 @@ resp = requests.post(
         "prompt": "Change the season to winter, add falling snow",
         "video_url": video_url,
         "trim_start": 0,
-        "trim_end": 8,    # max 10 s window; source video max 30 s
+        "trim_end": 8,          # max 10 s window; source video max 30 s
         "duration": 8,
         "aspect_ratio": "16:9",
-        # "image_urls": [...],  # optional reference images (max 5 when video is set)
+        "resolution": "1080p",  # "720p" | "1080p" | "4k"
+        # "image_urls": [...],  # optional reference images (max 5)
+        # "audio_ids": ["aoede"],   # optional — list of up to 3 voices
+        # "character_ids": [...],   # optional character IDs
     },
 )
+```
+
+#### Audio Profile
+
+```python
+resp = requests.post(
+    f"{BASE}/gemini-omni-audio",
+    headers={"x-api-key": API_KEY},
+    json={
+        "audio_id": "aoede",                   # base voice from AUDIO_IDS
+        "name": "My Narrator Voice",
+        # "voice_description": "Warm storytelling tone",   # optional
+        # "example_dialogue": "Welcome to the story.",     # optional
+    },
+)
+request_id = resp.json()["request_id"]
+# poll until completed to retrieve the profile ID
+```
+
+#### Character
+
+```python
+with open("hero_portrait.png", "rb") as f:
+    char_image_url = requests.post(
+        f"{BASE}/upload_file", headers={"x-api-key": API_KEY}, files={"file": f}
+    ).json()["url"]
+
+resp = requests.post(
+    f"{BASE}/gemini-omni-character",
+    headers={"x-api-key": API_KEY},
+    json={
+        "images_list": [char_image_url],
+        "descriptions": "A confident young woman with short dark hair and a leather jacket",
+        # "character_name": "Alex",        # optional
+        # "audio_ids": ["aoede"],          # optional voice association
+    },
+)
+request_id = resp.json()["request_id"]
+# poll until completed to retrieve the character ID
 ```
 
 ### API Parameters
@@ -791,15 +887,16 @@ resp = requests.post(
 | `prompt` | ✓ | ✓ | ✓ | string (required) |
 | `duration` | ✓ | ✓ | ✓ | `4` \| `6` \| `8` \| `10` (default `8`) |
 | `aspect_ratio` | ✓ | ✓ | ✓ | `"16:9"` \| `"9:16"` (default `"16:9"`) |
-| `audio_ids` | ✓ | ✓ | ✓ | one of 30 voice names (optional) |
+| `resolution` | ✓ | ✓ | ✓ | `"720p"` \| `"1080p"` \| `"4k"` (default `"1080p"`) |
+| `audio_ids` | ✓ | ✓ | ✓ | list of up to 3 voice names (optional) |
+| `character_ids` | ✓ | ✓ | ✓ | list of character IDs (optional) |
 | `seed` | ✓ | ✓ | ✓ | int 0–2147483647 (optional) |
-| `image_urls` | — | ✓ | opt | list of 1–7 URLs, each ≤20 MB |
+| `image_urls` | — | ✓ | opt | list of 1–5 URLs, each ≤20 MB |
 | `video_url` | — | — | opt | URL, max 100 MB / 30 s |
 | `trim_start` | — | — | ✓ | float seconds (default `0`) |
 | `trim_end` | — | — | ✓ | float seconds, max 10 s window (default `10`) |
 
-**Image slot budget (V2V):** 7 slots total — video uses 2, each `audio_ids` voice uses 1.
-So with a video: max 5 `image_urls`.
+**Image slot budget (V2V):** when `video_url` is set, max 5 `image_urls`.
 
 **Available `audio_ids` voices:**
 `achernar` · `achird` · `algenib` · `algieba` · `alnilam` · `aoede` · `autonoe` · `callirrhoe` · `charon` · `despina` · `enceladus` · `erinome` · `fenrir` · `gacrux` · `iapetus` · `kore` · `laomedeia` · `leda` · `orus` · `puck` · `pulcherrima` · `rasalgethi` · `sadachbia` · `sadaltager` · `schedar` · `sulafat` · `umbriel` · `vindemiatrix` · `zephyr` · `zubenelgenubi`
