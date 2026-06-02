@@ -61,6 +61,11 @@ print(result["outputs"])
 
 ---
 
+## Related Projects
+
+- [Generative-Media-Skills](https://github.com/SamurAIGPT/Generative-Media-Skills) — Run these prompts as AI agent skills in Gemini CLI, Claude Code, and Cursor
+- [muapi-cli](https://github.com/SamurAIGPT/muapi-cli) — Run Gemini Omni via MuAPI from the terminal
+
 ## Why Google Gemini Omni?
 
 **Google Gemini Omni** is a leap beyond specialized video models because it is Google's true omni-modal system — one model that ingests text, images, audio, and video, and outputs video grounded in real-world knowledge.
