@@ -1,3 +1,0 @@
-requests
-python-dotenv
-mcp[cli]
