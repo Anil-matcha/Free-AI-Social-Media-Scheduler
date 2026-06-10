@@ -13,8 +13,8 @@
 
 # 🎨 Awesome Generative AI Apps
 
-<p><strong>30+ open-source generative AI apps you can clone, deploy, and monetize.</strong><br/>
-Image Generators · Video Tools · Virtual Try-Ons · AI SaaS Templates · Platform Integrations</p>
+<p><strong>50+ open-source generative AI apps you can clone, deploy, and monetize.</strong><br/>
+AI Platforms · Image Generators · Video Tools · Virtual Try-Ons · AI SaaS Templates · Platform Integrations</p>
 
 <p>
 <strong>Every template is production-ready with Google OAuth · Stripe Billing · One-click Vercel deploy</strong>
@@ -28,6 +28,7 @@ Image Generators · Video Tools · Virtual Try-Ons · AI SaaS Templates · Platf
 </p>
 
 <p>
+<a href="#-open-source-ai-platforms"><kbd> &nbsp; 🌐 Platforms &nbsp; </kbd></a>
 <a href="#-image-generation"><kbd> &nbsp; 🖼️ Image &nbsp; </kbd></a>
 <a href="#-video-generation"><kbd> &nbsp; 🎬 Video &nbsp; </kbd></a>
 <a href="#-beauty--fashion-ai"><kbd> &nbsp; 💄 Beauty &amp; Fashion &nbsp; </kbd></a>
@@ -92,6 +93,7 @@ Or deploy instantly with the **Deploy to Vercel** button in each template's READ
 
 ## 📑 Table of Contents
 
+- [🌐 Open-Source AI Platforms](#-open-source-ai-platforms)
 - [🖼️ Image Generation](#-image-generation)
 - [🎬 Video Generation](#-video-generation)
 - [💄 Beauty & Fashion AI](#-beauty--fashion-ai)
@@ -102,6 +104,19 @@ Or deploy instantly with the **Deploy to Vercel** button in each template's READ
 - [🤖 AI Agents & Chatbots](#-ai-agents--chatbots)
 - [🎵 Audio & Voice](#-audio--voice)
 - [🔧 Platform Integrations](#-platform-integrations)
+
+---
+
+## 🌐 Open-Source AI Platforms
+
+Full-stack open-source platforms — not just templates, but production apps you can self-host or use to run your own AI business.
+
+| App | Description | Free Alternative To | Stars |
+|---|---|---|---|
+| [Open Generative AI](https://github.com/Anil-matcha/Open-Generative-AI) | Open-source AI image & video studio with 200+ models (Flux, Midjourney, Kling, Veo). No content filters. Self-hosted. | Freepik, OpenArt, Krea, Leonardo AI | ⭐ 18k+ |
+| [Free AI Social Media Scheduler](https://github.com/Anil-matcha/Free-AI-Social-Media-Scheduler) | Self-hostable AI social media scheduler with built-in AI content generation and multi-platform publishing | Postiz, Buffer, Hootsuite | ⭐ 2k+ |
+| [Open AI Design Agent](https://github.com/Anil-matcha/Open-AI-Design-Agent) | Autonomous multi-step AI design agent for posters, social creatives, brand kits, ad creatives, and video | Lovart AI, Galileo AI, Magic Patterns | ⭐ 781 |
+| [Open Poe AI](https://github.com/Anil-matcha/Open-Poe-AI) | Self-hosted multi-model AI chat — GPT, Claude, Gemini, and Llama in one interface, bring your own API keys | Poe AI, ChatGPT | ⭐ 242 |
 
 ---
 
@@ -127,6 +142,9 @@ Or deploy instantly with the **Deploy to Vercel** button in each template's READ
 | [AI Kissing Video Generator](https://github.com/SamurAIGPT/ai-kissing-video-generator) | Merge two portraits into a romantic AI video | — | [Demo](https://ai-kissing-video-generator-amber.vercel.app/) |
 | [AI Youtube Shorts Generator](https://github.com/SamurAIGPT/AI-Youtube-Shorts-Generator) | Auto-extract viral 9:16 shorts from long-form videos | Opus Clip, Vidyo.ai, Klap | [Demo](https://github.com/SamurAIGPT/AI-Youtube-Shorts-Generator) |
 | [AI Clipping Generator](https://github.com/SamurAIGPT/ai-clipping-generator) | Auto-extract Reels and TikToks from YouTube videos | Opus Clip, SubMagic | [Demo](https://ai-clipping-generator.vercel.app/) |
+| [AI Micro-Drama Generator](https://github.com/Anil-matcha/Open-AI-Micro-Drama-Generator) | Turn any idea into a complete short-form AI drama — screenwriter → storyboard → frames → video (Seedance 2, Kling, Veo) | Creatify, Synthesia | — |
+| [AI B-Roll Generator](https://github.com/Anil-matcha/AI-B-roll) | Auto-generate relevant B-roll footage from scripts or video transcripts using AI | Pexels, Storyblocks | — |
+| [Open AI UGC](https://github.com/Anil-matcha/Open-AI-UGC) | Generate AI UGC-style video ads with virtual creators using Veo, Seedance, and Happy Horse | Arcads, MakeUGC | — |
 
 ---
 
@@ -194,6 +212,7 @@ Or deploy instantly with the **Deploy to Vercel** button in each template's READ
 | [KnowBase AI](https://github.com/SamurAIGPT/ai-knowledge-base) | RAG chatbot builder trained on your docs, URLs, and Q&A | Chatbase, Botpress, SiteGPT | [Demo](https://ai-knowledge-base-six.vercel.app/) |
 | [CardAI Creator](https://github.com/SamurAIGPT/ai-business-card) | Digital business cards with embedded AI visitor chatbot | Popl, HiHello, Linq | [Demo](https://ai-business-card-ten.vercel.app/) |
 | [AI Character Studio](https://github.com/SamurAIGPT/ai-character-studio) | Generate AI character portraits and roleplay chat with them | Character.ai, Replika | [Demo](https://ai-character-studio-beta.vercel.app/) |
+| [Open Character AI](https://github.com/Anil-matcha/open-character-ai) | Self-hosted character roleplay chatbot — build custom AI personas with per-chat LLM tuning | Character.AI, Replika | — |
 
 ---
 
@@ -202,6 +221,7 @@ Or deploy instantly with the **Deploy to Vercel** button in each template's READ
 | Template | Description | Free Alternative To | Demo |
 |---|---|---|---|
 | [My Podcast Studio](https://github.com/SamurAIGPT/my-podcast) | AI voiceover and podcast narration with MiniMax Speech 2.6 | ElevenLabs, Murf AI, Play.ht | [Demo](https://my-podcast.vercel.app/) |
+| [AI Voice Agent](https://github.com/Anil-matcha/AI-Voice-Agent) | Self-hosted AI voice agent with speech-to-speech conversation | Bland.ai, Vapi, Retell AI | — |
 
 ---
 
@@ -215,6 +235,21 @@ Or deploy instantly with the **Deploy to Vercel** button in each template's READ
 | [ComfyUI Nodes](https://github.com/SamurAIGPT/muapi-comfyui) | 100+ model nodes for ComfyUI image/video pipelines | Clone into `custom_nodes/` |
 | [CLI](https://github.com/SamurAIGPT/muapi-cli) | Generate images, videos & audio from the terminal | `npm install -g muapi-cli` |
 | [Generative Media Skills](https://github.com/SamurAIGPT/Generative-Media-Skills) | AI agent skills for Claude Code, Cursor, Gemini CLI | See repo for install |
+| [Seedance 2 ComfyUI Nodes](https://github.com/Anil-matcha/seedance2-comfyui) | ComfyUI custom nodes for Seedance 2.0 text-to-video and image-to-video | Clone into `custom_nodes/` |
+
+### Python SDKs & API Clients
+
+| SDK | Description | Link |
+|---|---|---|
+| [Seedance 2.0 API](https://github.com/Anil-matcha/Seedance-2.0-API) | Python wrapper for ByteDance Seedance 2.0 — text-to-video, image-to-video, 1080p, character consistency | [GitHub](https://github.com/Anil-matcha/Seedance-2.0-API) |
+| [Veo 4 API](https://github.com/Anil-matcha/Veo-4-API) | Python wrapper for Google Veo 4 — native 4K video with integrated audio and camera controls | [GitHub](https://github.com/Anil-matcha/Veo-4-API) |
+| [Happy Horse 1.0 API](https://github.com/Anil-matcha/Awesome-Happy-Horse-1.0-API-and-Prompt) | Python wrapper for Alibaba Happy Horse 1.0 — #1 ranked video generator, 1080p HD with integrated audio | [GitHub](https://github.com/Anil-matcha/Awesome-Happy-Horse-1.0-API-and-Prompt) |
+
+### Prompt Libraries
+
+| Collection | Description | Link |
+|---|---|---|
+| [GPT-Image-2 Prompts](https://github.com/Anil-matcha/Awesome-GPT-Image-2-API-Prompts) | Curated GPT-Image-2 prompts — portraits, posters, UI mockups, game screenshots, character sheets | [GitHub](https://github.com/Anil-matcha/Awesome-GPT-Image-2-API-Prompts) |
 
 ---
 
