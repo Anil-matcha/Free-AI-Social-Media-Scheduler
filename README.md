@@ -1,946 +1,238 @@
-# Awesome Google Gemini Omni Prompts
+<p align="center">
+  <a href="https://twitter.com/matchaman11">
+    <img src="https://img.shields.io/badge/Follow%20on%20𝕏-000000?style=for-the-badge&logo=x&logoColor=white" alt="X / Twitter">
+  </a>
+  <a href="https://www.linkedin.com/in/anilmatcha/">
+    <img src="https://img.shields.io/badge/Follow%20on%20LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
+  </a>
+</p>
 
-[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
-[![PyPI version](https://img.shields.io/pypi/v/gemini-omni-api.svg)](https://pypi.org/project/gemini-omni-api/)
-[![Stars](https://img.shields.io/github/stars/Anil-matcha/Awesome-Gemini-Omni-API-Prompts?style=flat-square)](https://github.com/Anil-matcha/Awesome-Gemini-Omni-API-Prompts/stargazers)
-[![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](LICENSE)
-[![Google Gemini Omni](https://img.shields.io/badge/Model-Google%20Gemini%20Omni-blue)](https://muapi.ai/gemini-omni)
-[![Google AI](https://img.shields.io/badge/Powered%20by-Google%20AI-orange)](https://muapi.ai)
+<hr/>
 
-A curated collection of high-quality prompts and patterns for **Google Gemini Omni** — Google's natively multimodal any-to-any video generation model. This repository is your go-to reference for prompting Google Gemini Omni across text-to-video, image-to-video, audio-to-lip-sync, and video editing — covering cinematic shots, character-consistent stories, product ads, anime, scientific visualization, B-roll, and more.
+<div align="center">
 
-Whether you're building a video generation app with the Gemini Omni API or chasing cleaner prompt patterns, you'll find ready-to-use prompts here that unlock Google Gemini Omni's full potential.
+# 🎨 Awesome Generative AI Apps
 
-Join the discussion: https://www.reddit.com/r/GeminiOmniAI/
+<p><strong>30+ open-source generative AI apps you can clone, deploy, and monetize.</strong><br/>
+Image Generators · Video Tools · Virtual Try-Ons · AI SaaS Templates · Platform Integrations</p>
 
-> **API access:** All prompts work with **[MuAPI](https://muapi.ai/gemini-omni)** — a hosted media API that gives you Gemini Omni text-to-video, image-to-video, and video-edit with a simple REST call. [Get your API key →](https://muapi.ai)
+<p>
+<strong>Every template is production-ready with Google OAuth · Stripe Billing · One-click Vercel deploy</strong>
+</p>
+
+<p>
+<a href="https://github.com/Anil-matcha/awesome-generative-ai-apps/stargazers"><img src="https://img.shields.io/github/stars/Anil-matcha/awesome-generative-ai-apps?style=for-the-badge&logo=github&color=FFD700" alt="Stars"></a>
+<a href="https://github.com/Anil-matcha/awesome-generative-ai-apps/network/members"><img src="https://img.shields.io/github/forks/Anil-matcha/awesome-generative-ai-apps?style=for-the-badge&logo=github&color=4FC3F7" alt="Forks"></a>
+<a href="LICENSE"><img src="https://img.shields.io/github/license/Anil-matcha/awesome-generative-ai-apps?style=for-the-badge&color=8B5CF6" alt="License"></a>
+<img src="https://img.shields.io/github/last-commit/Anil-matcha/awesome-generative-ai-apps?style=for-the-badge&color=F97316" alt="Last Commit">
+</p>
+
+<p>
+<a href="#-image-generation"><kbd> &nbsp; 🖼️ Image &nbsp; </kbd></a>
+<a href="#-video-generation"><kbd> &nbsp; 🎬 Video &nbsp; </kbd></a>
+<a href="#-beauty--fashion-ai"><kbd> &nbsp; 💄 Beauty &amp; Fashion &nbsp; </kbd></a>
+<a href="#-e-commerce--product-photography"><kbd> &nbsp; 🛒 E-commerce &nbsp; </kbd></a>
+<a href="#-writing--content"><kbd> &nbsp; ✍️ Writing &nbsp; </kbd></a>
+<a href="#-platform-integrations"><kbd> &nbsp; 🔧 Integrations &nbsp; </kbd></a>
+</p>
+
+</div>
+
+---
+
+## 💡 Why this exists
+
+You shouldn't have to rebuild authentication, billing, AI polling, and webhook handling from scratch every time you ship a new AI product.
+
+**Awesome Generative AI Apps is a catalog of production-ready SaaS templates** — fork one, add your API key, deploy to Vercel, and you have a live AI product in minutes.
+
+- 🛠️ **Hand-built, not curated** — every template is original work, tested end-to-end before it ships.
+- ⚡ **Deploy in 3 steps** — fork → set env vars → push to Vercel. No broken configs.
+- 💳 **Monetization built-in** — Stripe credit billing, webhook fulfillment, and a pricing page in every template.
+- 🔐 **Auth included** — Google OAuth + NextAuth + Prisma session management out of the box.
+- 🤖 **100+ AI models** — swap between image, video, audio, and enhancement models without changing your app code.
+- 🆓 **MIT licensed** — fork it, ship it, sell it.
+
+> ⭐ **If this saves you time, [star the repo](https://github.com/Anil-matcha/awesome-generative-ai-apps/stargazers) — that's how the next developer finds it.**
+
+---
+
+## 🚀 Quick Start
+
+Every template follows the same 3-step setup:
 
 ```bash
-pip install gemini-omni-api
+# 1. Clone the template you want
+git clone https://github.com/SamurAIGPT/<template-name>
+cd <template-name>
+
+# 2. Set up environment variables
+cp .env.example .env
+# Fill in: DATABASE_URL, NEXTAUTH_SECRET, GOOGLE_CLIENT_ID/SECRET,
+#          STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, AI_API_KEY
+
+# 3. Initialize DB and start
+npx prisma db push && npm run dev
 ```
 
-```python
-from gemini_omni_api import GeminiOmniAPI
-
-api = GeminiOmniAPI(api_key="your-muapi-key")
-
-# ── Text-to-Video ─────────────────────────────────────────────────────────────
-job = api.text_to_video(
-    prompt="<paste any T2V prompt from this list>",
-    duration=8,
-    aspect_ratio="16:9",
-    resolution="1080p",
-    audio_ids=["aoede"],      # optional — list of up to 3 voice names
-)
-
-# ── Image-to-Video ────────────────────────────────────────────────────────────
-image_url = api.upload_file("reference.png")   # upload local file → public URL
-job = api.image_to_video(
-    prompt="<paste any I2V prompt from this list>",
-    image_urls=[image_url],   # 1–5 reference images, each ≤20 MB
-    duration=6,
-    aspect_ratio="9:16",
-    resolution="1080p",
-)
-
-# ── Video Edit (V2V) ──────────────────────────────────────────────────────────
-video_url = api.upload_file("source_clip.mp4")
-job = api.video_edit(
-    prompt="<paste any video-edit prompt from this list>",
-    video_url=video_url,
-    trim_start=0,
-    trim_end=8,               # max 10 s window; source clip max 30 s
-    duration=8,
-    aspect_ratio="16:9",
-    resolution="1080p",
-)
-
-result = api.wait_for_completion(job["request_id"])
-print(result["outputs"])
-```
+Or deploy instantly with the **Deploy to Vercel** button in each template's README.
 
 ---
 
-## Related Projects
+## 🔥 Featured This Month
 
-- [Generative-Media-Skills](https://github.com/SamurAIGPT/Generative-Media-Skills) — Run these prompts as AI agent skills in Gemini CLI, Claude Code, and Cursor
-- [muapi-cli](https://github.com/SamurAIGPT/muapi-cli) — Run Gemini Omni via MuAPI from the terminal
-
-## Why Google Gemini Omni?
-
-**Google Gemini Omni** is a leap beyond specialized video models because it is Google's true omni-modal system — one model that ingests text, images, audio, and video, and outputs video grounded in real-world knowledge.
-
-- **Native multimodality** — Mix text, reference images, audio tracks, and source clips in a single prompt
-- **Character consistency** — Faces, outfits, and props stay coherent across scenes, lighting, and actions
-- **Reference-based editing** — Apply a style image, transfer motion from a clip, or swap an environment with plain language
-- **Conversational remixing** — Iterate with chat-style follow-ups like "make the last 3 seconds slower" or "swap the city for Tokyo at night"
-- **Audio-grounded lip-sync** — Provide a voice track and Omni animates accurate mouth shapes and timing
-- **Physics-aware** — Better grasp of gravity, momentum, fluids, and cloth than older diffusion-only video models
+| Template | What it does | Live Demo |
+|---|---|---|
+| [💖 AI Kissing Video Generator](https://github.com/SamurAIGPT/ai-kissing-video-generator) | Merge two portrait photos into a romantic AI video using Veo 3, Wan 2.7 & Gemini Omni | [Demo](https://ai-kissing-video-generator-amber.vercel.app/) |
+| [🎭 AI Character Studio](https://github.com/SamurAIGPT/ai-character-studio) | Generate custom AI character portraits and chat with them in roleplay | [Demo](https://ai-character-studio-beta.vercel.app/) |
+| [📦 Amazon Product Studio](https://github.com/SamurAIGPT/amazon-product-studio) | Generate studio-quality product photos from reference images | [Demo](https://amazon-product-studio.vercel.app/) |
+| [🏠 AI Room Declutter](https://github.com/SamurAIGPT/ai-room-declutter) | Transform messy rooms into photorealistic clean interiors with AI | [Demo](https://ai-room-declutter.vercel.app/) |
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Cinematic Text-to-Video](#cinematic-text-to-video)
-- [Image-to-Video (Animate a Still)](#image-to-video-animate-a-still)
-- [Character Consistency & Multi-Scene Stories](#character-consistency--multi-scene-stories)
-- [Product Ads & Commercials](#product-ads--commercials)
-- [Lifestyle, Travel & B-Roll](#lifestyle-travel--b-roll)
-- [Anime & Stylized Animation](#anime--stylized-animation)
-- [Scientific & Educational Visualization](#scientific--educational-visualization)
-- [Action, Combat & VFX Sequences](#action-combat--vfx-sequences)
-- [Video Edit (Restyle & Remix)](#video-edit-restyle--remix)
-- [Conversational Edits & Remixes](#conversational-edits--remixes)
-- [Audio-Driven & Lip-Sync](#audio-driven--lip-sync)
-- [Resources & API Docs](#resources--api-docs)
-- [Use Gemini Omni via MuAPI](#use-gemini-omni-via-muapi)
-- [Contributing](#contributing)
+- [🖼️ Image Generation](#-image-generation)
+- [🎬 Video Generation](#-video-generation)
+- [💄 Beauty & Fashion AI](#-beauty--fashion-ai)
+- [🛒 E-commerce & Product Photography](#-e-commerce--product-photography)
+- [🏠 Home & Real Estate AI](#-home--real-estate-ai)
+- [👤 Portrait & Avatar AI](#-portrait--avatar-ai)
+- [✍️ Writing & Content](#️-writing--content)
+- [🤖 AI Agents & Chatbots](#-ai-agents--chatbots)
+- [🎵 Audio & Voice](#-audio--voice)
+- [🔧 Platform Integrations](#-platform-integrations)
 
 ---
 
-## Cinematic Text-to-Video
+## 🖼️ Image Generation
 
-Prompts that lean on cinematography vocabulary — lens, lighting, blocking, camera move — to get filmic results in a single shot.
-
-### 35mm Rain-Soaked Tokyo Alley
-
-**Prompt:**
-```
-35mm anamorphic film, rain-soaked back alley in Shinjuku at 2 AM, neon kanji signage reflecting in puddles, a lone woman in a translucent vinyl raincoat walks toward camera holding a clear umbrella, slow dolly-in from low angle, shallow depth of field with bokeh streetlights, steam rising from a ramen stall in the background, authentic 35mm grain, cool teal shadows with warm magenta highlights, 8 seconds, 24fps, no captions, no watermark
-```
-
----
-
-### Golden Hour Drone Reveal — Coastal Cliffs
-
-**Prompt:**
-```
-Aerial drone shot beginning tight on a lone surfer paddling on glassy water at golden hour, slow upward pull-back and rotate revealing 800-foot Big Sur sea cliffs, ribbons of mist clinging to the rock face, soft volumetric god rays, photorealistic, cinematic color grade, 10 seconds, smooth gimbal motion, no jitter
-```
+| Template | Description | Free Alternative To | Demo |
+|---|---|---|---|
+| [Nano Banana Generator](https://github.com/SamurAIGPT/nano-banana-generator) | Text-to-image and multi-image reference editing SaaS | Midjourney, DALL·E | [Demo](https://nano-banana-generator.vercel.app/) |
+| [AI Headshot Generator](https://github.com/SamurAIGPT/ai-headshot-generator) | LinkedIn photos, team portraits, personal branding | Aragon AI, HeadshotPro | [Demo](https://ai-headshot-generator.vercel.app/) |
+| [AI Logo Studio](https://github.com/SamurAIGPT/ai-logo-studio) | Text-to-logo and sketch-to-logo brand identity generator | Looka, Brandmark.io | [Demo](https://ai-logo-studio.vercel.app/) |
+| [AI Meme Studio](https://github.com/SamurAIGPT/ai-meme-generator) | AI meme & viral short video generator with multiple models | — | [Demo](https://ai-meme-generator.vercel.app/) |
+| [Old Photo Restore](https://github.com/SamurAIGPT/old-photo-restore) | Colorize, denoise, and repair damaged vintage photos | Remini | [Demo](https://old-photo-restore.vercel.app/) |
+| [ClearMark AI](https://github.com/SamurAIGPT/clearmark-ai) | Remove watermarks, logos, and text overlays using GPT Image 2 | Watermarkremover.io, HitPaw | [Demo](https://clearmark-ai.vercel.app/) |
 
 ---
 
-### Cyberpunk Subway Push-In
+## 🎬 Video Generation
 
-**Prompt:**
-```
-Low-angle tracking shot through a futuristic Tokyo subway car at night, holographic ads flickering on the windows, a hooded protagonist with cybernetic eyes sits in the foreground, train lights strobe across her face as the camera slowly pushes in, depth of field racks from background passengers to her glowing pupils, Blade Runner 2049 color palette, anamorphic lens flares, 8 seconds, 1080p
-```
-
----
-
-### Slow-Motion Splash — Macro
-
-**Prompt:**
-```
-Extreme macro slow-motion at 1000fps, a single red strawberry plunging into a glass of milk, crown-shaped splash freezing mid-air, soft north-facing window light, white seamless background, hyper-detailed water droplets, photoreal, 6 seconds, square 1:1 framing
-```
+| Template | Description | Free Alternative To | Demo |
+|---|---|---|---|
+| [Seedance 2 Generator](https://github.com/SamurAIGPT/seedance-2-generator) | Text-to-video and multi-image reference video SaaS | Runway, Kling | [Demo](https://seedance-2-generator.vercel.app/) |
+| [Veo Video Generator](https://github.com/SamurAIGPT/veo4-video-generator) | Text-to-video and image-to-video with Google Veo | Sora, Runway | [Demo](https://veo4-video-generator.vercel.app/) |
+| [AI Kissing Video Generator](https://github.com/SamurAIGPT/ai-kissing-video-generator) | Merge two portraits into a romantic AI video | — | [Demo](https://ai-kissing-video-generator-amber.vercel.app/) |
+| [AI Youtube Shorts Generator](https://github.com/SamurAIGPT/AI-Youtube-Shorts-Generator) | Auto-extract viral 9:16 shorts from long-form videos | Opus Clip, Vidyo.ai, Klap | [Demo](https://github.com/SamurAIGPT/AI-Youtube-Shorts-Generator) |
+| [AI Clipping Generator](https://github.com/SamurAIGPT/ai-clipping-generator) | Auto-extract Reels and TikToks from YouTube videos | Opus Clip, SubMagic | [Demo](https://ai-clipping-generator.vercel.app/) |
 
 ---
 
-### Wes Anderson Symmetrical Hotel Lobby
+## 💄 Beauty & Fashion AI
 
-**Prompt:**
-```
-Wes Anderson style, perfectly symmetrical wide shot of a pastel-pink hotel lobby, two bellhops in matching mustard uniforms stand frozen at attention either side of a brass elevator, the elevator doors slide open in unison, a tiny dog wearing a bow tie trots out toward camera, slow dolly-in, flat lighting, ornate wallpaper, 4:3 aspect ratio, 7 seconds
-```
-
----
-
-### One-Take Restaurant Walk-Through
-
-**Prompt:**
-```
-Single continuous Steadicam take, camera enters a bustling Michelin-starred kitchen, weaves between chefs flambéing pans and plating dishes, pushes through swinging doors into the candlelit dining room, settles on a couple sharing a toast at a corner booth, warm tungsten light, shallow depth of field, real ambient sound, 15 seconds, 24fps cinematic
-```
+| Template | Description | Free Alternative To | Demo |
+|---|---|---|---|
+| [TryOn AI](https://github.com/SamurAIGPT/ai-tryon) | Fit any garment onto any person photo | Botika, Lalaland.ai | [Demo](https://ai-tryon-smoky.vercel.app/) |
+| [AI Hairstyle Simulator](https://github.com/SamurAIGPT/ai-hair-style-simulator) | Virtual hair makeover and color try-on | YouCam Hair, HairStyle.ai | [Demo](https://ai-hair-style-simulator.vercel.app/) |
+| [AI Tattoo Try-On](https://github.com/SamurAIGPT/ai-tattoo-try-on) | Preview tattoo designs on skin virtually | Ink Hunter, Tattoosmart | [Demo](https://ai-tattoo-try-on.vercel.app/) |
+| [AI Professional Makeup](https://github.com/SamurAIGPT/ai-professional-makeup-generator) | Try on professional makeup looks with AI | YouCam Makeup, ModiFace | [Demo](https://ai-professional-makeup-generator.vercel.app/) |
 
 ---
 
-### Black-and-White Noir Interrogation
+## 🛒 E-commerce & Product Photography
 
-**Prompt:**
-```
-High-contrast black-and-white film noir, single overhead pendant light swinging over a metal table, a detective in a fedora leans forward into frame casting hard venetian-blind shadows across his face, cigarette smoke curls upward, 35mm film grain, 1940s aesthetic, slight camera shake handheld, 8 seconds
-```
-
----
-
-## Image-to-Video (Animate a Still)
-
-Upload a reference image and use these prompts to bring it to life — Google Gemini Omni keeps the subject's identity and composition while adding motion.
-
-### Subtle Portrait Reanimation
-
-**Reference:** portrait photo of a person.
-**Prompt:**
-```
-Using the attached image as the first frame, animate the subject with subtle natural motion: gentle breathing, slight hair movement from a soft breeze, eyes blink twice with realistic timing, micro-expression shift from neutral to a faint smile, camera holds locked-off, 5 seconds, photorealistic, do not change facial structure or clothing
-```
+| Template | Description | Free Alternative To | Demo |
+|---|---|---|---|
+| [Resale Photo Enhancer](https://github.com/SamurAIGPT/resale-photo-enhancer) | AI product photo studio for eBay, Poshmark, Depop sellers | Photoroom | [Demo](https://resale-photo-enhancer.vercel.app/) |
+| [Pet Product Studio](https://github.com/SamurAIGPT/pet-product-studio) | AI lifestyle product ads featuring pets | Pebblely | [Demo](https://pet-product-studio.vercel.app/) |
+| [Amazon Product Studio](https://github.com/SamurAIGPT/amazon-product-studio) | Studio-quality product photos from reference images | Flair AI, Booth AI | [Demo](https://amazon-product-studio.vercel.app/) |
 
 ---
 
-### Painting Comes Alive
+## 🏠 Home & Real Estate AI
 
-**Reference:** any classical painting.
-**Prompt:**
-```
-Treat the attached painting as a living scene. Animate elements naturally within the original brushstroke style — clouds drift, foliage sways, water ripples, fabric moves with the wind, any animals breathe. Camera performs a slow 5% push-in. Preserve the original color palette, lighting, and painterly texture. 8 seconds, 16:9.
-```
-
----
-
-### Product Shot → Rotating Hero
-
-**Reference:** product photo on a clean background.
-**Prompt:**
-```
-Use the attached product image as the subject. Generate a 360° turntable rotation with smooth deceleration on the front-facing pose. Studio softbox lighting, gentle bloom on glossy highlights, soft contact shadow on a seamless background. Match exact product geometry, label, and color. 6 seconds, 1:1 aspect ratio, no morphing or warping.
-```
+| Template | Description | Free Alternative To | Demo |
+|---|---|---|---|
+| [EstateStager AI](https://github.com/SamurAIGPT/ai-real-estate-stager) | Turn empty rooms into furnished showrooms with AI | BoxBrownie, Virtual Staging AI | [Demo](https://ai-real-estate-stager.vercel.app/) |
+| [AI Room Declutter](https://github.com/SamurAIGPT/ai-room-declutter) | Transform messy rooms into photorealistic clean interiors | RoomGPT, Reimagine Home | [Demo](https://ai-room-declutter.vercel.app/) |
 
 ---
 
-### Architectural Render → Walkthrough
+## 👤 Portrait & Avatar AI
 
-**Reference:** still 3D render of a building exterior.
-**Prompt:**
-```
-Use the attached render as the establishing frame. Animate a cinematic flythrough: camera starts at street level, smoothly cranes up to reveal the rooftop, drifts laterally past the glass facade catching golden hour reflections, ends on a dramatic dutch-tilt hero pose. Trees sway gently, pedestrians walk in the background, water features ripple. 12 seconds, 1080p, 24fps.
-```
-
----
-
-### Pet Portrait → Anime Episode
-
-**Reference:** photo of a pet.
-**Prompt:**
-```
-Convert the attached pet photo into a cel-shaded anime snapshot, then animate it as if it were a clip from a Studio Ghibli film. The pet looks toward camera, ears twitch, tilts its head curiously, blinks, soft wind ruffles fur. Hand-painted background of a sunlit meadow with floating dandelion seeds. Maintain the pet's exact coat colors and markings. 6 seconds, 16:9.
-```
+| Template | Description | Free Alternative To | Demo |
+|---|---|---|---|
+| [Royal Portrait AI](https://github.com/SamurAIGPT/ai-royal-portrait) | Transform selfies into 20 royal and artistic portrait styles | Lensa AI, Portrait AI | [Demo](https://ai-royal-portrait.vercel.app/) |
+| [MagicSelf AI](https://github.com/SamurAIGPT/magicself-ai) | Turn selfies into oil paintings, anime, watercolors, and more | Prisma, ToonMe | [Demo](https://magicself-ai.vercel.app/) |
+| [AI Wedding Photo](https://github.com/SamurAIGPT/ai-wedding-photo) | Place any portrait into dreamy wedding scenes | Remini, Facetune | [Demo](https://ai-wedding-photo.vercel.app/) |
+| [AI Kid to Adult](https://github.com/SamurAIGPT/ai-kid-to-adult-prediction) | Photorealistic age progression — child to adult | FaceApp, AgePro | [Demo](https://ai-kid-to-adult-prediction.vercel.app/) |
+| [AI Pet Portrait](https://github.com/SamurAIGPT/ai-pet-portrait) | Transform pet photos into paintings, royal portraits, and art | Portrait My Pet | [Demo](https://ai-pet-portrait.vercel.app/) |
+| [AI Travel Studio](https://github.com/SamurAIGPT/ai-travel-studio) | Place yourself into iconic travel destinations worldwide | Teleport AI | [Demo](https://ai-travel-studio.vercel.app/) |
+| [AI Fitness Simulator](https://github.com/SamurAIGPT/ai-fitness-body-simulator) | Visualize body transformation goals with AI | BodyApp AI | [Demo](https://ai-fitness-body-simulator.vercel.app/) |
 
 ---
 
-## Character Consistency & Multi-Scene Stories
+## ✍️ Writing & Content
 
-Google Gemini Omni's long context lets it carry the same character across multiple shots. Combine a character reference image with scene-by-scene prompting.
-
-### Three-Scene Mini-Film From One Reference
-
-**Reference:** single portrait of the protagonist.
-**Prompt:**
-```
-The attached image is the main character. Generate three connected shots, same person in all three, identical face, hair, and wardrobe throughout:
-1) 0–4s: Wide shot, she walks out of a Parisian apartment building into morning light, holding a paper coffee cup, slow dolly-back
-2) 4–8s: Medium shot, she stops at a flower stall, smiles at the vendor, picks up a bouquet, soft sidelight
-3) 8–12s: Close-up, she sits on a bench by the Seine, looks off-camera contemplatively, gentle breeze in hair
-Cinematic 35mm look throughout, consistent color grade, no cuts to other characters.
-```
+| Template | Description | Free Alternative To | Demo |
+|---|---|---|---|
+| [Blogger CMS](https://github.com/SamurAIGPT/blogger-cms) | AI blog writer with WYSIWYG editor and full SEO suite | Jasper, Copy.ai, Surfer SEO | [Demo](https://blogger-cms-psi.vercel.app/) |
+| [Social Post AI](https://github.com/SamurAIGPT/social-post) | Generate posts for LinkedIn, Twitter/X, Instagram, Reddit | Buffer AI, Hootsuite OwlyWriter | [Demo](https://social-post-woad.vercel.app/) |
+| [Prompt Architect](https://github.com/SamurAIGPT/prompt-architect) | Engineer and refine AI prompts for ChatGPT, Claude, Midjourney | PromptBase, PromptPerfect | [Demo](https://prompt-architect-one-nu.vercel.app/) |
+| [AI Resume Builder](https://github.com/SamurAIGPT/ai-resume-builder) | ATS-optimized resumes with PDF/Word export | Teal, Kickresume, Rezi | [Demo](https://ai-resume-builder.vercel.app/) |
+| [Mail-Wise](https://github.com/SamurAIGPT/mail-wise) | AI cold email and business email composer | Lavender AI, Reply.io | [Demo](https://mail-wise-khaki.vercel.app/) |
+| [GEO Checker](https://github.com/SamurAIGPT/geo-checker) | Audit landing page AI search visibility for ChatGPT, Perplexity, Gemini | SEMrush, Surfer SEO | [Demo](https://geo-checker.vercel.app/) |
 
 ---
 
-### Hero Walking Cycle Across Environments
+## 🤖 AI Agents & Chatbots
 
-**Reference:** character reference (full body).
-**Prompt:**
-```
-Using the attached character as the subject, generate a continuous walking sequence where the environment transitions seamlessly every 3 seconds: 0–3s desert dunes at sunset, 3–6s neon-soaked rainy city street, 6–9s misty alpine forest, 9–12s clean white infinity studio. Character stride, outfit, and proportions remain identical throughout. Camera tracks alongside in profile, locked focal length, 12 seconds, 16:9.
-```
-
----
-
-### Interview Two-Shot With Reaction
-
-**References:** two character portraits.
-**Prompt:**
-```
-Image 1 is the interviewer, image 2 is the guest. Generate a sit-down podcast scene: medium two-shot, both seated at a wooden table with microphones, warm studio lighting. Interviewer asks an animated question with hand gestures, guest listens, nods thoughtfully, then begins to respond with a slight laugh. Camera holds locked, both faces remain perfectly consistent with the reference photos. 10 seconds, 16:9, real ambient room tone.
-```
+| Template | Description | Free Alternative To | Demo |
+|---|---|---|---|
+| [KnowBase AI](https://github.com/SamurAIGPT/ai-knowledge-base) | RAG chatbot builder trained on your docs, URLs, and Q&A | Chatbase, Botpress, SiteGPT | [Demo](https://ai-knowledge-base-six.vercel.app/) |
+| [CardAI Creator](https://github.com/SamurAIGPT/ai-business-card) | Digital business cards with embedded AI visitor chatbot | Popl, HiHello, Linq | [Demo](https://ai-business-card-ten.vercel.app/) |
+| [AI Character Studio](https://github.com/SamurAIGPT/ai-character-studio) | Generate AI character portraits and roleplay chat with them | Character.ai, Replika | [Demo](https://ai-character-studio-beta.vercel.app/) |
 
 ---
 
-### Same Outfit, Five Locations Lookbook
+## 🎵 Audio & Voice
 
-**Reference:** full-body fashion photo.
-**Prompt:**
-```
-Use the attached photo as the model. Generate a fashion lookbook video where she wears the exact same outfit across five locations, 2 seconds each: rooftop helipad, marble museum hallway, neon arcade, desert highway, foggy pine forest. Static elegant pose with subtle wind motion, identical outfit details and styling in every shot, smooth match-cuts on her silhouette between locations. 10 seconds, 9:16 vertical.
-```
+| Template | Description | Free Alternative To | Demo |
+|---|---|---|---|
+| [My Podcast Studio](https://github.com/SamurAIGPT/my-podcast) | AI voiceover and podcast narration with MiniMax Speech 2.6 | ElevenLabs, Murf AI, Play.ht | [Demo](https://my-podcast.vercel.app/) |
 
 ---
 
-## Product Ads & Commercials
+## 🔧 Platform Integrations
 
-Punchy short-form ads with reference-image product fidelity.
-
-### Beverage Hero — Splash & Reveal
-
-**Reference:** product bottle image.
-**Prompt:**
-```
-Use the attached bottle as the hero product, maintain exact label and shape. Generate a premium drink commercial: 0–2s ice cubes tumble in slow motion through black background, 2–4s liquid splash forms around the bottle as it lands center frame, 4–6s droplets bead on glass and slowly run down, dynamic rim lighting, brand color glow accent, ends on a still hero shot with empty space top-right for a tagline. 6 seconds, 9:16, photorealistic, no text generated.
-```
-
----
-
-### Skincare Routine — Calm and Clinical
-
-**Reference:** serum bottle image.
-**Prompt:**
-```
-Soft, clinical skincare ad using the attached serum bottle. Macro close-ups intercut: dropper releasing a single golden drop, drop landing on a glass surface, hands gently massaging serum into porcelain skin, bottle rotating slowly under diffuse overhead light. Pale beige and ivory palette, gentle ambient piano, 8 seconds, 1:1.
-```
+| Integration | Description | Install |
+|---|---|---|
+| [Claude Code Plugin](https://github.com/SamurAIGPT/muapi-claude-code) | Generate images, videos & audio directly in Claude Code | `claude mcp add muapi -- npx -y muapi-claude-code` |
+| [MCP Server](https://github.com/SamurAIGPT/muapi-mcp-server) | Hosted MCP server for Claude, Cursor, Windsurf & more | `claude mcp add --transport http muapi https://api.muapi.ai/mcp` |
+| [n8n Nodes](https://github.com/SamurAIGPT/n8n-nodes-muapi) | 60+ AI model nodes for n8n automation workflows | Search "muapi" in n8n community nodes |
+| [ComfyUI Nodes](https://github.com/SamurAIGPT/muapi-comfyui) | 100+ model nodes for ComfyUI image/video pipelines | Clone into `custom_nodes/` |
+| [CLI](https://github.com/SamurAIGPT/muapi-cli) | Generate images, videos & audio from the terminal | `npm install -g muapi-cli` |
+| [Generative Media Skills](https://github.com/SamurAIGPT/Generative-Media-Skills) | AI agent skills for Claude Code, Cursor, Gemini CLI | See repo for install |
 
 ---
 
-### Sneaker Drop — Hype Reveal
+## 🏗️ Common Stack
 
-**Reference:** sneaker image.
-**Prompt:**
+Every SaaS template in this catalog is built on the same production-ready foundation:
+
 ```
-High-energy sneaker reveal using the attached shoe. Black studio, smoke swirls around the floor, sneaker descends from above on an invisible mount and lands with a soft impact kicking up dust, light rays sweep across it, slow 270° camera orbit hero shot at the end. Maintain exact colorway and material detail of the reference. 7 seconds, 9:16, aggressive bass-heavy audio cue at the impact frame.
+Next.js 14 (App Router)  ·  Prisma ORM  ·  PostgreSQL (Supabase / Neon)
+NextAuth (Google OAuth)  ·  Stripe Checkout + Webhooks  ·  Tailwind CSS
+Vercel deployment
 ```
 
----
-
-### Café Lifestyle Ad — Human Hands Only
-
-**Reference:** coffee bag image.
-**Prompt:**
-```
-Cozy artisanal coffee ad using the attached bag. Only show human hands and the product: hands grinding beans, hands pouring from a gooseneck kettle in slow motion bloom, hands sliding a latte across a wooden counter, the bag appears in the final frame next to the finished cup. Warm morning window light, shallow depth of field, 35mm, 10 seconds, 16:9.
-```
+The base template (no AI logic, just auth + billing + webhooks) is available at:
+**[github.com/SamurAIGPT/ai-saas-starter](https://github.com/SamurAIGPT/ai-saas-starter)**
 
 ---
 
-## Lifestyle, Travel & B-Roll
+## 📄 License
 
-High-utility footage prompts for vloggers, editors, and content producers.
-
-### Bali Sunrise Surf B-Roll Pack Vibe
-
-**Prompt:**
-```
-Documentary travel B-roll, Uluwatu Bali at sunrise: surfers paddling out silhouetted against orange horizon, drone reveal over breaking waves onto limestone cliffs, close-up of dewdrops on frangipani flower, hands wax-rubbing a longboard, woman in linen wrap walking down wooden steps to the beach. Multiple short clips edited as one continuous mood reel, golden warm grade, ambient ocean and bird sounds, 15 seconds, 16:9, 24fps.
-```
-
----
-
-### Cozy Apartment Morning Routine
-
-**Prompt:**
-```
-Slice-of-life morning routine in a sunlit minimalist apartment, no faces shown above the shoulders. Series of natural moments: linen curtains billowing, espresso machine pulling a shot, slippers crossing a wood floor, a hand opens a journal and writes, steam rises from an oat-milk latte. Soft beige and cream palette, natural window light, gentle ambient room sounds, 12 seconds, 9:16.
-```
-
----
-
-### Street Food Night Market Walk
-
-**Prompt:**
-```
-First-person POV walking through a Bangkok night market, handheld natural sway, vendors flame-grilling skewers on the left, lantern strings glowing overhead, steam billowing from noodle pots, motorbikes weaving past, camera occasionally drifts down to a hand carrying a paper plate of pad thai. Real ambient market chatter, sizzling, music bleed. 12 seconds, 9:16, 30fps.
-```
-
----
-
-### Office Documentary B-Roll
-
-**Prompt:**
-```
-Generic startup office documentary B-roll, no recognizable faces. Series of natural workplace clips: hand sliding a sticky note onto a whiteboard, fingers typing on a mechanical keyboard in shallow depth of field, two colleagues laughing in soft focus behind a glass wall, latte being placed on a desk next to a laptop, plants gently swaying near a window. Warm neutral grade, 35mm look, 10 seconds, 16:9.
-```
-
----
-
-## Anime & Stylized Animation
-
-Prompts that lean into hand-drawn or stylized aesthetics.
-
-### Studio Ghibli Countryside Open
-
-**Prompt:**
-```
-Studio Ghibli style hand-painted animation, a young girl in a yellow sundress runs through a sunlit field of tall grass, hair and dress flowing behind her, dandelion seeds float through the air, fluffy clouds drift across a deep blue sky, the camera pulls back to reveal a wooden farmhouse in the distance. Soft pastel palette, gentle orchestral score, 10 seconds, 16:9, traditional cel-animation aesthetic.
-```
-
----
-
-### 90s Shōnen Transformation Sequence
-
-**Prompt:**
-```
-Late-90s shōnen anime aesthetic, dramatic transformation: a teenage hero stands on a cliff, wind whipping his hair, energy aura begins to glow blue around him, ground cracks, debris floats upward, he yells skyward, lightning streaks across the storm clouds, his hair shifts to gold in a final freeze-frame pose. Hand-drawn linework, speed-line streaks, cel-shaded color, dramatic Akira Yamaoka style synth score implied, 8 seconds, 4:3.
-```
-
----
-
-### Cyberpunk Anime City Drift
-
-**Prompt:**
-```
-Anime in the style of Satoshi Kon's "Paprika": dense neon Tokyo skyline at night, camera floats forward between skyscrapers, holographic koi fish swim through the air, rain falls upward in slow motion, a girl in a red coat stands on a rooftop watching it all, her scarf trailing in the wind. Painterly backgrounds, vivid saturated palette, dreamlike pacing, 10 seconds, 21:9 cinemascope.
-```
-
----
-
-### Chibi 8-Bit Mascot Loop
-
-**Prompt:**
-```
-Loopable 4-second chibi animation, pixel-art 8-bit style, a tiny round orange cat mascot bounces in place, blinks, waves a paw at the camera, transparent background. Crunchy chiptune coin-pickup sound effect on the wave. 4 seconds, 1:1, exact frame-perfect loop.
-```
-
----
-
-## Scientific & Educational Visualization
-
-Google Gemini Omni can render abstract concepts as intuitive animations.
-
-### Photosynthesis at the Cellular Level
-
-**Prompt:**
-```
-Scientifically grounded 3D animation of photosynthesis inside a single plant cell. Sunlight photons stream into a chloroplast, water molecules split, oxygen bubbles released, glucose molecules assemble. Clean educational style, soft volumetric light, labels appear in clean sans-serif as each step occurs (CO₂ → O₂, H₂O, glucose). 12 seconds, 16:9, narration-ready pacing with natural pauses.
-```
-
----
-
-### Orbital Mechanics — Earth–Moon System
-
-**Prompt:**
-```
-Accurate astronomical visualization, Earth and Moon orbiting their barycenter, accelerated 30-day time-lapse, photoreal planet textures, tidal locking shown by a small marker on the Moon's near side, starfield background with subtle parallax, smooth slow camera rotation. 10 seconds, 16:9, scientifically accurate distances are not to scale but motion is.
-```
-
----
-
-### How a Black Hole Bends Light
-
-**Prompt:**
-```
-Educational gravitational-lensing visualization. Camera drifts toward a Schwarzschild black hole, background starfield warps around an event horizon, photon sphere becomes visible, accretion disk appears tilted, light from a galaxy behind the hole bends into a perfect Einstein ring as we approach. Photoreal sci-vis style, no UI overlay, 12 seconds, 21:9.
-```
-
----
-
-## Action, Combat & VFX Sequences
-
-### Two-Character Sword Duel — Reference Both
-
-**References:** two character images.
-**Prompt:**
-```
-Image 1 and image 2 are the two combatants. Generate a 10-second cinematic sword duel under a stormy bamboo forest at night. Choreography: clash 1 sparks fly, parry, character 1 advances with three quick strikes, character 2 dodges and counters with a sweeping cut, locked-blade standoff with both faces close to camera, slow dolly-around. Rain falls throughout, lightning flashes punctuate the impacts. Maintain both characters' exact faces and costumes. 10 seconds, 21:9 cinemascope.
-```
-
----
-
-### Car Chase Tunnel Drift
-
-**Prompt:**
-```
-First-person chase cam mounted to the front of a matte-black sports car drifting through a neon-lit tunnel at night, tail lights of a target car visible ahead, sparks fly off the guardrail on a hard left, lens vibration sells the speed, motion blur on tunnel lights creating streaks. Realistic Dolby-style engine roar implied. 8 seconds, 21:9 cinemascope, 30fps.
-```
-
----
-
-### Magic Casting With Particle FX
-
-**Reference:** character image.
-**Prompt:**
-```
-Use the attached character as the caster. They stand in a stone amphitheater, raise both hands, a swirling vortex of glowing blue runes assembles between their palms, then erupts upward into a phoenix made of fire that screeches and dissolves into embers. Photoreal VFX, slow-mo at the apex, debris and embers ride the wind, locked-off wide camera. 8 seconds, 21:9.
-```
-
----
-
-## Video Edit (Restyle & Remix)
-
-Provide a source clip (`video_url`) and optionally reference images (`image_urls`) — Gemini Omni rewrites the scene while preserving the original motion and timing. Source clip: max 30 s, 100 MB. Trim window: max 10 s.
-
-**API call:**
-```python
-video_url = api.upload_file("source_clip.mp4")
-job = api.video_edit(
-    prompt="<prompt below>",
-    video_url=video_url,
-    trim_start=0,
-    trim_end=8,
-    duration=8,
-    aspect_ratio="16:9",
-)
-```
-
-### Studio Ghibli Restyle
-
-**Prompt:**
-```
-Restyle the entire clip as a hand-drawn Studio Ghibli animation. Preserve the original camera motion and timing exactly. Convert all textures to soft watercolor washes, add gentle cel-shaded outlines, sky becomes a painted pastel gradient, any characters take on Ghibli proportions and large expressive eyes. Keep the scene's emotional tone.
-```
-
----
-
-### Season Swap — Summer to Winter
-
-**Prompt:**
-```
-Change the season to deep winter without altering any camera movement or subject motion. Replace all foliage with snow-covered bare branches, add a thin layer of snow on every horizontal surface, breath mist visible on exhale, overcast diffuse light replacing direct sun, desaturated cool color grade. Keep all characters and objects identical.
-```
-
----
-
-### Cinematic Color Regrade — Teal & Orange
-
-**Prompt:**
-```
-Apply a professional teal-and-orange cinematic color grade to the entire clip. Push shadows toward teal-green, warm skin tones and highlights toward amber-orange, reduce overall saturation by 15%, add subtle film grain and very slight vignette. Do not alter timing, framing, or subject motion.
-```
-
----
-
-### Era Transfer — Modern to 1970s Film
-
-**Prompt:**
-```
-Re-render the clip as if shot on 16mm film in 1975. Add heavy film grain, faded color with lifted blacks, slight magenta-green color shift, occasional light leak on the right edge, soft focus halation around bright areas, and a very subtle flicker on brightness. Preserve all motion and action exactly.
-```
-
----
-
-### Environment Swap — Interior to Rooftop
-
-**Prompt:**
-```
-Keep the subject and all their motion identical but replace the background environment with a sunlit urban rooftop at golden hour. City skyline visible in the background, warm directional rim light matching the new environment falling on the subject, soft atmospheric haze. Seamless integration — no compositing artifacts.
-```
-
----
-
-### Slow-Motion Remix
-
-**Prompt:**
-```
-Apply a 2× slow-motion effect to the entire clip. Add subtle motion blur on fast-moving elements, slightly boost color saturation to compensate for the reduced temporal energy, keep the first and last frames as freeze-frame holds for 0.5 s each. Audio pacing should match the new speed.
-```
-
----
-
-### Add Weather — Rain on a Dry Scene
-
-**Prompt:**
-```
-Add heavy rainfall to the existing scene without altering any subject motion or framing. Streaks of rain fall at a 10° angle in the foreground and midground, puddles form on the ground and show ripple rings, wet sheen on all surfaces, slightly desaturate and cool the color temperature by 500K. Rain should look photorealistic, not composited.
-```
-
----
-
-## Conversational Edits & Remixes
-
-Google Gemini Omni's killer feature is chat-style iterative editing. Use these as follow-up prompts after a first generation.
-
-### Mood Shift
-
-**Prompt:**
-```
-Keep everything the same but make it golden hour instead of midday, warmer color temperature, longer shadows, soft volumetric god rays through the window.
-```
-
----
-
-### Subject Swap (Preserve Motion)
-
-**Prompt:**
-```
-Same shot, same camera move, same lighting — but replace the woman with a man in his 50s wearing a navy peacoat. Keep all action and timing identical.
-```
-
----
-
-### Time Remap
-
-**Prompt:**
-```
-Slow down the final 3 seconds to half speed, add subtle motion blur, keep the first 5 seconds at original speed. End on a freeze-frame of the last clear frame.
-```
-
----
-
-### Style Transfer From Reference Image
-
-**Reference:** a stylized art piece.
-**Prompt:**
-```
-Re-render the previous clip in the visual style of the attached image — match its color palette, brush texture, and lighting language. Preserve the original motion, framing, and subject identity exactly.
-```
-
----
-
-### Background Replacement
-
-**Prompt:**
-```
-Same subject, same lighting on the subject — but replace the background with a snowy mountain ridge at dusk. Add gentle snowfall in front of and behind the subject for parallax depth. Match the new background's color cast onto the rim light of the subject's face.
-```
-
----
-
-## Audio-Driven & Lip-Sync
-
-Provide an audio file to drive lip-sync and timing.
-
-### Voice-Over to Talking Head
-
-**References:** character image + audio file (voice line).
-**Prompt:**
-```
-Use the attached image as the speaker and the attached audio as their voice. Generate a clean medium-close talking-head shot, eye-level, soft key light. Sync mouth shapes exactly to the audio phonemes, natural micro head movements and blinks, warm conference-room background slightly out of focus. Duration matches the audio. 16:9, broadcast quality.
-```
-
----
-
-### Music Video Mood Cut
-
-**References:** character image + music track.
-**Prompt:**
-```
-Generate a moody music video using the attached portrait as the artist and the attached track as the audio. The artist sings the lyrics with accurate lip-sync, intercut with abstract B-roll: smoke curling in red light, rain on a windshield, a city skyline at twilight. Match cuts to the song's downbeats. Duration matches the audio. 9:16 vertical, cinematic color.
-```
-
----
-
-### Sound-Driven Dance Loop
-
-**References:** character image + 4-second drum loop.
-**Prompt:**
-```
-Use the attached character. Generate a perfectly looped 4-second dance clip synced to the attached beat — feet hit on the kick, shoulders pop on the snare. Black infinity background with hard rim lights, slow camera orbit one full rotation. Seamless loop start-to-end. 9:16.
-```
-
----
-
-## Resources & API Docs
-
-### Prompt Engineering Tips for Google Gemini Omni
-
-1. **Lead with cinematography vocabulary** — Specify lens (35mm, anamorphic, macro), camera move (dolly-in, crane, Steadicam, locked-off), and lighting (golden hour, volumetric, hard rim).
-2. **Structure as Subject → Motion → Camera → Mood** — Keep each layer explicit; Google Gemini Omni follows multi-clause prompts reliably.
-3. **Anchor identity with reference images** — For any character or product, attach a reference and write *"use the attached image as the subject, preserve face/label/colorway exactly."*
-4. **Use explicit durations and timestamps** — `0–4s wide shot, 4–8s push-in, 8–12s close-up` gives Omni a cut list to follow.
-5. **Specify aspect ratio in-prompt as a backup** — Even if you set it in the API, mention `9:16 vertical` in the text too.
-6. **Negative cues work** — Add `no captions, no watermark, no morphing` to suppress common artifacts.
-7. **For consistency across scenes** — Repeat the identity descriptor in each scene block ("same woman in the same red coat") rather than relying on coreference.
-8. **For edits, isolate what's changing** — *"Keep everything identical except…"* outperforms re-describing the whole scene.
-
----
-
-## Use Google Gemini Omni via MuAPI
-
-[MuAPI](https://muapi.ai) provides all three Gemini Omni generation modes — **text-to-video**, **image-to-video**, and **video-edit** — as a hosted REST service. No extra account required beyond an API key.
-
-| Mode | Endpoint | Key inputs |
-|------|----------|------------|
-| Text-to-Video | `POST /gemini-omni-text-to-video` | `prompt` |
-| Image-to-Video | `POST /gemini-omni-image-to-video` | `prompt`, `image_urls` (1–5) |
-| Video Edit | `POST /gemini-omni-video-edit` | `prompt`, `video_url` and/or `image_urls` |
-| Audio Profile | `POST /gemini-omni-audio` | `audio_id`, `name` |
-| Character | `POST /gemini-omni-character` | `images_list`, `descriptions` |
-
-All modes return `{"request_id": "..."}`. Poll `GET /predictions/{request_id}/result` until `status == "completed"`.
-
-### Installation
-
-```bash
-pip install gemini-omni-api
-```
-
-Or clone this repo and install directly:
-
-```bash
-git clone https://github.com/Anil-matcha/Awesome-Gemini-Omni-API-Prompts.git
-cd Awesome-Gemini-Omni-API-Prompts
-pip install -r requirements.txt
-cp .env.example .env   # add your MUAPI_API_KEY
-```
-
-### Python Wrapper — Quick Start
-
-```python
-from gemini_omni_api import GeminiOmniAPI
-
-api = GeminiOmniAPI(api_key="your-muapi-key")  # or set MUAPI_API_KEY env var
-
-# ── Text-to-video ────────────────────────────────────────────────────────────
-job = api.text_to_video(
-    prompt="Golden hour drone shot over Big Sur cliffs revealing a lone surfer on glassy water",
-    duration=8,             # 4 | 6 | 8 | 10
-    aspect_ratio="16:9",    # "16:9" | "9:16"
-    resolution="1080p",     # "720p" | "1080p" | "4k"
-    audio_ids=["aoede"],    # optional — list of up to 3 voice names
-    seed=42,                # optional — for reproducibility
-)
-result = api.wait_for_completion(job["request_id"])
-print(result["outputs"])
-
-# ── Image-to-video ───────────────────────────────────────────────────────────
-image_url = api.upload_file("reference.png")   # upload local file → public URL
-
-job = api.image_to_video(
-    prompt="Animate the subject walking forward with subtle natural motion",
-    image_urls=[image_url],  # list of 1–5 image URLs (each ≤20 MB)
-    duration=6,
-    aspect_ratio="9:16",
-    resolution="1080p",
-)
-result = api.wait_for_completion(job["request_id"])
-
-# ── Video edit ───────────────────────────────────────────────────────────────
-video_url = api.upload_file("source_clip.mp4")
-
-job = api.video_edit(
-    prompt="Restyle the entire clip as a hand-drawn Studio Ghibli animation",
-    video_url=video_url,
-    trim_start=0,
-    trim_end=8,            # max 10 s window
-    duration=8,
-    aspect_ratio="16:9",
-    resolution="1080p",
-)
-result = api.wait_for_completion(job["request_id"])
-
-# ── Video edit with images + video ───────────────────────────────────────────
-# When video_url is set, up to 5 image_urls are allowed
-job = api.video_edit(
-    prompt="Add bioluminescent fireflies reacting to the leaves in the scene",
-    video_url=video_url,
-    image_urls=[image_url],  # up to 5 when video is also provided
-    duration=8,
-)
-result = api.wait_for_completion(job["request_id"])
-```
-
-### Audio Profile & Character
-
-Create reusable voice profiles and characters to reference in your video generations:
-
-```python
-# ── Create an audio profile ──────────────────────────────────────────────────
-job = api.create_audio_profile(
-    audio_id="aoede",                          # base voice from AUDIO_IDS
-    name="My Narrator Voice",
-    voice_description="Warm, calm storytelling tone with slight British inflection",
-    example_dialogue="Welcome to the story. Let's begin.",
-)
-profile = api.wait_for_completion(job["request_id"])
-profile_id = profile["outputs"][0]             # use this ID in audio_ids
-
-# ── Create a character ───────────────────────────────────────────────────────
-char_image_url = api.upload_file("hero_portrait.png")
-
-job = api.create_character(
-    image_url=char_image_url,
-    descriptions="A confident young woman with short dark hair and a leather jacket",
-    character_name="Alex",
-    audio_ids=["aoede"],                       # optional voice association
-)
-character = api.wait_for_completion(job["request_id"])
-character_id = character["outputs"][0]         # use this ID in character_ids
-
-# ── Use character + audio in a video generation ──────────────────────────────
-job = api.text_to_video(
-    prompt="Alex walks into a sunlit café and orders a coffee, looking around curiously",
-    duration=8,
-    resolution="1080p",
-    character_ids=[character_id],
-    audio_ids=["aoede"],
-)
-result = api.wait_for_completion(job["request_id"])
-print(result["outputs"])
-```
-
-### REST API Reference
-
-All endpoints follow the same submit → poll pattern:
-
-```
-POST https://api.muapi.ai/api/v1/{endpoint}   →  {"request_id": "abc123", "status": "processing"}
-GET  https://api.muapi.ai/api/v1/predictions/{request_id}/result  →  poll until status == "completed"
-```
-
-#### Text-to-Video
-
-```python
-import requests, time
-
-API_KEY = "your-muapi-key"
-BASE = "https://api.muapi.ai/api/v1"
-
-resp = requests.post(
-    f"{BASE}/gemini-omni-text-to-video",
-    headers={"x-api-key": API_KEY},
-    json={
-        "prompt": "35mm anamorphic rain-soaked Tokyo alley at 2 AM, slow dolly-in",
-        "duration": 8,              # 4 | 6 | 8 | 10
-        "aspect_ratio": "16:9",     # "16:9" | "9:16"
-        "resolution": "1080p",      # "720p" | "1080p" | "4k"
-        # "audio_ids": ["aoede"],   # optional — list of up to 3 voices
-        # "character_ids": [...],   # optional character IDs
-        # "seed": 42,               # optional seed
-    },
-)
-request_id = resp.json()["request_id"]
-
-while True:
-    r = requests.get(f"{BASE}/predictions/{request_id}/result", headers={"x-api-key": API_KEY}).json()
-    if r["status"] == "completed":
-        print(r["outputs"])
-        break
-    time.sleep(5)
-```
-
-#### Image-to-Video
-
-```python
-# Upload reference image(s) first
-with open("reference.png", "rb") as f:
-    image_url = requests.post(
-        f"{BASE}/upload_file", headers={"x-api-key": API_KEY}, files={"file": f}
-    ).json()["url"]
-
-resp = requests.post(
-    f"{BASE}/gemini-omni-image-to-video",
-    headers={"x-api-key": API_KEY},
-    json={
-        "prompt": "Animate the subject with subtle breathing and gentle hair movement",
-        "image_urls": [image_url],  # list of 1–5 URLs
-        "duration": 6,
-        "aspect_ratio": "9:16",
-        "resolution": "1080p",      # "720p" | "1080p" | "4k"
-        # "audio_ids": ["aoede"],   # optional — list of up to 3 voices
-        # "character_ids": [...],   # optional character IDs
-    },
-)
-```
-
-#### Video Edit
-
-```python
-with open("clip.mp4", "rb") as f:
-    video_url = requests.post(
-        f"{BASE}/upload_file", headers={"x-api-key": API_KEY}, files={"file": f}
-    ).json()["url"]
-
-resp = requests.post(
-    f"{BASE}/gemini-omni-video-edit",
-    headers={"x-api-key": API_KEY},
-    json={
-        "prompt": "Change the season to winter, add falling snow",
-        "video_url": video_url,
-        "trim_start": 0,
-        "trim_end": 8,          # max 10 s window; source video max 30 s
-        "duration": 8,
-        "aspect_ratio": "16:9",
-        "resolution": "1080p",  # "720p" | "1080p" | "4k"
-        # "image_urls": [...],  # optional reference images (max 5)
-        # "audio_ids": ["aoede"],   # optional — list of up to 3 voices
-        # "character_ids": [...],   # optional character IDs
-    },
-)
-```
-
-#### Audio Profile
-
-```python
-resp = requests.post(
-    f"{BASE}/gemini-omni-audio",
-    headers={"x-api-key": API_KEY},
-    json={
-        "audio_id": "aoede",                   # base voice from AUDIO_IDS
-        "name": "My Narrator Voice",
-        # "voice_description": "Warm storytelling tone",   # optional
-        # "example_dialogue": "Welcome to the story.",     # optional
-    },
-)
-request_id = resp.json()["request_id"]
-# poll until completed to retrieve the profile ID
-```
-
-#### Character
-
-```python
-with open("hero_portrait.png", "rb") as f:
-    char_image_url = requests.post(
-        f"{BASE}/upload_file", headers={"x-api-key": API_KEY}, files={"file": f}
-    ).json()["url"]
-
-resp = requests.post(
-    f"{BASE}/gemini-omni-character",
-    headers={"x-api-key": API_KEY},
-    json={
-        "images_list": [char_image_url],
-        "descriptions": "A confident young woman with short dark hair and a leather jacket",
-        # "character_name": "Alex",        # optional
-        # "audio_ids": ["aoede"],          # optional voice association
-    },
-)
-request_id = resp.json()["request_id"]
-# poll until completed to retrieve the character ID
-```
-
-### API Parameters
-
-| Parameter | T2V | I2V | V2V | Values |
-|-----------|:---:|:---:|:---:|--------|
-| `prompt` | ✓ | ✓ | ✓ | string (required) |
-| `duration` | ✓ | ✓ | ✓ | `4` \| `6` \| `8` \| `10` (default `8`) |
-| `aspect_ratio` | ✓ | ✓ | ✓ | `"16:9"` \| `"9:16"` (default `"16:9"`) |
-| `resolution` | ✓ | ✓ | ✓ | `"720p"` \| `"1080p"` \| `"4k"` (default `"1080p"`) |
-| `audio_ids` | ✓ | ✓ | ✓ | list of up to 3 voice names (optional) |
-| `character_ids` | ✓ | ✓ | ✓ | list of character IDs (optional) |
-| `seed` | ✓ | ✓ | ✓ | int 0–2147483647 (optional) |
-| `image_urls` | — | ✓ | opt | list of 1–5 URLs, each ≤20 MB |
-| `video_url` | — | — | opt | URL, max 100 MB / 30 s |
-| `trim_start` | — | — | ✓ | float seconds (default `0`) |
-| `trim_end` | — | — | ✓ | float seconds, max 10 s window (default `10`) |
-
-**Image slot budget (V2V):** when `video_url` is set, max 5 `image_urls`.
-
-**Available `audio_ids` voices:**
-`achernar` · `achird` · `algenib` · `algieba` · `alnilam` · `aoede` · `autonoe` · `callirrhoe` · `charon` · `despina` · `enceladus` · `erinome` · `fenrir` · `gacrux` · `iapetus` · `kore` · `laomedeia` · `leda` · `orus` · `puck` · `pulcherrima` · `rasalgethi` · `sadachbia` · `sadaltager` · `schedar` · `sulafat` · `umbriel` · `vindemiatrix` · `zephyr` · `zubenelgenubi`
-
-### MCP Server
-
-Run Gemini Omni as an MCP tool server for AI agent frameworks:
-
-```bash
-python mcp_server.py
-```
-
-Tools exposed: `text_to_video`, `image_to_video`, `video_edit`, `upload_file`, `get_task_status`, `wait_for_completion`.
-
-Get your API key at [muapi.ai](https://muapi.ai).
-
----
-
-## Contributing
-
-Contributions are welcome! Submit a Pull Request to add your best Google Gemini Omni prompts.
-
-**Guidelines:**
-- Include the full prompt text in a fenced code block.
-- Note any required reference images, audio, or source videos.
-- Categorize appropriately — open an issue first if you think a new section is warranted.
-- Provide a source link (X/Twitter, blog, etc.) if the prompt isn't original.
-- Example output clips are encouraged but not required.
-
----
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Anil-matcha/Awesome-Gemini-Omni-API-Prompts&type=Date)](https://star-history.com/#Anil-matcha/Awesome-Gemini-Omni-API-Prompts&Date)
-
----
-
-## License
-
-This project is licensed under the Creative Commons Attribution 4.0 International License — see the [LICENSE](LICENSE) file for details.
-
-*Community-maintained.*
+MIT Licensed. Fork it, ship it, sell it.
