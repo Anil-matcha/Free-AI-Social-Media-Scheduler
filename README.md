@@ -235,21 +235,6 @@ Full-stack open-source platforms — not just templates, but production apps you
 | [ComfyUI Nodes](https://github.com/SamurAIGPT/muapi-comfyui) | 100+ model nodes for ComfyUI image/video pipelines | Clone into `custom_nodes/` |
 | [CLI](https://github.com/SamurAIGPT/muapi-cli) | Generate images, videos & audio from the terminal | `npm install -g muapi-cli` |
 | [Generative Media Skills](https://github.com/SamurAIGPT/Generative-Media-Skills) | AI agent skills for Claude Code, Cursor, Gemini CLI | See repo for install |
-| [Seedance 2 ComfyUI Nodes](https://github.com/Anil-matcha/seedance2-comfyui) | ComfyUI custom nodes for Seedance 2.0 text-to-video and image-to-video | Clone into `custom_nodes/` |
-
-### Python SDKs & API Clients
-
-| SDK | Description | Link |
-|---|---|---|
-| [Seedance 2.0 API](https://github.com/Anil-matcha/Seedance-2.0-API) | Python wrapper for ByteDance Seedance 2.0 — text-to-video, image-to-video, 1080p, character consistency | [GitHub](https://github.com/Anil-matcha/Seedance-2.0-API) |
-| [Veo 4 API](https://github.com/Anil-matcha/Veo-4-API) | Python wrapper for Google Veo 4 — native 4K video with integrated audio and camera controls | [GitHub](https://github.com/Anil-matcha/Veo-4-API) |
-| [Happy Horse 1.0 API](https://github.com/Anil-matcha/Awesome-Happy-Horse-1.0-API-and-Prompt) | Python wrapper for Alibaba Happy Horse 1.0 — #1 ranked video generator, 1080p HD with integrated audio | [GitHub](https://github.com/Anil-matcha/Awesome-Happy-Horse-1.0-API-and-Prompt) |
-
-### Prompt Libraries
-
-| Collection | Description | Link |
-|---|---|---|
-| [GPT-Image-2 Prompts](https://github.com/Anil-matcha/Awesome-GPT-Image-2-API-Prompts) | Curated GPT-Image-2 prompts — portraits, posters, UI mockups, game screenshots, character sheets | [GitHub](https://github.com/Anil-matcha/Awesome-GPT-Image-2-API-Prompts) |
 
 ---
 
