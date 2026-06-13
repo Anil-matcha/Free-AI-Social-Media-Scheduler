@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-wedding-photo](https://github.com/SamurAIGPT/ai-wedding-photo)
+
 # 👰 AI Wedding Photo — Open-Source AI Wedding Photo Generator SaaS (Free Remini / Facetune Wedding Alternative)
 
 > **Generate dreamy, photorealistic wedding photos from any portrait in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate with scene template selection, AI face-swap compositing, and built-in Stripe billing. A free open-source alternative to Remini Wedding, WedReports AI, and Facetune — powered by the MuAPI AI engine.
