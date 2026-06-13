@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-tattoo-try-on](https://github.com/SamurAIGPT/ai-tattoo-try-on)
+
 # 🖋️ AI Tattoo Try-On — Open-Source Virtual Tattoo Simulator & Placement Try-On SaaS (Free Ink Hunter / Tattoosmart Alternative)
 
 > **Preview any tattoo design on your body virtually before getting inked.** A production-ready, self-hostable Next.js SaaS boilerplate built for tattoo studios, artists, fashion brands, and DTC apps. A free open-source alternative to Ink Hunter, Tattoosmart, and InkAR — powered by the MuAPI AI engine.
