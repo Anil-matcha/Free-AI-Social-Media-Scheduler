@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/magicself-ai](https://github.com/SamurAIGPT/magicself-ai)
+
 # ✨ MagicSelf AI — Open-Source AI Selfie-to-Artwork Generator SaaS (Free Lensa AI / Prisma Alternative)
 
 > **Transform any selfie into oil paintings, watercolors, anime, digital art, and more in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate with multiple art style presets, webhook-backed async delivery, and built-in Stripe billing. A free open-source alternative to Lensa AI, Prisma, ToonMe, and Meitu — powered by the MuAPI AI engine.
