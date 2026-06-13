@@ -56,6 +56,8 @@ You shouldn't have to rebuild authentication, billing, AI polling, and webhook h
 
 > ⭐ **If this saves you time, [star the repo](https://github.com/Anil-matcha/awesome-generative-ai-apps/stargazers) — that's how the next developer finds it.**
 
+> 🍌 **Running Claude Fable 5?** Check out [awesome-claude-fable-5](https://github.com/Anil-matcha/awesome-claude-fable-5) — 60 curated real-world use cases, prompts, and benchmarks. Get **20% off Fable 5 access** via [MuAPI](https://muapi.ai/pricing).
+
 ---
 
 ## 🚀 Quick Start
@@ -235,6 +237,7 @@ Full-stack open-source platforms — not just templates, but production apps you
 | [ComfyUI Nodes](https://github.com/SamurAIGPT/muapi-comfyui) | 100+ model nodes for ComfyUI image/video pipelines | Clone into `custom_nodes/` |
 | [CLI](https://github.com/SamurAIGPT/muapi-cli) | Generate images, videos & audio from the terminal | `npm install -g muapi-cli` |
 | [Generative Media Skills](https://github.com/SamurAIGPT/Generative-Media-Skills) | AI agent skills for Claude Code, Cursor, Gemini CLI | See repo for install |
+| [awesome-claude-fable-5](https://github.com/Anil-matcha/awesome-claude-fable-5) | 60 curated Claude Fable 5 use cases, prompts & benchmarks — 20% off via MuAPI | [muapi.ai/pricing](https://muapi.ai/pricing) |
 
 ---
 
