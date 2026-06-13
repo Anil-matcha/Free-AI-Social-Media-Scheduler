@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/resale-photo-enhancer](https://github.com/SamurAIGPT/resale-photo-enhancer)
+
 # 🛒 Resale Photo Enhancer — Open-Source AI Product Photo Studio for Online Resellers (Free Photoroom Alternative)
 
 > **Turn snapshot reseller photos into professional listing imagery in one click.** A production-ready, self-hostable Next.js SaaS boilerplate that swaps cluttered backgrounds for clean studio-grade scenes — purpose-built for sellers on eBay, Poshmark, Depop, Vinted, Mercari, Etsy, and Facebook Marketplace. A free open-source alternative to Photoroom, Pixelcut, and ZMO.ai — powered by the MuAPI AI engine.
