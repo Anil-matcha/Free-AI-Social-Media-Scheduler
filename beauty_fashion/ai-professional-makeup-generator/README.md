@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-professional-makeup-generator](https://github.com/SamurAIGPT/ai-professional-makeup-generator)
+
 # 💄 AI Professional Makeup Generator — Open-Source Virtual Makeup Try-On SaaS (Free YouCam Makeup / ModiFace Alternative)
 
 > **Try on professional makeup looks virtually before buying or booking in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate built for beauty brands, salons, and DTC apps — replaces $50/mo virtual try-on tools. A free open-source alternative to YouCam Makeup, ModiFace, Perfect Corp, and BeautyPlus — powered by the MuAPI AI engine.
