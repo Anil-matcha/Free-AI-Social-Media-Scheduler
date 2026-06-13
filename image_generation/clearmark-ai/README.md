@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/clearmark-ai](https://github.com/SamurAIGPT/clearmark-ai)
+
 # 🧹 ClearMark AI — Open-Source AI Watermark Remover SaaS (Free Watermarkremover.io / HitPaw Alternative)
 
 > **Remove watermarks, logos, stamps, and text overlays from images in seconds with AI.** A production-ready, self-hostable Next.js SaaS boilerplate built for photographers, designers, and content creators — powered by GPT Image 2 via the MuAPI inference layer. A free open-source alternative to Watermarkremover.io, HitPaw, and Inpaint.
