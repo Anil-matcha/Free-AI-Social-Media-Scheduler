@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [Anil-matcha/Open-AI-UGC](https://github.com/Anil-matcha/Open-AI-UGC)
+
 # Open AI UGC — Free Open-Source Alternative to Arcads & MakeUGC
 
 > **The free, open-source alternative to Arcads and MakeUGC.** Generate AI UGC video ads with realistic AI actors using 4+ state-of-the-art video models — no per-seat pricing, no locked actor library, no vendor watermark.
