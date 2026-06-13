@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/veo4-video-generator](https://github.com/SamurAIGPT/veo4-video-generator)
+
 # 🚀 Veo 3.1 Studio Generator — High-Fidelity AI Video Workspace
 
 ![Veo 3.1 Studio](https://cdn.muapi.ai/data/2/901343404247/94ac6d86-be4e-4b70-b1e6-96d7e3692604.png)
