@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-pet-portrait](https://github.com/SamurAIGPT/ai-pet-portrait)
+
 # 🐾 AI Pet Portrait Generator — Open-Source AI Pet Art Studio SaaS (Free Portrait My Pet / PetPainting Alternative)
 
 > **Transform pet photos into stunning oil paintings, royal portraits, cartoons, and art masterpieces in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate built for pet lovers, custom portrait businesses, and DTC apps — replaces $30–$80 custom pet portrait services. A free open-source alternative to Portrait My Pet, PetPainting AI, and Paint Your Pet — powered by the MuAPI AI engine.
