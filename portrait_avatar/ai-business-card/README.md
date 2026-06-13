@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-business-card](https://github.com/SamurAIGPT/ai-business-card)
+
 # 📇 CardAI Creator — Open-Source AI Digital Business Card Generator with Embedded Visitor Chatbot
 
 > **Design, share, and chat through interactive digital business cards in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate with 7 premium templates, AI-styled custom layouts, QR sharing, and a visitor-facing AI chatbot that answers questions about you on your behalf. A free open-source alternative to Popl, HiHello, Linq, and Mobilo — powered by the MuAPI AI engine.
