@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-kid-to-adult-prediction](https://github.com/SamurAIGPT/ai-kid-to-adult-prediction)
+
 # 👶 AI Kid to Adult Prediction — Open-Source AI Age Progression & Growth Simulator SaaS (Free FaceApp / AgePro Alternative)
 
 > **Predict photorealistic how a child will look as an adult with AI age progression.** A production-ready, self-hostable Next.js SaaS boilerplate with target age group selection, webhook-backed async delivery, and built-in Stripe billing. A free open-source alternative to FaceApp, AgePro, and Aging Booth — powered by the MuAPI AI engine.
