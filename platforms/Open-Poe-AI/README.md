@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [Anil-matcha/Open-Poe-AI](https://github.com/Anil-matcha/Open-Poe-AI)
+
 # Open-Poe-AI
 
 Open-source, self-hosted alternative to [Poe AI](https://poe.com) — chat with multiple large language models from a single interface, on your own infrastructure.
