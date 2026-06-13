@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-kissing-video-generator](https://github.com/SamurAIGPT/ai-kissing-video-generator)
+
 # 💖 AI Kissing Video Generator — Open-Source AI Romance Video SaaS (Powered by Veo 3, Wan 2.7 & Gemini Omni)
 
 > **Merge two portrait photos into a photorealistic romantic kissing video in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate with multi-model AI video generation (Veo 3, Wan 2.7, Gemini Omni, Grok), webhook-backed async delivery, a personal video gallery, and built-in Stripe billing. Powered by the MuAPI AI engine.
