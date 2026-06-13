@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [Anil-matcha/Open-AI-Micro-Drama-Generator](https://github.com/Anil-matcha/Open-AI-Micro-Drama-Generator)
+
 <div align="center">
 
 <h1 align="center">MicroDrama AI</h1>
