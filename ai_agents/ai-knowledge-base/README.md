@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-knowledge-base](https://github.com/SamurAIGPT/ai-knowledge-base)
+
 # 🧠 KnowBase AI — Open-Source AI Custom Knowledge Base & RAG Chatbot Builder (Free Chatbase / Botpress Alternative)
 
 > **Build custom AI chatbots trained on your documents, URLs, and Q&A data — with citations, embed widgets, and real-time conversations.** A production-ready, self-hostable Next.js SaaS boilerplate with semantic context retrieval and iframe-embeddable bots. A free open-source alternative to Chatbase, CustomGPT, Botpress, SiteGPT, and Stack AI — powered by the MuAPI AI engine.
