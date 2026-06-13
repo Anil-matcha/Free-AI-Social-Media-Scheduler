@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/geo-checker](https://github.com/SamurAIGPT/geo-checker)
+
 # 🌐 GEO Checker — Open-Source AI Generative Engine Optimization (GEO) Auditor SaaS (Free SEMrush / Surfer SEO Alternative)
 
 > **Audit your landing page's AI search visibility and citation potential in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate for marketers, SEO agencies, and developers — checks how well pages are indexed and cited by AI search engines like ChatGPT, Perplexity, and Gemini. A free open-source alternative to SEMrush, Surfer SEO, and enterprise GEO auditing suites — powered by the MuAPI AI engine.
