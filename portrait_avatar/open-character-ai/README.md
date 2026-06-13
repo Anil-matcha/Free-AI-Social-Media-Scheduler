@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [Anil-matcha/open-character-ai](https://github.com/Anil-matcha/open-character-ai)
+
 # 🤖 Open Character AI — Interactive Persona Chat Portal & Companion SaaS
 
 > **An interactive, high-fidelity AI companion portal where users explore preset personas, forge custom AI characters, and fine-tune LLM parameters per chat.** Built with Next.js (App Router), this application is a self-contained SaaS boilerplate featuring user authentication, credit billing, and a beautiful chat interface powered by the MuAPI engine.
