@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-fitness-body-simulator](https://github.com/SamurAIGPT/ai-fitness-body-simulator)
+
 # 🏋️ AI Fitness Body Simulator — Open-Source AI Body Transformation & Physique Simulator SaaS (Free BodyApp / SimScale Alternative)
 
 > **Visualize your fitness transformation goals with photorealistic AI body simulation in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate with photo upload, target physique configuration, and high-fidelity AI body transformation — powered by the MuAPI AI engine. A free open-source alternative to BodyApp AI, Evolt 360, and fitness transformation preview tools.
