@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [Anil-matcha/Open-AI-Design-Agent](https://github.com/Anil-matcha/Open-AI-Design-Agent)
+
 # Open AI Design Agent — Open-Source Alternative to Lovart AI, Runway Agent, Luma Labs Agent, Krea Agent
 
 > **The free, open-source AI design agent.** Plan, generate, and assemble full creative deliverables — posters, social campaigns, brand kits, ad creatives, motion ads, and video cutdowns — through an autonomous agent that orchestrates 200+ image and video models. No subscription, no credit caps, no creative restrictions.
