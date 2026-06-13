@@ -13,11 +13,11 @@
 
 # 💸 Awesome Generative AI Apps
 
-<p><strong>Fork a production-ready AI SaaS. Deploy in minutes. Start charging.</strong><br/>
-50+ open-source templates — each one targets a market where competitors charge $20–$200/month.</p>
+<p><strong>50 complete AI SaaS products. Brand them. Sell them. Keep 100% of the revenue.</strong><br/>
+Each app is a fully working product you can launch under your own name this weekend — auth, billing, and AI all wired up.</p>
 
 <p>
-<strong>Every template ships with Stripe Billing · Google OAuth · One-click Vercel deploy</strong>
+<strong>Stripe Billing · Google OAuth · One-click Vercel deploy · MIT Licensed</strong>
 </p>
 
 <p>
@@ -41,18 +41,40 @@
 
 ---
 
-## 💡 The Opportunity
+## 💰 This Is a Money-Making Repo
 
-AI SaaS is one of the fastest paths to $10k MRR for a solo developer right now. The products in this repo target markets where paid alternatives already exist and are making real money — your open-source version is the entry point.
+Every app here is a **complete, sellable SaaS product** — not a demo, not a UI kit. Fork one, put your logo on it, and you have a live product that can take payments today.
 
-**Every template already has:**
-- 💳 **Stripe credit billing** — users buy credits, you keep the margin between what you charge and what the AI API costs
-- 🔐 **Google OAuth + session management** — no auth to build
-- 🤖 **100+ AI models via [MuAPI](https://muapi.ai)** — swap models without changing app code
-- ⚡ **Deploy in 3 steps** — fork → set env vars → push to Vercel
-- 🆓 **MIT licensed** — fork it, ship it, sell it
+**You own it entirely.** MIT licensed — no royalties, no revenue share, no attribution required. Your brand, your domain, your income.
 
-> ⭐ **[Star this repo](https://github.com/Anil-matcha/awesome-generative-ai-apps/stargazers)** — that's how the next developer finds it.
+### How the money works
+
+Each template uses a credit billing model. Here's the math on a typical app:
+
+| | Example: AI Headshot Generator |
+|---|---|
+| **You charge users** | $29 for a pack of 10 headshots |
+| **AI cost per pack** | ~$1.50 (via MuAPI) |
+| **Your margin** | ~$27.50 per pack (~95%) |
+| **At 100 customers/month** | ~$2,750 MRR |
+| **At 500 customers/month** | ~$13,750 MRR |
+
+The margin is high because you're reselling AI compute. The hard parts — billing, auth, async job handling, webhook retry, credit deduction — are already built. Your job is distribution.
+
+### What you're actually getting
+
+- 💳 **Stripe checkout + webhooks** — users buy credits, Stripe pays you, credits unlock on webhook confirmation
+- 🔐 **Google OAuth** — no auth to build or maintain
+- 🤖 **100+ AI models** via [MuAPI](https://muapi.ai) — swap models without touching app code; MuAPI handles async polling, retries, and failover
+- 🌐 **Vercel-ready** — one `Deploy` button and it's live on a CDN
+- 🗄️ **Prisma + PostgreSQL** — user accounts, credit balances, and job history out of the box
+- 🆓 **MIT licensed** — sell it, white-label it, charge whatever you want
+
+### Pick a niche, own it
+
+AI headshot tools charge $29–$49 per pack. Virtual staging tools charge $29 per image. Video clipping tools charge $49/month. These are not hypothetical — companies built on these exact ideas are doing millions in revenue. The open-source version of their product is right here.
+
+> ⭐ **[Star this repo](https://github.com/Anil-matcha/awesome-generative-ai-apps/stargazers)** to bookmark it — new apps added regularly.
 
 > 🍌 **Running Claude Fable 5?** [awesome-claude-fable-5](https://github.com/Anil-matcha/awesome-claude-fable-5) — 60 curated use cases + **20% off** via [MuAPI](https://muapi.ai/pricing).
 
