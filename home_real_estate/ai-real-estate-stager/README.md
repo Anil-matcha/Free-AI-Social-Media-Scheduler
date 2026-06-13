@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-real-estate-stager](https://github.com/SamurAIGPT/ai-real-estate-stager)
+
 # 🏡 EstateStager AI — Open-Source AI Virtual Home Staging SaaS (Free BoxBrownie & Virtual Staging AI Alternative)
 
 > **Turn empty rooms into furnished showrooms with photorealistic AI staging in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate built for real estate agents, home stagers, and interior designers — replaces $20–$30/photo virtual staging services. A free open-source alternative to BoxBrownie, Virtual Staging AI, ApplyDesign, and roOomy — powered by the MuAPI AI engine.
