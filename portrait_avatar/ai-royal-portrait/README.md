@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-royal-portrait](https://github.com/SamurAIGPT/ai-royal-portrait)
+
 # 👑 Royal Portrait AI — Open-Source AI Portrait Style Transformer SaaS (Free Lensa AI / Portrait AI Alternative)
 
 > **Transform any selfie into 20 unique royal, cinematic, and artistic portrait styles in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate with HD downloads, a personal gallery dashboard, and built-in Stripe billing. A free open-source alternative to Lensa AI, Portrait AI, PicsArt AI, and Facetune — powered by the MuAPI AI engine.
