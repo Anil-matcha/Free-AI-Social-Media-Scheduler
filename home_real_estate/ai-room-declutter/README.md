@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-room-declutter](https://github.com/SamurAIGPT/ai-room-declutter)
+
 # 🏠 AI Room Declutter — Open-Source AI Room Declutter & Interior Redesign SaaS (Free RoomGPT / Reimagine Home Alternative)
 
 > **Instantly transform messy rooms into photorealistic clean interiors with AI.** A production-ready, self-hostable Next.js SaaS boilerplate with design style presets, webhook-backed async generation, and built-in Stripe billing. A free open-source alternative to RoomGPT, Reimagine Home, AI Interior, and Decor Matters — powered by the MuAPI AI engine.
