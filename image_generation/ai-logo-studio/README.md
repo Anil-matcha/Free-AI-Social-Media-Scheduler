@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-logo-studio](https://github.com/SamurAIGPT/ai-logo-studio)
+
 # 🎨 AI Logo Studio — Open-Source AI Logo & Brand Identity Generator SaaS (Free Looka / Brandmark Alternative)
 
 > **Design professional brand logos from text prompts or sketch references in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate with text-to-logo and image-to-logo generation, brand identity concepts, and built-in Stripe billing. A free open-source alternative to Looka, Brandmark.io, LogoAI, Wix Logo Maker, and Canva AI — powered by the MuAPI Nano Banana Pro engine.
