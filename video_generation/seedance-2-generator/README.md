@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/seedance-2-generator](https://github.com/SamurAIGPT/seedance-2-generator)
+
 # 🚀 Seedance v2.0 Generator — High-Octane AI Video Workspace
 
 > **A beautifully designed, fully-integrated AI video playground.** Built with Next.js, this open-source template serves as a complete, self-contained SaaS boilerplate for generating, editing, and managing high-quality AI videos fueled by the Seedance v2.0 engine.
