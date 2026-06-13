@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-meme-generator](https://github.com/SamurAIGPT/ai-meme-generator)
+
 # 🎭 AI Meme Studio — Open-Source AI Meme & Viral Short Video Generator SaaS
 
 > **Generate viral memes and short AI videos in seconds with Veo 3.1, Gemini Omni, Wan2.7, GPT-Image-2, and Nano Banana 2.** A production-ready, self-hostable Next.js SaaS boilerplate with smart multi-model routing — purpose-built for creators, marketers, social media managers, and brand teams. Powered by the MuAPI AI engine.
