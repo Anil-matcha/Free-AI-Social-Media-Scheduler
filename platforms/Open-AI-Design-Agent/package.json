@@ -1,0 +1,16 @@
+{
+  "name": "open-ai-design-agent-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev:app": "npm run dev -w client",
+    "build:app": "npm run build -w client",
+    "build:lib": "npm run build -w packages/design-agent",
+    "install:all": "npm install"
+  }
+}

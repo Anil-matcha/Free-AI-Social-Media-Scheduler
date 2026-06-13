@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+      args:
+        API_URL: http://server:8000
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - API_URL=http://server:8000
+    depends_on:
+      - server
+    restart: unless-stopped
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./server/.env
+    restart: unless-stopped
