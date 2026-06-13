@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/mail-wise](https://github.com/SamurAIGPT/mail-wise)
+
 # ✉️ Mail-Wise — Open-Source AI Email Composer & Cold Outreach SaaS (Free Lavender AI / Reply.io Alternative)
 
 > **Generate high-conversion business emails, cold outreach pitches, and follow-ups in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate with template presets, tone & language controls, one-click mail dispatch, and built-in Stripe billing. A free open-source alternative to Lavender AI, Reply.io, Mailmodo, Superhuman AI, and Instantly.ai — powered by the MuAPI AI engine.
