@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-hair-style-simulator](https://github.com/SamurAIGPT/ai-hair-style-simulator)
+
 # 💇 AI Hairstyle Simulator — Open-Source Virtual Hair Makeover & Style Try-On SaaS (Free YouCam Hair / HairStyle.ai Alternative)
 
 > **Try on new hairstyles and hair colors virtually before visiting the salon.** A production-ready, self-hostable Next.js SaaS boilerplate built for salons, hair stylists, fashion brands, and DTC beauty apps — replaces $20/mo hair try-on tools. A free open-source alternative to YouCam Hair, HairStyle.ai, and Hairstyle Lite — powered by the MuAPI AI engine.
