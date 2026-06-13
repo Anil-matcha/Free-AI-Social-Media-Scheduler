@@ -11,13 +11,13 @@
 
 <div align="center">
 
-# 🎨 Awesome Generative AI Apps
+# 💸 Awesome Generative AI Apps
 
-<p><strong>50+ open-source generative AI apps you can clone, deploy, and monetize.</strong><br/>
-AI Platforms · Image Generators · Video Tools · Virtual Try-Ons · AI SaaS Templates · Platform Integrations</p>
+<p><strong>Fork a production-ready AI SaaS. Deploy in minutes. Start charging.</strong><br/>
+50+ open-source templates — each one targets a market where competitors charge $20–$200/month.</p>
 
 <p>
-<strong>Every template is production-ready with Google OAuth · Stripe Billing · One-click Vercel deploy</strong>
+<strong>Every template ships with Stripe Billing · Google OAuth · One-click Vercel deploy</strong>
 </p>
 
 <p>
@@ -41,28 +41,24 @@ AI Platforms · Image Generators · Video Tools · Virtual Try-Ons · AI SaaS Te
 
 ---
 
-## 💡 Why this exists
+## 💡 The Opportunity
 
-You shouldn't have to rebuild authentication, billing, AI polling, and webhook handling from scratch every time you ship a new AI product.
+AI SaaS is one of the fastest paths to $10k MRR for a solo developer right now. The products in this repo target markets where paid alternatives already exist and are making real money — your open-source version is the entry point.
 
-**Awesome Generative AI Apps is a catalog of production-ready SaaS templates** — fork one, add your API key, deploy to Vercel, and you have a live AI product in minutes.
+**Every template already has:**
+- 💳 **Stripe credit billing** — users buy credits, you keep the margin between what you charge and what the AI API costs
+- 🔐 **Google OAuth + session management** — no auth to build
+- 🤖 **100+ AI models via [MuAPI](https://muapi.ai)** — swap models without changing app code
+- ⚡ **Deploy in 3 steps** — fork → set env vars → push to Vercel
+- 🆓 **MIT licensed** — fork it, ship it, sell it
 
-- 🛠️ **Hand-built, not curated** — every template is original work, tested end-to-end before it ships.
-- ⚡ **Deploy in 3 steps** — fork → set env vars → push to Vercel. No broken configs.
-- 💳 **Monetization built-in** — Stripe credit billing, webhook fulfillment, and a pricing page in every template.
-- 🔐 **Auth included** — Google OAuth + NextAuth + Prisma session management out of the box.
-- 🤖 **100+ AI models** — swap between image, video, audio, and enhancement models without changing your app code.
-- 🆓 **MIT licensed** — fork it, ship it, sell it.
+> ⭐ **[Star this repo](https://github.com/Anil-matcha/awesome-generative-ai-apps/stargazers)** — that's how the next developer finds it.
 
-> ⭐ **If this saves you time, [star the repo](https://github.com/Anil-matcha/awesome-generative-ai-apps/stargazers) — that's how the next developer finds it.**
-
-> 🍌 **Running Claude Fable 5?** Check out [awesome-claude-fable-5](https://github.com/Anil-matcha/awesome-claude-fable-5) — 60 curated real-world use cases, prompts, and benchmarks. Get **20% off Fable 5 access** via [MuAPI](https://muapi.ai/pricing).
+> 🍌 **Running Claude Fable 5?** [awesome-claude-fable-5](https://github.com/Anil-matcha/awesome-claude-fable-5) — 60 curated use cases + **20% off** via [MuAPI](https://muapi.ai/pricing).
 
 ---
 
 ## 🚀 Quick Start
-
-Every template follows the same 3-step setup:
 
 ```bash
 # 1. Clone the template you want
@@ -72,7 +68,7 @@ cd <template-name>
 # 2. Set up environment variables
 cp .env.example .env
 # Fill in: DATABASE_URL, NEXTAUTH_SECRET, GOOGLE_CLIENT_ID/SECRET,
-#          STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, AI_API_KEY
+#          STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, MUAPI_API_KEY
 
 # 3. Initialize DB and start
 npx prisma db push && npm run dev
@@ -111,119 +107,137 @@ Or deploy instantly with the **Deploy to Vercel** button in each template's READ
 
 ## 🌐 Open-Source AI Platforms
 
-Full-stack open-source platforms — not just templates, but production apps you can self-host or use to run your own AI business.
+Full-stack platforms you can self-host or white-label. Leonardo AI charges $12–$60/mo. OpenArt charges $9–$57/mo. Krea charges $10–$35/mo. These open-source alternatives let you capture that same revenue with zero licensing fees.
 
-| App | Description | Free Alternative To | Stars |
+| App | Description | Competing With | Stars |
 |---|---|---|---|
-| [Open Generative AI](https://github.com/Anil-matcha/Open-Generative-AI) | Open-source AI image & video studio with 200+ models (Flux, Midjourney, Kling, Veo). No content filters. Self-hosted. | Freepik, OpenArt, Krea, Leonardo AI | ⭐ 18k+ |
-| [Free AI Social Media Scheduler](https://github.com/Anil-matcha/Free-AI-Social-Media-Scheduler) | Self-hostable AI social media scheduler with built-in AI content generation and multi-platform publishing | Postiz, Buffer, Hootsuite | ⭐ 2k+ |
-| [Open AI Design Agent](https://github.com/Anil-matcha/Open-AI-Design-Agent) | Autonomous multi-step AI design agent for posters, social creatives, brand kits, ad creatives, and video | Lovart AI, Galileo AI, Magic Patterns | ⭐ 781 |
-| [Open Poe AI](https://github.com/Anil-matcha/Open-Poe-AI) | Self-hosted multi-model AI chat — GPT, Claude, Gemini, and Llama in one interface, bring your own API keys | Poe AI, ChatGPT | ⭐ 242 |
+| [Open Generative AI](https://github.com/Anil-matcha/Open-Generative-AI) | Open-source AI image & video studio with 200+ models. No content filters. Self-hosted. | Leonardo AI ($60/mo), Krea ($35/mo), OpenArt ($57/mo) | ⭐ 18k+ |
+| [Free AI Social Media Scheduler](https://github.com/Anil-matcha/Free-AI-Social-Media-Scheduler) | Self-hostable AI social media scheduler with built-in content generation | Buffer ($18/mo), Hootsuite ($99/mo), Postiz ($42/mo) | ⭐ 2k+ |
+| [Open AI Design Agent](https://github.com/Anil-matcha/Open-AI-Design-Agent) | Autonomous multi-step AI design agent for creatives, brand kits, ad creatives | Lovart AI ($30/mo), Galileo AI ($50/mo) | ⭐ 781 |
+| [Open Poe AI](https://github.com/Anil-matcha/Open-Poe-AI) | Self-hosted multi-model AI chat — GPT, Claude, Gemini, Llama, bring your own keys | Poe AI ($20/mo), ChatGPT Plus ($20/mo) | ⭐ 242 |
 
 ---
 
 ## 🖼️ Image Generation
 
-| Template | Description | Free Alternative To | Demo |
+**The market:** Midjourney makes est. $200M+/year. DALL·E powers ChatGPT Plus at $20/mo for 200M+ users. Aragon AI (just headshots) reportedly crossed $1M ARR. One niche image product = real income.
+
+| Template | Description | Competing With | Demo |
 |---|---|---|---|
-| [Nano Banana Generator](https://github.com/SamurAIGPT/nano-banana-generator) | Text-to-image and multi-image reference editing SaaS | Midjourney, DALL·E | [Demo](https://nano-banana-generator.vercel.app/) |
-| [AI Headshot Generator](https://github.com/SamurAIGPT/ai-headshot-generator) | LinkedIn photos, team portraits, personal branding | Aragon AI, HeadshotPro | [Demo](https://ai-headshot-generator.vercel.app/) |
-| [AI Logo Studio](https://github.com/SamurAIGPT/ai-logo-studio) | Text-to-logo and sketch-to-logo brand identity generator | Looka, Brandmark.io | [Demo](https://ai-logo-studio.vercel.app/) |
-| [AI Meme Studio](https://github.com/SamurAIGPT/ai-meme-generator) | AI meme & viral short video generator with multiple models | — | [Demo](https://ai-meme-generator.vercel.app/) |
-| [Old Photo Restore](https://github.com/SamurAIGPT/old-photo-restore) | Colorize, denoise, and repair damaged vintage photos | Remini | [Demo](https://old-photo-restore.vercel.app/) |
-| [ClearMark AI](https://github.com/SamurAIGPT/clearmark-ai) | Remove watermarks, logos, and text overlays using GPT Image 2 | Watermarkremover.io, HitPaw | [Demo](https://clearmark-ai.vercel.app/) |
+| [Nano Banana Generator](https://github.com/SamurAIGPT/nano-banana-generator) | Text-to-image and multi-image reference editing SaaS | Midjourney ($10–$30/mo), DALL·E ($15/mo) | [Demo](https://nano-banana-generator.vercel.app/) |
+| [AI Headshot Generator](https://github.com/SamurAIGPT/ai-headshot-generator) | LinkedIn photos, team portraits, personal branding | Aragon AI ($29–$49/pack), HeadshotPro ($29/pack) — Aragon est. $1M+ ARR | [Demo](https://ai-headshot-generator.vercel.app/) |
+| [AI Logo Studio](https://github.com/SamurAIGPT/ai-logo-studio) | Text-to-logo and sketch-to-logo brand identity generator | Looka ($20–$80/logo), Brandmark ($25–$65/logo) | [Demo](https://ai-logo-studio.vercel.app/) |
+| [AI Meme Studio](https://github.com/SamurAIGPT/ai-meme-generator) | AI meme & viral short video generator with multiple models | Imgflip Pro ($10/mo), Supermeme ($19/mo) | [Demo](https://ai-meme-generator.vercel.app/) |
+| [Old Photo Restore](https://github.com/SamurAIGPT/old-photo-restore) | Colorize, denoise, and repair damaged vintage photos | Remini (est. $100M+ revenue), MyHeritage ($50/yr) | [Demo](https://old-photo-restore.vercel.app/) |
+| [ClearMark AI](https://github.com/SamurAIGPT/clearmark-ai) | Remove watermarks, logos, and text overlays using GPT Image 2 | Watermarkremover.io ($9.99/mo), HitPaw ($20/mo) | [Demo](https://clearmark-ai.vercel.app/) |
 
 ---
 
 ## 🎬 Video Generation
 
-| Template | Description | Free Alternative To | Demo |
+**The market:** Opus Clip (video clipping) raised $10M and reportedly hit $20M+ ARR. Runway raised $236M. The AI video tools market is projected at $2B+ by 2027. Clipping and short-form tools are the highest-demand entry point.
+
+| Template | Description | Competing With | Demo |
 |---|---|---|---|
-| [Seedance 2 Generator](https://github.com/SamurAIGPT/seedance-2-generator) | Text-to-video and multi-image reference video SaaS | Runway, Kling | [Demo](https://seedance-2-generator.vercel.app/) |
-| [Veo Video Generator](https://github.com/SamurAIGPT/veo4-video-generator) | Text-to-video and image-to-video with Google Veo | Sora, Runway | [Demo](https://veo4-video-generator.vercel.app/) |
-| [AI Kissing Video Generator](https://github.com/SamurAIGPT/ai-kissing-video-generator) | Merge two portraits into a romantic AI video | — | [Demo](https://ai-kissing-video-generator-amber.vercel.app/) |
-| [AI Youtube Shorts Generator](https://github.com/SamurAIGPT/AI-Youtube-Shorts-Generator) | Auto-extract viral 9:16 shorts from long-form videos | Opus Clip, Vidyo.ai, Klap | [Demo](https://github.com/SamurAIGPT/AI-Youtube-Shorts-Generator) |
-| [AI Clipping Generator](https://github.com/SamurAIGPT/ai-clipping-generator) | Auto-extract Reels and TikToks from YouTube videos | Opus Clip, SubMagic | [Demo](https://ai-clipping-generator.vercel.app/) |
-| [AI Micro-Drama Generator](https://github.com/Anil-matcha/Open-AI-Micro-Drama-Generator) | Turn any idea into a complete short-form AI drama — screenwriter → storyboard → frames → video (Seedance 2, Kling, Veo) | Creatify, Synthesia | — |
-| [AI B-Roll Generator](https://github.com/Anil-matcha/AI-B-roll) | Auto-generate relevant B-roll footage from scripts or video transcripts using AI | Pexels, Storyblocks | — |
-| [Open AI UGC](https://github.com/Anil-matcha/Open-AI-UGC) | Generate AI UGC-style video ads with virtual creators using Veo, Seedance, and Happy Horse | Arcads, MakeUGC | — |
+| [Seedance 2 Generator](https://github.com/SamurAIGPT/seedance-2-generator) | Text-to-video and multi-image reference video SaaS | Runway ($12–$76/mo), Kling ($10–$36/mo) | [Demo](https://seedance-2-generator.vercel.app/) |
+| [Veo Video Generator](https://github.com/SamurAIGPT/veo4-video-generator) | Text-to-video and image-to-video with Google Veo | Sora ($20/mo), Runway ($76/mo) | [Demo](https://veo4-video-generator.vercel.app/) |
+| [AI Kissing Video Generator](https://github.com/SamurAIGPT/ai-kissing-video-generator) | Merge two portraits into a romantic AI video | Reface ($4.99/mo), novelty apps charging $2–5/video | [Demo](https://ai-kissing-video-generator-amber.vercel.app/) |
+| [AI Youtube Shorts Generator](https://github.com/SamurAIGPT/AI-Youtube-Shorts-Generator) | Auto-extract viral 9:16 shorts from long-form videos | Opus Clip ($15–$49/mo, est. $20M+ ARR), Klap ($29/mo) | [Demo](https://github.com/SamurAIGPT/AI-Youtube-Shorts-Generator) |
+| [AI Clipping Generator](https://github.com/SamurAIGPT/ai-clipping-generator) | Auto-extract Reels and TikToks from YouTube videos | Opus Clip ($15–$49/mo), SubMagic ($20–$60/mo) | [Demo](https://ai-clipping-generator.vercel.app/) |
+| [AI Micro-Drama Generator](https://github.com/Anil-matcha/Open-AI-Micro-Drama-Generator) | Turn any idea into a complete short-form AI drama | Creatify ($39/mo), Synthesia ($22–$67/mo) | — |
+| [AI B-Roll Generator](https://github.com/Anil-matcha/AI-B-roll) | Auto-generate relevant B-roll footage from scripts or transcripts | Storyblocks ($15/mo), Artlist ($16/mo) | — |
+| [Open AI UGC](https://github.com/Anil-matcha/Open-AI-UGC) | Generate AI UGC-style video ads with virtual creators | Arcads ($99–$299/mo), MakeUGC ($49/mo) | — |
 
 ---
 
 ## 💄 Beauty & Fashion AI
 
-| Template | Description | Free Alternative To | Demo |
+**The market:** ModiFace (acquired by L'Oreal for est. $68M) powers virtual try-ons for major retailers. YouCam makes $50M+/year. Fashion and beauty AI tools have some of the highest willingness-to-pay of any consumer vertical.
+
+| Template | Description | Competing With | Demo |
 |---|---|---|---|
-| [TryOn AI](https://github.com/SamurAIGPT/ai-tryon) | Fit any garment onto any person photo | Botika, Lalaland.ai | [Demo](https://ai-tryon-smoky.vercel.app/) |
-| [AI Hairstyle Simulator](https://github.com/SamurAIGPT/ai-hair-style-simulator) | Virtual hair makeover and color try-on | YouCam Hair, HairStyle.ai | [Demo](https://ai-hair-style-simulator.vercel.app/) |
-| [AI Tattoo Try-On](https://github.com/SamurAIGPT/ai-tattoo-try-on) | Preview tattoo designs on skin virtually | Ink Hunter, Tattoosmart | [Demo](https://ai-tattoo-try-on.vercel.app/) |
-| [AI Professional Makeup](https://github.com/SamurAIGPT/ai-professional-makeup-generator) | Try on professional makeup looks with AI | YouCam Makeup, ModiFace | [Demo](https://ai-professional-makeup-generator.vercel.app/) |
+| [TryOn AI](https://github.com/SamurAIGPT/ai-tryon) | Fit any garment onto any person photo | Botika ($99+/mo for brands), Lalaland.ai (enterprise) | [Demo](https://ai-tryon-smoky.vercel.app/) |
+| [AI Hairstyle Simulator](https://github.com/SamurAIGPT/ai-hair-style-simulator) | Virtual hair makeover and color try-on | YouCam Hair ($30/yr), HairStyle.ai ($7.99/mo) | [Demo](https://ai-hair-style-simulator.vercel.app/) |
+| [AI Tattoo Try-On](https://github.com/SamurAIGPT/ai-tattoo-try-on) | Preview tattoo designs on skin virtually | Ink Hunter (1M+ users), Tattoosmart ($4.99/mo) | [Demo](https://ai-tattoo-try-on.vercel.app/) |
+| [AI Professional Makeup](https://github.com/SamurAIGPT/ai-professional-makeup-generator) | Try on professional makeup looks with AI | YouCam Makeup ($30/yr), Perfect Corp ($enterprise) | [Demo](https://ai-professional-makeup-generator.vercel.app/) |
 
 ---
 
 ## 🛒 E-commerce & Product Photography
 
-| Template | Description | Free Alternative To | Demo |
+**The market:** Photoroom (product photo editing) raised $19M Series A and reportedly crossed $50M ARR. Flair AI raised $4M. E-commerce sellers pay premium for anything that speeds up product listings — this is a high-LTV B2B niche.
+
+| Template | Description | Competing With | Demo |
 |---|---|---|---|
-| [Resale Photo Enhancer](https://github.com/SamurAIGPT/resale-photo-enhancer) | AI product photo studio for eBay, Poshmark, Depop sellers | Photoroom | [Demo](https://resale-photo-enhancer.vercel.app/) |
-| [Pet Product Studio](https://github.com/SamurAIGPT/pet-product-studio) | AI lifestyle product ads featuring pets | Pebblely | [Demo](https://pet-product-studio.vercel.app/) |
-| [Amazon Product Studio](https://github.com/SamurAIGPT/amazon-product-studio) | Studio-quality product photos from reference images | Flair AI, Booth AI | [Demo](https://amazon-product-studio.vercel.app/) |
+| [Resale Photo Enhancer](https://github.com/SamurAIGPT/resale-photo-enhancer) | AI product photo studio for eBay, Poshmark, Depop sellers | Photoroom ($9.99–$79/mo, est. $50M+ ARR), Pixelcut ($7/mo) | [Demo](https://resale-photo-enhancer.vercel.app/) |
+| [Pet Product Studio](https://github.com/SamurAIGPT/pet-product-studio) | AI lifestyle product ads featuring pets | Pebblely ($19–$39/mo), Flair AI ($10+/mo) | [Demo](https://pet-product-studio.vercel.app/) |
+| [Amazon Product Studio](https://github.com/SamurAIGPT/amazon-product-studio) | Studio-quality product photos from reference images | Flair AI ($10+/mo), Booth AI ($20+/mo), Photoroom ($79/mo for teams) | [Demo](https://amazon-product-studio.vercel.app/) |
 
 ---
 
 ## 🏠 Home & Real Estate AI
 
-| Template | Description | Free Alternative To | Demo |
+**The market:** BoxBrownie (real estate photo editing) processes 100k+ orders/month at $4–$32/image. Virtual Staging AI charges $29/image. The real estate industry spends $10B+/year on marketing — AI staging is eating into that fast.
+
+| Template | Description | Competing With | Demo |
 |---|---|---|---|
-| [EstateStager AI](https://github.com/SamurAIGPT/ai-real-estate-stager) | Turn empty rooms into furnished showrooms with AI | BoxBrownie, Virtual Staging AI | [Demo](https://ai-real-estate-stager.vercel.app/) |
-| [AI Room Declutter](https://github.com/SamurAIGPT/ai-room-declutter) | Transform messy rooms into photorealistic clean interiors | RoomGPT, Reimagine Home | [Demo](https://ai-room-declutter.vercel.app/) |
+| [EstateStager AI](https://github.com/SamurAIGPT/ai-real-estate-stager) | Turn empty rooms into furnished showrooms with AI | BoxBrownie ($32/room), Virtual Staging AI ($29/image) | [Demo](https://ai-real-estate-stager.vercel.app/) |
+| [AI Room Declutter](https://github.com/SamurAIGPT/ai-room-declutter) | Transform messy rooms into photorealistic clean interiors | RoomGPT ($10/mo), Reimagine Home ($15/mo) | [Demo](https://ai-room-declutter.vercel.app/) |
 
 ---
 
 ## 👤 Portrait & Avatar AI
 
-| Template | Description | Free Alternative To | Demo |
+**The market:** Lensa AI made $50M in two months at launch. FaceApp has 150M+ users. Portrait and avatar tools are proven consumer hits — high volume, impulse purchase, low churn from novelty factor.
+
+| Template | Description | Competing With | Demo |
 |---|---|---|---|
-| [Royal Portrait AI](https://github.com/SamurAIGPT/ai-royal-portrait) | Transform selfies into 20 royal and artistic portrait styles | Lensa AI, Portrait AI | [Demo](https://ai-royal-portrait.vercel.app/) |
-| [MagicSelf AI](https://github.com/SamurAIGPT/magicself-ai) | Turn selfies into oil paintings, anime, watercolors, and more | Prisma, ToonMe | [Demo](https://magicself-ai.vercel.app/) |
-| [AI Wedding Photo](https://github.com/SamurAIGPT/ai-wedding-photo) | Place any portrait into dreamy wedding scenes | Remini, Facetune | [Demo](https://ai-wedding-photo.vercel.app/) |
-| [AI Kid to Adult](https://github.com/SamurAIGPT/ai-kid-to-adult-prediction) | Photorealistic age progression — child to adult | FaceApp, AgePro | [Demo](https://ai-kid-to-adult-prediction.vercel.app/) |
-| [AI Pet Portrait](https://github.com/SamurAIGPT/ai-pet-portrait) | Transform pet photos into paintings, royal portraits, and art | Portrait My Pet | [Demo](https://ai-pet-portrait.vercel.app/) |
-| [AI Travel Studio](https://github.com/SamurAIGPT/ai-travel-studio) | Place yourself into iconic travel destinations worldwide | Teleport AI | [Demo](https://ai-travel-studio.vercel.app/) |
-| [AI Fitness Simulator](https://github.com/SamurAIGPT/ai-fitness-body-simulator) | Visualize body transformation goals with AI | BodyApp AI | [Demo](https://ai-fitness-body-simulator.vercel.app/) |
+| [Royal Portrait AI](https://github.com/SamurAIGPT/ai-royal-portrait) | Transform selfies into royal and artistic portrait styles | Lensa AI ($8/mo), Portrait AI ($10/pack) | [Demo](https://ai-royal-portrait.vercel.app/) |
+| [MagicSelf AI](https://github.com/SamurAIGPT/magicself-ai) | Turn selfies into oil paintings, anime, watercolors, and more | Prisma (50M+ users), ToonMe ($3.99/mo) | [Demo](https://magicself-ai.vercel.app/) |
+| [AI Wedding Photo](https://github.com/SamurAIGPT/ai-wedding-photo) | Place any portrait into dreamy wedding scenes | Remini ($10/mo), Facetune ($6/mo) | [Demo](https://ai-wedding-photo.vercel.app/) |
+| [AI Kid to Adult](https://github.com/SamurAIGPT/ai-kid-to-adult-prediction) | Photorealistic age progression — child to adult | FaceApp ($4/mo, 150M+ users), AgePro ($2.99) | [Demo](https://ai-kid-to-adult-prediction.vercel.app/) |
+| [AI Pet Portrait](https://github.com/SamurAIGPT/ai-pet-portrait) | Transform pet photos into paintings, royal portraits, and art | Portrait My Pet ($35/pack), PetPainter ($15/pack) | [Demo](https://ai-pet-portrait.vercel.app/) |
+| [AI Travel Studio](https://github.com/SamurAIGPT/ai-travel-studio) | Place yourself into iconic travel destinations worldwide | Teleport AI ($9.99/mo), AI Photo ($5/pack) | [Demo](https://ai-travel-studio.vercel.app/) |
+| [AI Fitness Simulator](https://github.com/SamurAIGPT/ai-fitness-body-simulator) | Visualize body transformation goals with AI | BodyApp AI ($10/mo), Fitness AI ($10/mo) | [Demo](https://ai-fitness-body-simulator.vercel.app/) |
 
 ---
 
 ## ✍️ Writing & Content
 
-| Template | Description | Free Alternative To | Demo |
+**The market:** Jasper AI hit $80M ARR at peak. Copy.ai raised $13.9M. Surfer SEO raised $22M. Writers and marketers are the highest-converting SaaS buyers — they feel the pain every day and pay monthly without question.
+
+| Template | Description | Competing With | Demo |
 |---|---|---|---|
-| [Blogger CMS](https://github.com/SamurAIGPT/blogger-cms) | AI blog writer with WYSIWYG editor and full SEO suite | Jasper, Copy.ai, Surfer SEO | [Demo](https://blogger-cms-psi.vercel.app/) |
-| [Social Post AI](https://github.com/SamurAIGPT/social-post) | Generate posts for LinkedIn, Twitter/X, Instagram, Reddit | Buffer AI, Hootsuite OwlyWriter | [Demo](https://social-post-woad.vercel.app/) |
-| [Prompt Architect](https://github.com/SamurAIGPT/prompt-architect) | Engineer and refine AI prompts for ChatGPT, Claude, Midjourney | PromptBase, PromptPerfect | [Demo](https://prompt-architect-one-nu.vercel.app/) |
-| [AI Resume Builder](https://github.com/SamurAIGPT/ai-resume-builder) | ATS-optimized resumes with PDF/Word export | Teal, Kickresume, Rezi | [Demo](https://ai-resume-builder.vercel.app/) |
-| [Mail-Wise](https://github.com/SamurAIGPT/mail-wise) | AI cold email and business email composer | Lavender AI, Reply.io | [Demo](https://mail-wise-khaki.vercel.app/) |
-| [GEO Checker](https://github.com/SamurAIGPT/geo-checker) | Audit landing page AI search visibility for ChatGPT, Perplexity, Gemini | SEMrush, Surfer SEO | [Demo](https://geo-checker.vercel.app/) |
+| [Blogger CMS](https://github.com/SamurAIGPT/blogger-cms) | AI blog writer with WYSIWYG editor and full SEO suite | Jasper ($39–$99/mo, $80M+ ARR peak), Surfer SEO ($69/mo) | [Demo](https://blogger-cms-psi.vercel.app/) |
+| [Social Post AI](https://github.com/SamurAIGPT/social-post) | Generate posts for LinkedIn, Twitter/X, Instagram, Reddit | Buffer ($18/mo), Taplio ($39/mo), Hootsuite ($99/mo) | [Demo](https://social-post-woad.vercel.app/) |
+| [Prompt Architect](https://github.com/SamurAIGPT/prompt-architect) | Engineer and refine AI prompts for ChatGPT, Claude, Midjourney | PromptBase ($10+/prompt), PromptPerfect ($9.99/mo) | [Demo](https://prompt-architect-one-nu.vercel.app/) |
+| [AI Resume Builder](https://github.com/SamurAIGPT/ai-resume-builder) | ATS-optimized resumes with PDF/Word export | Teal ($29/mo), Kickresume ($19/mo), Rezi ($29/mo) | [Demo](https://ai-resume-builder.vercel.app/) |
+| [Mail-Wise](https://github.com/SamurAIGPT/mail-wise) | AI cold email and business email composer | Lavender AI ($29/mo), Reply.io ($60/mo) | [Demo](https://mail-wise-khaki.vercel.app/) |
+| [GEO Checker](https://github.com/SamurAIGPT/geo-checker) | Audit landing page AI search visibility for ChatGPT, Perplexity, Gemini | SEMrush ($120/mo), Surfer SEO ($69/mo) | [Demo](https://geo-checker.vercel.app/) |
 
 ---
 
 ## 🤖 AI Agents & Chatbots
 
-| Template | Description | Free Alternative To | Demo |
+**The market:** Character.AI reportedly crossed $1B ARR. Chatbase (chatbot builder) hit $1M ARR in under a year bootstrapped. Botpress raised $25M. Custom AI agents are the fastest-growing B2B SaaS category.
+
+| Template | Description | Competing With | Demo |
 |---|---|---|---|
-| [KnowBase AI](https://github.com/SamurAIGPT/ai-knowledge-base) | RAG chatbot builder trained on your docs, URLs, and Q&A | Chatbase, Botpress, SiteGPT | [Demo](https://ai-knowledge-base-six.vercel.app/) |
-| [CardAI Creator](https://github.com/SamurAIGPT/ai-business-card) | Digital business cards with embedded AI visitor chatbot | Popl, HiHello, Linq | [Demo](https://ai-business-card-ten.vercel.app/) |
-| [AI Character Studio](https://github.com/SamurAIGPT/ai-character-studio) | Generate AI character portraits and roleplay chat with them | Character.ai, Replika | [Demo](https://ai-character-studio-beta.vercel.app/) |
-| [Open Character AI](https://github.com/Anil-matcha/open-character-ai) | Self-hosted character roleplay chatbot — build custom AI personas with per-chat LLM tuning | Character.AI, Replika | — |
+| [KnowBase AI](https://github.com/SamurAIGPT/ai-knowledge-base) | RAG chatbot builder trained on your docs, URLs, and Q&A | Chatbase ($19–$99/mo, $1M+ ARR), SiteGPT ($49/mo) | [Demo](https://ai-knowledge-base-six.vercel.app/) |
+| [CardAI Creator](https://github.com/SamurAIGPT/ai-business-card) | Digital business cards with embedded AI visitor chatbot | Popl ($8/mo), HiHello ($6/mo) | [Demo](https://ai-business-card-ten.vercel.app/) |
+| [AI Character Studio](https://github.com/SamurAIGPT/ai-character-studio) | Generate AI character portraits and roleplay chat | Character.AI (est. $1B ARR), Replika ($70/yr) | [Demo](https://ai-character-studio-beta.vercel.app/) |
+| [Open Character AI](https://github.com/Anil-matcha/open-character-ai) | Self-hosted character roleplay chatbot — custom personas with per-chat LLM tuning | Character.AI (est. $1B ARR), Replika ($70/yr) | — |
 
 ---
 
 ## 🎵 Audio & Voice
 
-| Template | Description | Free Alternative To | Demo |
+**The market:** ElevenLabs hit $80M ARR in under 3 years and raised at a $3.3B valuation. Murf AI raised $10M. Voice is one of the fastest paths to B2B revenue — companies pay recurring fees for voice APIs that power their own products.
+
+| Template | Description | Competing With | Demo |
 |---|---|---|---|
-| [My Podcast Studio](https://github.com/SamurAIGPT/my-podcast) | AI voiceover and podcast narration with MiniMax Speech 2.6 | ElevenLabs, Murf AI, Play.ht | [Demo](https://my-podcast.vercel.app/) |
-| [AI Voice Agent](https://github.com/Anil-matcha/AI-Voice-Agent) | Self-hosted AI voice agent with speech-to-speech conversation | Bland.ai, Vapi, Retell AI | — |
+| [My Podcast Studio](https://github.com/SamurAIGPT/my-podcast) | AI voiceover and podcast narration with MiniMax Speech 2.6 | ElevenLabs ($5–$99/mo, $80M ARR), Murf AI ($29/mo) | [Demo](https://my-podcast.vercel.app/) |
+| [AI Voice Agent](https://github.com/Anil-matcha/AI-Voice-Agent) | Self-hosted AI voice agent with speech-to-speech conversation | Bland.ai ($0.09/min), Vapi ($0.05/min), Retell AI ($0.07/min) | — |
 
 ---
 
@@ -237,13 +251,12 @@ Full-stack open-source platforms — not just templates, but production apps you
 | [ComfyUI Nodes](https://github.com/SamurAIGPT/muapi-comfyui) | 100+ model nodes for ComfyUI image/video pipelines | Clone into `custom_nodes/` |
 | [CLI](https://github.com/SamurAIGPT/muapi-cli) | Generate images, videos & audio from the terminal | `npm install -g muapi-cli` |
 | [Generative Media Skills](https://github.com/SamurAIGPT/Generative-Media-Skills) | AI agent skills for Claude Code, Cursor, Gemini CLI | See repo for install |
-| [awesome-claude-fable-5](https://github.com/Anil-matcha/awesome-claude-fable-5) | 60 curated Claude Fable 5 use cases, prompts & benchmarks — 20% off via MuAPI | [muapi.ai/pricing](https://muapi.ai/pricing) |
 
 ---
 
 ## 🏗️ Common Stack
 
-Every SaaS template in this catalog is built on the same production-ready foundation:
+Every template is built on the same production-ready foundation:
 
 ```
 Next.js 14 (App Router)  ·  Prisma ORM  ·  PostgreSQL (Supabase / Neon)
@@ -251,7 +264,7 @@ NextAuth (Google OAuth)  ·  Stripe Checkout + Webhooks  ·  Tailwind CSS
 Vercel deployment
 ```
 
-The base template (no AI logic, just auth + billing + webhooks) is available at:
+Base template (auth + billing + webhooks, no AI logic):
 **[github.com/SamurAIGPT/ai-saas-starter](https://github.com/SamurAIGPT/ai-saas-starter)**
 
 ---
