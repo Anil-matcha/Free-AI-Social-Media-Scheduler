@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/amazon-product-studio](https://github.com/SamurAIGPT/amazon-product-studio)
+
 # 📦 Amazon Product Studio — Open-Source AI Product Photography & Ad Creative SaaS (Free Flair AI / Booth AI Alternative)
 
 > **Generate studio-quality product photos and ad creatives from reference images in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate with multi-image upload (up to 14 references), preset templates, aspect ratio control, webhook-backed async delivery, and built-in Stripe billing. A free open-source alternative to Flair AI, Booth AI, Photoroom, and Pebblely — powered by the MuAPI AI engine.
