@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-character-studio](https://github.com/SamurAIGPT/ai-character-studio)
+
 # 🎭 AI Character Studio — Open-Source AI Character Creator & Roleplay Chat SaaS (Free Character.ai / Replika Alternative)
 
 > **Create custom AI character portraits and engage in deep roleplay conversations in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate with text-to-avatar generation, image-guided refinement, interactive chat personas, and built-in Stripe billing. A free open-source alternative to Character.ai, Replika, Kindroid, and Joyland AI — powered by the MuAPI AI engine.
