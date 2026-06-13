@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-clipping-generator](https://github.com/SamurAIGPT/ai-clipping-generator)
+
 # 🚀 AICLIPS Studio — Viral Content Extraction Engine
 
 > **A beautifully designed, fully-integrated AI clipping studio.** Built with Next.js, this platform serves as a complete SaaS boilerplate for downloading YouTube videos and automatically extracting viral highlights for TikTok, Reels, and Shorts.
