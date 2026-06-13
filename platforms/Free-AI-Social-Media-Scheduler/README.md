@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [Anil-matcha/Free-AI-Social-Media-Scheduler](https://github.com/Anil-matcha/Free-AI-Social-Media-Scheduler)
+
 # Free AI Social Media Scheduler
 
 [![Stars](https://img.shields.io/github/stars/Anil-matcha/Free-AI-Social-Media-Scheduler?style=flat-square)](https://github.com/Anil-matcha/Free-AI-Social-Media-Scheduler/stargazers)
