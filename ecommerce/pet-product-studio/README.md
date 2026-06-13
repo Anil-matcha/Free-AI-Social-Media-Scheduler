@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/pet-product-studio](https://github.com/SamurAIGPT/pet-product-studio)
+
 # 🐶 Pet Product Studio — Open-Source AI Pet Brand Ad Generator (Free Pebblely Alternative for Pet Brands)
 
 > **Generate photorealistic ads placing your pet products alongside dogs, cats, and other pets in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate purpose-built for pet brands, dropshippers, and DTC pet e-commerce. A free open-source alternative to Pebblely, Booth.ai, and Flair.ai — powered by the MuAPI AI engine.
