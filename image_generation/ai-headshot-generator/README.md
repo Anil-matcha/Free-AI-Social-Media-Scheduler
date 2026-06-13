@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-headshot-generator](https://github.com/SamurAIGPT/ai-headshot-generator)
+
 # 🚀 AI Headshot Generator — Professional Portrait Studio
 
 > **A beautifully designed, fully-integrated AI headshot studio.** Built with Next.js, this open-source template serves as a complete, self-contained SaaS boilerplate for generating high-quality professional portraits and business headshots for LinkedIn, teams, and personal branding.
