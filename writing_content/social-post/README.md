@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/social-post](https://github.com/SamurAIGPT/social-post)
+
 # 📱 Social Post AI — Open-Source AI Social Media Post Generator SaaS (Free Buffer AI / Jasper Social Alternative)
 
 > **Generate platform-native social media posts for LinkedIn, Twitter/X, Instagram, Facebook, Reddit, and LINE in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate with live platform mockups, multi-tone generation, publish intents, and built-in Stripe billing. A free open-source alternative to Buffer AI, Jasper Social, Hootsuite OwlyWriter, Publer, and Copy.ai — powered by the MuAPI AI engine.
