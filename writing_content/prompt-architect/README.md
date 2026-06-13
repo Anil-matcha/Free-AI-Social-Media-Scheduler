@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/prompt-architect](https://github.com/SamurAIGPT/prompt-architect)
+
 # 🏗️ Prompt Architect — Open-Source AI Prompt Engineering & Optimization SaaS (Free PromptBase / PromptPerfect Alternative)
 
 > **Engineer, refine, and save professional AI prompts for ChatGPT, Claude, Midjourney, and Stable Diffusion in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate with conversational refinement threads, a saved prompt library, multi-engine targeting, and built-in Stripe billing. A free open-source alternative to PromptBase, PromptPerfect, PromptHero, and FlowGPT — powered by the MuAPI AI engine.
