@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/blogger-cms](https://github.com/SamurAIGPT/blogger-cms)
+
 # ✍️ Blogger CMS — Open-Source AI Blog Writer & SEO Content Management System (Free Jasper / Copy.ai Alternative)
 
 > **Write, generate, and SEO-optimize long-form blog posts inside a Notion-style WYSIWYG editor.** A production-ready, self-hostable Next.js SaaS boilerplate with folder categorization, AI-powered draft generation, meta-tag management, focus keyword tracking, and built-in Stripe billing. A free open-source alternative to Jasper, Copy.ai, Surfer SEO, Outranking, and Writesonic — powered by the MuAPI AI engine.
