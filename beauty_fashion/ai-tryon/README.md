@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-tryon](https://github.com/SamurAIGPT/ai-tryon)
+
 # 👕 TryOn AI — Open-Source AI Virtual Try-On & Outfit Fitting SaaS (Free Botika / Lalaland Alternative)
 
 > **Fit any garment onto any person photo in seconds with photorealistic AI.** A production-ready, self-hostable Next.js SaaS boilerplate built for fashion brands, e-commerce stores, stylists, and DTC apparel lines. Replaces $40–$100/mo paid try-on tools. A free open-source alternative to Botika, Lalaland.ai, ZMO.ai, WearView, and Vue.ai — powered by the MuAPI AI engine.
