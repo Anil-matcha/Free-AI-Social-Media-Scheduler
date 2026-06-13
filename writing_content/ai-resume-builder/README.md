@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-resume-builder](https://github.com/SamurAIGPT/ai-resume-builder)
+
 # 📄 AI Resume Builder — Open-Source AI Resume Builder & Optimizer SaaS (Free Teal / Kickresume Alternative)
 
 > **Generate professional, metrics-driven, ATS-optimized resumes with AI in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate with multiple templates, custom typography, PDF/Word export, and public shareable links — powered by the MuAPI AI engine. A free open-source alternative to Teal, Kickresume, Rezi, Resume.io, and Zety.
