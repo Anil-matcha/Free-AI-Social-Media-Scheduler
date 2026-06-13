@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/nano-banana-generator](https://github.com/SamurAIGPT/nano-banana-generator)
+
 # 🚀 Nano Banana Generator — High-Octane AI Web Application
 
 > **A beautifully designed, fully-integrated AI image studio.** Built with Next.js, this open-source template serves as a complete, self-contained SaaS boilerplate for generating, editing, and managing high-quality AI imagery fueled by the Nano Banana engine.
