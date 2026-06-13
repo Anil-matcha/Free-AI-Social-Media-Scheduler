@@ -1,3 +1,5 @@
+> 📦 **Original repo:** [SamurAIGPT/ai-travel-studio](https://github.com/SamurAIGPT/ai-travel-studio)
+
 # 🌍 AI Travel Studio — Open-Source AI Travel Photo Generator SaaS (Free Teleport AI / Picsart Travel Alternative)
 
 > **Place yourself into iconic travel destinations worldwide with photorealistic AI in seconds.** A production-ready, self-hostable Next.js SaaS boilerplate with destination scene presets (Paris, Kyoto, Maldives, Colosseum), webhook-backed async delivery, and built-in Stripe billing. A free open-source alternative to Teleport AI and Picsart — powered by the MuAPI AI engine.
