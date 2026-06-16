@@ -65,7 +65,7 @@ The margin is high because you're reselling AI compute. The hard parts — billi
 
 - 💳 **Stripe checkout + webhooks** — users buy credits, Stripe pays you, credits unlock on webhook confirmation
 - 🔐 **Google OAuth** — no auth to build or maintain
-- 🤖 **100+ AI models** via [MuAPI](https://muapi.ai) — swap models without touching app code; MuAPI handles async polling, retries, and failover
+- 🤖 **100+ AI models** via [MuAPI](https://muapi.ai?utm_source=github&utm_medium=readme&utm_campaign=awesome-generative-ai-apps) — swap models without touching app code; MuAPI handles async polling, retries, and failover
 - 🌐 **Vercel-ready** — one `Deploy` button and it's live on a CDN
 - 🗄️ **Prisma + PostgreSQL** — user accounts, credit balances, and job history out of the box
 - 🆓 **MIT licensed** — sell it, white-label it, charge whatever you want
@@ -76,7 +76,7 @@ AI headshot tools charge $29–$49 per pack. Virtual staging tools charge $29 pe
 
 > ⭐ **[Star this repo](https://github.com/Anil-matcha/awesome-generative-ai-apps/stargazers)** to bookmark it — new apps added regularly.
 
-> 🍌 **Running Claude Fable 5?** [awesome-claude-fable-5](https://github.com/Anil-matcha/awesome-claude-fable-5) — 60 curated use cases + **20% off** via [MuAPI](https://muapi.ai/pricing).
+> 🍌 **Running Claude Fable 5?** [awesome-claude-fable-5](https://github.com/Anil-matcha/awesome-claude-fable-5) — 60 curated use cases + **20% off** via [MuAPI](https://muapi.ai/pricing?utm_source=github&utm_medium=readme&utm_campaign=awesome-generative-ai-apps).
 
 ---
 
