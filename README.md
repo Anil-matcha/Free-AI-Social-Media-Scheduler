@@ -172,6 +172,7 @@ Full-stack platforms you can self-host or white-label. Leonardo AI charges $12�
 | [AI Micro-Drama Generator](./video_generation/Open-AI-Micro-Drama-Generator) · [↗ GitHub](https://github.com/Anil-matcha/Open-AI-Micro-Drama-Generator) | Turn any idea into a complete short-form AI drama | Creatify ($39/mo), Synthesia ($22–$67/mo) | — |
 | [AI B-Roll Generator](https://github.com/Anil-matcha/AI-B-roll) | Auto-generate relevant B-roll footage from scripts or transcripts | Storyblocks ($15/mo), Artlist ($16/mo) | — |
 | [Open AI UGC](./video_generation/Open-AI-UGC) · [↗ GitHub](https://github.com/Anil-matcha/Open-AI-UGC) | Generate AI UGC-style video ads with virtual creators | Arcads ($99–$299/mo), MakeUGC ($49/mo) | — |
+| [VideoOverlayKit](https://github.com/alichherawalla/video-overlay-kit) | Render 4-6s animated b-roll overlay mp4s for short-form social. AI-driven via MCP: paste your script into Claude Code / Cursor / Codex, the model writes the scene spec and renders the mp4. Built on Remotion + Tabler + Lottie. | Storyblocks ($15/mo), Artlist ($16/mo) | [Preview](https://alichherawalla.github.io/video-overlay-kit/) |
 
 ---
 
