@@ -1,0 +1,774 @@
+"use client";
+
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import IconRail from "./IconRail";
+import ChatGptSidebar from "./ChatGptSidebar";
+import SpaceSidebar from "./SpaceSidebar";
+import SpaceLibrary from "./SpaceLibrary";
+import PageHeaderBar from "./PageHeaderBar";
+import CanvasPage from "./CanvasPage";
+import HomeWorkView from "./HomeWorkView";
+import ChatDrawer from "./ChatDrawer";
+
+const API_BASE = "http://localhost:8000/api";
+const STORAGE_KEY = "open_spaces_chat_history";
+const LAST_ROUTE_KEY = "open_spaces_last_route";
+
+const generateUUID = () => {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return "u_" + Math.random().toString(36).slice(2, 11) + "_" + Date.now().toString(36);
+};
+
+export default function OpenSpacesApp({
+  initialRailTab = "spaces", // Default to "spaces" so pages/spaces are shown on the homepage
+  initialSpaceId = null,
+  initialPageId = null,
+  initialChatId = null,
+}) {
+  const [activeRailTab, setActiveRailTab] = useState(initialRailTab);
+  const [activeProject, setActiveProject] = useState("General");
+  const [selectedModel, setSelectedModel] = useState("gpt-6-1-sol");
+
+  // Real Chat conversation history with UUIDs
+  const [conversations, setConversations] = useState([]);
+  const [activeConversationId, setActiveConversationId] = useState(initialChatId);
+  const [conversation, setConversation] = useState([]);
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  // Spaces and Pages state (with UUIDs & URL persistence)
+  const [spaces, setSpaces] = useState([]);
+  const [activeSpaceId, setActiveSpaceId] = useState(initialSpaceId);
+  const [pages, setPages] = useState([]);
+  const [activePageId, setActivePageId] = useState(initialPageId);
+  const [openPageIds, setOpenPageIds] = useState(initialPageId ? [initialPageId] : []);
+  const [isCreatingPage, setIsCreatingPage] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [saveStatus, setSaveStatus] = useState("Saved");
+  const [saveTrigger, setSaveTrigger] = useState(0);
+
+  // Track initialization
+  const initializedFromUrlRef = useRef(false);
+
+  // 1. Load real chat history from localStorage on initial render
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          setConversations(parsed);
+          // If initialChatId was passed, restore that conversation
+          if (initialChatId) {
+            const found = parsed.find((c) => c.id === initialChatId);
+            if (found) {
+              setConversation(found.messages || []);
+              if (found.model) setSelectedModel(found.model);
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Could not load chat history from localStorage:", e);
+    }
+  }, [initialChatId]);
+
+  // Helper to persist conversations
+  const persistConversations = (list) => {
+    setConversations(list);
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    } catch (e) {
+      console.warn("Could not save chat history to localStorage:", e);
+    }
+  };
+
+  // Helper to update browser URL and remember last route safely outside React render phase
+  const updateRoute = useCallback((route) => {
+    try {
+      let path = "/";
+      if (route.tab === "home") {
+        path = route.chatId ? `/c/${route.chatId}` : "/";
+      } else {
+        if (route.spaceId && route.pageId) {
+          path = `/spaces/${route.spaceId}/pages/${route.pageId}`;
+        } else if (route.spaceId) {
+          path = `/spaces/${route.spaceId}`;
+        }
+      }
+
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.setItem(LAST_ROUTE_KEY, JSON.stringify(route));
+        } catch (_) {}
+
+        if (window.location.pathname !== path) {
+          // Defer pushState to microtask so React render finishes before Next.js Router is notified
+          queueMicrotask(() => {
+            if (window.location.pathname !== path) {
+              window.history.pushState(null, "", path);
+            }
+          });
+        }
+      }
+    } catch (err) {
+      console.warn("Error updating route URL:", err);
+    }
+  }, []);
+
+  // 2. Fetch Spaces on load and restore route from URL or localStorage
+  const fetchSpaces = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_BASE}/spaces`);
+      if (res.ok) {
+        const data = await res.json();
+        setSpaces(data);
+
+        // Parse path from URL if initial props were not passed
+        const pathname = typeof window !== "undefined" ? window.location.pathname : "";
+        const spacePageMatch = pathname.match(/^\/spaces\/([^/]+)\/pages\/([^/]+)$/);
+        const spaceMatch = pathname.match(/^\/spaces\/([^/]+)$/);
+        const chatMatch = pathname.match(/^\/c\/([^/]+)$/);
+
+        if (!initializedFromUrlRef.current) {
+          initializedFromUrlRef.current = true;
+
+          if (initialSpaceId || spacePageMatch || spaceMatch) {
+            const sId = initialSpaceId || spacePageMatch?.[1] || spaceMatch?.[1];
+            const pId = initialPageId || spacePageMatch?.[2] || null;
+            setActiveRailTab("spaces");
+            setActiveSpaceId(sId);
+            setActivePageId(pId);
+          } else if (initialChatId || chatMatch) {
+            const cId = initialChatId || chatMatch?.[1];
+            setActiveRailTab("home");
+            setActiveConversationId(cId);
+          } else {
+            // Check localStorage for last visited route
+            try {
+              const savedRoute = localStorage.getItem(LAST_ROUTE_KEY);
+              if (savedRoute) {
+                const parsed = JSON.parse(savedRoute);
+                if (parsed.tab === "spaces" && parsed.spaceId) {
+                  setActiveRailTab("spaces");
+                  setActiveSpaceId(parsed.spaceId);
+                  setActivePageId(parsed.pageId || null);
+                  updateRoute(parsed);
+                  return;
+                } else if (parsed.tab === "home" && parsed.chatId) {
+                  setActiveRailTab("home");
+                  setActiveConversationId(parsed.chatId);
+                  updateRoute(parsed);
+                  return;
+                }
+              }
+            } catch (_) {}
+
+            // Default to first space and pages view on homepage
+            if (data.length > 0) {
+              setActiveRailTab("spaces");
+              setActiveSpaceId(data[0].id);
+              setActivePageId(null);
+            }
+          }
+        }
+      }
+    } catch (err) {
+      console.warn("Backend connecting on port 8000...", err);
+    }
+  }, [initialSpaceId, initialPageId, initialChatId, updateRoute]);
+
+  useEffect(() => {
+    fetchSpaces();
+  }, [fetchSpaces]);
+
+  // 3. Fetch Active Space Pages & Messages
+  const fetchSpaceDetails = useCallback(async (spaceId, targetPageId = null) => {
+    if (!spaceId) return;
+    try {
+      const pRes = await fetch(`${API_BASE}/spaces/${spaceId}/pages`);
+      if (pRes.ok) {
+        const pData = await pRes.json();
+        setPages(pData);
+        if (targetPageId) {
+          const match = pData.find((p) => p.id === targetPageId);
+          if (match) {
+            setActivePageId(targetPageId);
+          }
+        }
+      }
+
+      const mRes = await fetch(`${API_BASE}/spaces/${spaceId}/messages`);
+      if (mRes.ok) {
+        const mData = await mRes.json();
+        setMessages(mData);
+      }
+    } catch (err) {
+      console.error("Error fetching space details:", err);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (activeSpaceId) {
+      fetchSpaceDetails(activeSpaceId, activePageId);
+    }
+  }, [activeSpaceId, fetchSpaceDetails]);
+
+  // Handle browser Back / Forward buttons (popstate)
+  useEffect(() => {
+    const handlePopState = () => {
+      const pathname = window.location.pathname;
+      const spacePageMatch = pathname.match(/^\/spaces\/([^/]+)\/pages\/([^/]+)$/);
+      const spaceMatch = pathname.match(/^\/spaces\/([^/]+)$/);
+      const chatMatch = pathname.match(/^\/c\/([^/]+)$/);
+
+      if (spacePageMatch) {
+        setActiveRailTab("spaces");
+        setActiveSpaceId(spacePageMatch[1]);
+        setActivePageId(spacePageMatch[2]);
+        setOpenPageIds((prev) => (prev.includes(spacePageMatch[2]) ? prev : [...prev, spacePageMatch[2]]));
+      } else if (spaceMatch) {
+        setActiveRailTab("spaces");
+        setActiveSpaceId(spaceMatch[1]);
+        setActivePageId(null);
+      } else if (chatMatch) {
+        setActiveRailTab("home");
+        setActiveConversationId(chatMatch[1]);
+        const found = conversations.find((c) => c.id === chatMatch[1]);
+        if (found) {
+          setConversation(found.messages || []);
+        }
+      } else {
+        // Root /
+        setActiveRailTab("spaces");
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [conversations]);
+
+  // Keep openPageIds in sync with activePageId
+  useEffect(() => {
+    if (activePageId) {
+      setOpenPageIds((prev) => (prev.includes(activePageId) ? prev : [...prev, activePageId]));
+    }
+  }, [activePageId]);
+
+  const activeSpace = spaces.find((s) => s.id === activeSpaceId) || spaces[0];
+  const activePage = pages.find((p) => p.id === activePageId);
+
+  // Navigation handlers
+  const handleSelectRailTab = (tab) => {
+    setActiveRailTab(tab);
+    if (tab === "spaces") {
+      updateRoute({
+        tab: "spaces",
+        spaceId: activeSpaceId || spaces[0]?.id,
+        pageId: activePageId,
+      });
+    } else {
+      updateRoute({
+        tab: "home",
+        chatId: activeConversationId,
+      });
+    }
+  };
+
+  const handleSelectSpace = (spaceId) => {
+    setActiveSpaceId(spaceId);
+    setActivePageId(null);
+    setOpenPageIds([]);
+    setActiveRailTab("spaces");
+    updateRoute({ tab: "spaces", spaceId, pageId: null });
+  };
+
+  const handleSelectPage = (pageId) => {
+    setActivePageId(pageId);
+    setOpenPageIds((prev) => (prev.includes(pageId) ? prev : [...prev, pageId]));
+    setActiveRailTab("spaces");
+    updateRoute({ tab: "spaces", spaceId: activeSpaceId, pageId });
+  };
+
+  const handleClosePageTab = (pageIdToClose) => {
+    const remaining = openPageIds.filter((id) => id !== pageIdToClose);
+    setOpenPageIds(remaining);
+
+    if (activePageId === pageIdToClose) {
+      if (remaining.length > 0) {
+        const nextActiveId = remaining[remaining.length - 1];
+        setActivePageId(nextActiveId);
+        updateRoute({ tab: "spaces", spaceId: activeSpaceId, pageId: nextActiveId });
+      } else {
+        setActivePageId(null);
+        updateRoute({ tab: "spaces", spaceId: activeSpaceId, pageId: null });
+      }
+    }
+  };
+
+  const handleBackToLibrary = () => {
+    setActivePageId(null);
+    updateRoute({ tab: "spaces", spaceId: activeSpaceId, pageId: null });
+  };
+
+  // Handlers for real conversation management
+  const handleNewChat = () => {
+    setActiveConversationId(null);
+    setConversation([]);
+    setActiveRailTab("home");
+    updateRoute({ tab: "home", chatId: null });
+  };
+
+  const handleSelectConversation = (id) => {
+    const found = conversations.find((c) => c.id === id);
+    if (found) {
+      setActiveConversationId(id);
+      setConversation(found.messages || []);
+      if (found.model) {
+        setSelectedModel(found.model);
+      }
+      setActiveRailTab("home");
+      updateRoute({ tab: "home", chatId: id });
+    }
+  };
+
+  const handleDeleteConversation = (id, e) => {
+    if (e) e.stopPropagation();
+    const updated = conversations.filter((c) => c.id !== id);
+    persistConversations(updated);
+    if (activeConversationId === id) {
+      setActiveConversationId(null);
+      setConversation([]);
+      updateRoute({ tab: "home", chatId: null });
+    }
+  };
+
+  const handleTogglePinConversation = (id, e) => {
+    if (e) e.stopPropagation();
+    const updated = conversations.map((c) =>
+      c.id === id ? { ...c, pinned: !c.pinned } : c
+    );
+    persistConversations(updated);
+  };
+
+  // Submit prompt to ChatGPT 6 series
+  const handleSubmitPrompt = async (prompt) => {
+    const userMsg = { role: "user", content: prompt };
+    const updatedConv = [...conversation, userMsg];
+    setConversation(updatedConv);
+    setIsGenerating(true);
+
+    let currentId = activeConversationId;
+    let currentList = [...conversations];
+
+    // If starting a brand new conversation with a UUID
+    if (!currentId) {
+      currentId = "chat-" + generateUUID();
+      setActiveConversationId(currentId);
+      const title =
+        prompt.length > 36 ? prompt.slice(0, 36).trim() + "..." : prompt;
+      const newConv = {
+        id: currentId,
+        title,
+        messages: updatedConv,
+        model: selectedModel,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        pinned: false,
+      };
+      currentList = [newConv, ...currentList];
+      persistConversations(currentList);
+      updateRoute({ tab: "home", chatId: currentId });
+    } else {
+      // Update existing conversation in list
+      currentList = currentList.map((c) =>
+        c.id === currentId
+          ? { ...c, messages: updatedConv, updatedAt: Date.now() }
+          : c
+      );
+      persistConversations(currentList);
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt,
+          model: selectedModel,
+          project: activeProject,
+          history: updatedConv,
+        }),
+      });
+
+      let assistantReply = "";
+      if (res.ok) {
+        const data = await res.json();
+        assistantReply = data.reply;
+      } else {
+        assistantReply = `[${selectedModel}] I received your prompt. Let's begin drafting the plan in your Space.`;
+      }
+
+      const finalConv = [
+        ...updatedConv,
+        { role: "assistant", content: assistantReply },
+      ];
+      setConversation(finalConv);
+
+      // Save complete thread including assistant response
+      const finalizedList = currentList.map((c) =>
+        c.id === currentId
+          ? { ...c, messages: finalConv, updatedAt: Date.now() }
+          : c
+      );
+      persistConversations(finalizedList);
+    } catch (err) {
+      console.error("Error calling chat endpoint:", err);
+      const fallbackReply = `[GPT-6.1 Sol Light] Here is the outline for "${prompt}":\n\n1. Scope and target deliverables.\n2. Ingest contextual documents into Living Pages.\n3. Delegate tasks to autonomous Dot agents.`;
+      const finalConv = [
+        ...updatedConv,
+        { role: "assistant", content: fallbackReply },
+      ];
+      setConversation(finalConv);
+      const finalizedList = currentList.map((c) =>
+        c.id === currentId
+          ? { ...c, messages: finalConv, updatedAt: Date.now() }
+          : c
+      );
+      persistConversations(finalizedList);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const extractTitleFromMarkdown = (text = "") => {
+    if (!text) return "Untitled page";
+    const headingMatch = text.match(/^#{1,3}\s+(.+)$/m);
+    if (headingMatch && headingMatch[1]) {
+      return headingMatch[1].replace(/[#*`_~]/g, "").trim().slice(0, 80);
+    }
+    const firstLine = text.trim().split("\n")[0] || "";
+    const cleaned = firstLine.replace(/[#*`_~]/g, "").trim().slice(0, 60);
+    return cleaned || "Untitled page";
+  };
+
+  const handleOpenCanvas = (firstArg, secondArg) => {
+    let title = "Untitled document";
+    let content = "";
+    if (typeof secondArg === "string") {
+      title = firstArg || extractTitleFromMarkdown(secondArg);
+      content = secondArg;
+    } else if (typeof firstArg === "string") {
+      content = firstArg;
+      title = extractTitleFromMarkdown(firstArg);
+    }
+    setActiveRailTab("spaces");
+    handleCreatePage({
+      title,
+      content,
+      icon: "📄",
+    });
+  };
+
+  // Spaces Management
+  const handleCreateSpace = async (spaceData) => {
+    try {
+      const res = await fetch(`${API_BASE}/spaces`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(spaceData),
+      });
+      if (res.ok) {
+        const newSpace = await res.json();
+        setSpaces((prev) => [...prev, newSpace]);
+        setActiveSpaceId(newSpace.id);
+        setActivePageId(null);
+        setPages([]);
+        setActiveRailTab("spaces");
+        updateRoute({ tab: "spaces", spaceId: newSpace.id, pageId: null });
+      }
+    } catch (err) {
+      console.error("Error creating space:", err);
+    }
+  };
+
+  const handleDeleteSpace = async (spaceId) => {
+    try {
+      const res = await fetch(`${API_BASE}/spaces/${spaceId}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        const remaining = spaces.filter((s) => s.id !== spaceId);
+        setSpaces(remaining);
+        if (activeSpaceId === spaceId && remaining.length > 0) {
+          setActiveSpaceId(remaining[0].id);
+          setActivePageId(null);
+          updateRoute({ tab: "spaces", spaceId: remaining[0].id, pageId: null });
+        }
+      }
+    } catch (err) {
+      console.error("Error deleting space:", err);
+    }
+  };
+
+  // Pages Management: Instant 0ms optimistic page creation (zero lag, no double spinners)
+  const handleCreatePage = async (pageData) => {
+    let targetSpace = activeSpace;
+    if (!targetSpace) {
+      if (spaces.length > 0) {
+        targetSpace = spaces[0];
+      } else {
+        try {
+          const sRes = await fetch(`${API_BASE}/spaces`);
+          if (sRes.ok) {
+            const list = await sRes.json();
+            if (list.length > 0) {
+              targetSpace = list[0];
+              setSpaces(list);
+              setActiveSpaceId(targetSpace.id);
+            }
+          }
+        } catch (_) {}
+      }
+    }
+    if (!targetSpace) return;
+
+    let rawTitle = typeof pageData?.title === "string" ? pageData.title.trim() : "Untitled page";
+    if (rawTitle.length > 100 || rawTitle.includes("\n")) {
+      rawTitle = extractTitleFromMarkdown(rawTitle);
+    }
+    const titleStr = (rawTitle || "Untitled page").slice(0, 120);
+    const contentStr = typeof pageData?.content === "string" ? pageData.content : "";
+    const iconStr = typeof pageData?.icon === "string" ? pageData.icon.slice(0, 4) : "📄";
+
+    // Instant optimistic creation: 0ms delay, zero lag!
+    const tempId = "page-" + (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID().slice(0, 8) : Math.random().toString(36).slice(2, 10));
+    const optimisticPage = {
+      id: tempId,
+      space_id: targetSpace.id,
+      title: titleStr,
+      content: contentStr,
+      icon: iconStr,
+      status: "draft",
+      author: "You",
+      version: 1,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    // Open new tab immediately alongside existing tabs
+    setPages((prev) => [optimisticPage, ...prev]);
+    setOpenPageIds((prev) => [...prev, tempId]);
+    setActivePageId(tempId);
+    setActiveRailTab("spaces");
+    setSaveStatus("Saving...");
+
+    try {
+      const res = await fetch(`${API_BASE}/spaces/${targetSpace.id}/pages`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: titleStr,
+          content: contentStr,
+          icon: iconStr,
+          status: "draft",
+        }),
+      });
+
+      if (res.ok) {
+        const savedPage = await res.json();
+        setPages((prev) => prev.map((p) => (p.id === tempId ? savedPage : p)));
+        setOpenPageIds((prev) => prev.map((id) => (id === tempId ? savedPage.id : id)));
+        setActivePageId((curr) => (curr === tempId ? savedPage.id : curr));
+        updateRoute({ tab: "spaces", spaceId: targetSpace.id, pageId: savedPage.id });
+        setSaveStatus("Saved");
+      } else {
+        console.warn("Could not create page on server:", res.status);
+        setSaveStatus("Failed");
+      }
+    } catch (err) {
+      console.warn("Error creating page:", err?.message || err);
+      setSaveStatus("Failed");
+    }
+  };
+
+  const handleUpdatePage = async (pageId, updateData) => {
+    if (!activeSpace || !pageId) return null;
+    setSaveStatus("Saving...");
+    try {
+      const res = await fetch(`${API_BASE}/spaces/${activeSpace.id}/pages/${pageId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updateData),
+      });
+      if (res && res.ok) {
+        const updated = await res.json();
+        setPages((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
+        setSaveStatus("Saved");
+        return updated;
+      } else {
+        const errText = res ? await res.text() : "Network error";
+        console.warn("Failed to update page:", res?.status, errText);
+        setSaveStatus("Failed");
+        return null;
+      }
+    } catch (err) {
+      console.warn("Error updating page (will retry on next change):", err?.message || err);
+      setSaveStatus("Failed");
+      return null;
+    }
+  };
+
+  const handleDeletePage = async (pageId) => {
+    if (!activeSpace || !pageId) return;
+    try {
+      const res = await fetch(`${API_BASE}/spaces/${activeSpace.id}/pages/${pageId}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setPages((prev) => prev.filter((p) => p.id !== pageId));
+        setOpenPageIds((prev) => {
+          const remaining = prev.filter((id) => id !== pageId);
+          if (activePageId === pageId) {
+            const nextId = remaining[remaining.length - 1] || null;
+            setActivePageId(nextId);
+            updateRoute({ tab: "spaces", spaceId: activeSpace.id, pageId: nextId });
+          }
+          return remaining;
+        });
+      }
+    } catch (err) {
+      console.error("Error deleting page:", err);
+    }
+  };
+
+  const handleDownloadMarkdown = () => {
+    if (!activePage) return;
+    const blob = new Blob([activePage.content || ""], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${(activePage.title || "page").replace(/[^\w\s-]/g, "").slice(0, 50)}.md`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <div className="flex h-screen w-screen overflow-hidden bg-[#fbfbfa] dark:bg-[#141416] text-zinc-900 dark:text-zinc-100 transition-colors duration-150">
+      {/* 1. Slim Left Navigation Rail (~48px) */}
+      <IconRail
+        activeRailTab={activeRailTab}
+        onSelectRailTab={handleSelectRailTab}
+      />
+
+      {/* 2. Middle Sidebar */}
+      {activeRailTab === "home" ? (
+        /* Real Conversation History Sidebar (UUID based) */
+        <ChatGptSidebar
+          conversations={conversations}
+          activeConversationId={activeConversationId}
+          onSelectConversation={handleSelectConversation}
+          onNewChat={handleNewChat}
+          onDeleteConversation={handleDeleteConversation}
+          onTogglePinConversation={handleTogglePinConversation}
+        />
+      ) : (
+        /* OpenDots-Style Spaces & Hierarchical Pages Tree Sidebar */
+        <SpaceSidebar
+          spaces={spaces}
+          activeSpaceId={activeSpaceId}
+          onSelectSpace={handleSelectSpace}
+          onCreateSpace={handleCreateSpace}
+          onDeleteSpace={handleDeleteSpace}
+          pages={pages}
+          activePageId={activePageId}
+          onSelectPage={handleSelectPage}
+          onCreatePage={handleCreatePage}
+          isCreatingPage={isCreatingPage}
+        />
+      )}
+
+      {/* 3. Main Work Area */}
+      <div className="flex-1 flex flex-col h-full overflow-hidden">
+        {activeRailTab === "home" ? (
+          /* "What should we work on?" ChatGPT 6 Series View */
+          <HomeWorkView
+            activeProject={activeProject}
+            onSelectProject={setActiveProject}
+            selectedModel={selectedModel}
+            onSelectModel={setSelectedModel}
+            onSubmitPrompt={handleSubmitPrompt}
+            conversation={conversation}
+            isLoading={isGenerating}
+            onOpenCanvas={handleOpenCanvas}
+          />
+        ) : !activePageId ? (
+          /* OpenDots SpaceLibrary: Searchable library, grid/list view, page excerpts */
+          <SpaceLibrary
+            space={activeSpace}
+            pages={pages}
+            onSelectPage={handleSelectPage}
+            onNewPage={() => handleCreatePage({ title: "Untitled page", content: "" })}
+            onDeletePage={handleDeletePage}
+            isCreatingPage={isCreatingPage}
+          />
+        ) : !activePage && pages.length === 0 ? (
+          <div className="flex-1 flex flex-col items-center justify-center gap-3 text-zinc-400 select-none bg-white dark:bg-[#141416]">
+            <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+            <span className="text-xs font-medium">Loading document page...</span>
+          </div>
+        ) : (
+          /* OpenDots PageDocument: Focused Visual Document Canvas View with Multi-Tabs */
+          <>
+            <PageHeaderBar
+              openPages={
+                openPageIds.map((id) => pages.find((p) => p.id === id)).filter(Boolean).length > 0
+                  ? openPageIds.map((id) => pages.find((p) => p.id === id)).filter(Boolean)
+                  : activePage ? [activePage] : []
+              }
+              activePageId={activePageId}
+              onSelectPage={handleSelectPage}
+              onClosePage={handleClosePageTab}
+              isCreatingPage={isCreatingPage}
+              title={activePage?.title || "Untitled page"}
+              icon={activePage?.icon || "📄"}
+              spaceName={activeSpace?.name || "Space"}
+              onBackToLibrary={handleBackToLibrary}
+              onNewPage={() => handleCreatePage({ title: "Untitled page", content: "" })}
+              onToggleChat={() => setChatOpen(!chatOpen)}
+              chatOpen={chatOpen}
+              onTriggerAI={() => setChatOpen(true)}
+              onDownloadMarkdown={handleDownloadMarkdown}
+              onDeletePage={() => handleDeletePage(activePageId)}
+              onSaveNow={() => setSaveTrigger((n) => n + 1)}
+              saveStatus={saveStatus}
+            />
+
+            <div className="flex-1 flex overflow-hidden">
+              <CanvasPage
+                page={activePage}
+                onUpdatePage={handleUpdatePage}
+                onStatusChange={setSaveStatus}
+                saveTrigger={saveTrigger}
+                onTriggerAI={(p) => handleSubmitPrompt(p)}
+              />
+
+              {chatOpen && (
+                <ChatDrawer
+                  isOpen={chatOpen}
+                  onClose={() => setChatOpen(false)}
+                  messages={messages}
+                  onSendMessage={() => {}}
+                  agents={activeSpace?.agents || []}
+                  activePageTitle={activePage?.title}
+                />
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
