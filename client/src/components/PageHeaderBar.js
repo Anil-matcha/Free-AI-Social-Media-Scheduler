@@ -201,7 +201,7 @@ export default function PageHeaderBar({
         {/* Discussion / Chat drawer toggle */}
         <button
           onClick={onToggleChat}
-          title="Discuss with ChatGPT / Dot Agents"
+          title="Discuss with Open Spaces / Dot Agents"
           className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-colors cursor-pointer text-xs font-medium ${
             chatOpen
               ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 shadow-2xs"
@@ -215,7 +215,7 @@ export default function PageHeaderBar({
         {/* Ask AI button */}
         <button
           onClick={onTriggerAI}
-          title="Ask ChatGPT to iterate on this page"
+          title="Ask Open Spaces to iterate on this page"
           className="p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition-colors cursor-pointer"
         >
           <SparklesIcon className="w-3.5 h-3.5" />

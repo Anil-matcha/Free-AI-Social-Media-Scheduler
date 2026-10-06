@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import IconRail from "./IconRail";
-import ChatGptSidebar from "./ChatGptSidebar";
+import OpenSpacesSidebar from "./OpenSpacesSidebar";
 import SpaceSidebar from "./SpaceSidebar";
 import SpaceLibrary from "./SpaceLibrary";
 import PageHeaderBar from "./PageHeaderBar";
@@ -355,7 +355,7 @@ export default function OpenSpacesApp({
     persistConversations(updated);
   };
 
-  // Submit prompt to ChatGPT 6 series
+  // Submit prompt to Open Spaces 6 series
   const handleSubmitPrompt = async (prompt, imageUrl = null) => {
     if ((!prompt || !prompt.trim()) && !imageUrl) return;
 
@@ -704,7 +704,7 @@ export default function OpenSpacesApp({
       {/* 2. Middle Sidebar */}
       {activeRailTab === "home" ? (
         /* Real Conversation History Sidebar (UUID based) */
-        <ChatGptSidebar
+        <OpenSpacesSidebar
           conversations={conversations}
           activeConversationId={activeConversationId}
           onSelectConversation={handleSelectConversation}
@@ -732,7 +732,7 @@ export default function OpenSpacesApp({
       {/* 3. Main Work Area */}
       <div className="flex-1 flex flex-col h-full overflow-hidden">
         {activeRailTab === "home" ? (
-          /* "What should we work on?" ChatGPT 6 Series View */
+          /* "What should we work on?" Open Spaces 6 Series View */
           <HomeWorkView
             activeProject={activeProject}
             onSelectProject={setActiveProject}

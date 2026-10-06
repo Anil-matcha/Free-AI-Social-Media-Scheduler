@@ -12,7 +12,7 @@ import {
 } from "./Icons";
 import ThemeToggle from "./ThemeToggle";
 
-export default function ChatGptSidebar({
+export default function OpenSpacesSidebar({
   conversations = [],
   activeConversationId = null,
   onSelectConversation,
@@ -31,7 +31,7 @@ export default function ChatGptSidebar({
   const pinnedConversations = filtered.filter((c) => c.pinned);
   const unpinnedConversations = filtered.filter((c) => !c.pinned);
 
-  // Group unpinned conversations by timeframe like official ChatGPT
+  // Group unpinned conversations by timeframe
   const categorizeConversations = (items) => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
@@ -122,14 +122,14 @@ export default function ChatGptSidebar({
 
   return (
     <aside className="w-60 bg-[#f7f7f8] dark:bg-[#18181b] border-r border-zinc-200/80 dark:border-zinc-800/80 flex flex-col h-screen select-none text-zinc-700 dark:text-zinc-300 text-xs transition-colors duration-150">
-      {/* Top Header: ChatGPT ˇ with Search toggle */}
+      {/* Top Header: Open Spaces ˇ with Search toggle */}
       <div className="p-3 pb-2 flex items-center justify-between">
         <div
           onClick={onNewChat}
           className="flex items-center gap-1 cursor-pointer hover:text-zinc-900 dark:hover:text-white transition-colors"
         >
           <span className="font-semibold text-sm text-zinc-900 dark:text-zinc-100">
-            ChatGPT
+            Open Spaces
           </span>
           <ChevronDownIcon className="w-3.5 h-3.5 text-zinc-400" />
         </div>

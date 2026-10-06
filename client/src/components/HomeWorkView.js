@@ -153,7 +153,7 @@ export default function HomeWorkView({
     setTimeout(() => setCopiedIdx(null), 2000);
   };
 
-  // ChatGPT Native Card Input Box matching screenshot
+  // Open Spaces Native Card Input Box matching design
   const renderInputBar = () => {
     return (
       <div className="w-full max-w-3xl mx-auto relative select-none">
@@ -195,7 +195,7 @@ export default function HomeWorkView({
                 handleSend();
               }
             }}
-            placeholder="Ask ChatGPT"
+            placeholder="Ask Open Spaces"
             className="w-full bg-transparent text-sm sm:text-base text-zinc-900 dark:text-zinc-100 placeholder-zinc-500 dark:placeholder-zinc-400 resize-none focus:outline-none leading-relaxed py-1 px-1 min-h-[36px] max-h-48 overflow-y-auto"
           />
 
@@ -225,7 +225,7 @@ export default function HomeWorkView({
                 }))}
                 direction="up"
                 align="right"
-              header="ChatGPT 6 Series (MuAPI)"
+                header="Open Spaces 6 Series (MuAPI)"
                 menuClassName="w-64 bg-white dark:bg-[#1f1f23] border-zinc-200 dark:border-zinc-700/80 p-1.5 shadow-2xl backdrop-blur-md"
               buttonClassName="bg-transparent hover:bg-zinc-200/80 dark:hover:bg-zinc-800/80 border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-full px-3 py-1.5"
               />

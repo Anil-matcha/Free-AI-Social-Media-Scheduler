@@ -10,7 +10,7 @@ from app.db.models import UserDB, OpenSpaceDB, SpaceMemberDB
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
-    description="OpenSpaces: An Open-Source ChatGPT Spaces Replication with Pages, Dots (Agents), and Meeting Notes."
+    description="OpenSpaces: Collaborative AI Workspace with Pages, Dots (Agents), and Meeting Notes."
 )
 
 # CORS setup restricted to configured origins
@@ -109,7 +109,7 @@ def root():
         "version": settings.VERSION,
         "status": "online",
         "docs_url": "/docs",
-        "description": "Open source ChatGPT Spaces backend"
+        "description": "OpenSpaces backend API"
     }
 
 @app.get("/health")

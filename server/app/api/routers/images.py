@@ -130,7 +130,7 @@ async def suggest_image_prompt(payload: SuggestPromptRequest):
     try:
         url = "https://api.muapi.ai/v1/chat/completions"
         system_instruction = (
-            "You are a specialized prompt designer for the GPT-Image-2 text-to-image model in ChatGPT Spaces. "
+            "You are a specialized prompt designer for the GPT-Image-2 text-to-image model in Open Spaces. "
             "Analyze the provided document context and formulate ONE single, vivid, professional image generation prompt "
             "(maximum 25 words). The prompt must describe an aesthetic, high-concept illustration, diagram, or architectural visual "
             "that visually elevates this content. "

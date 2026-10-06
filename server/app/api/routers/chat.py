@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 from app.core.config import settings
 
-router = APIRouter(prefix="/chat", tags=["ChatGPT 6 Series"])
+router = APIRouter(prefix="/chat", tags=["Open Spaces 6 Series"])
 
 class ChatRequest(BaseModel):
     prompt: str
@@ -84,7 +84,7 @@ async def generate_chat(payload: ChatRequest):
         system_instruction = payload.system_prompt.strip()
     else:
         system_instruction = (
-            f"You are {model_display} in ChatGPT Spaces. "
+            f"You are {model_display} in Open Spaces. "
             f"Active project: {payload.project or 'General'}. "
             "Help the user plan, write, code, brainstorm, analyze uploaded images/documents, and create living documents. "
             "Format your answers with clean markdown headings, bullet points, and actionable steps."

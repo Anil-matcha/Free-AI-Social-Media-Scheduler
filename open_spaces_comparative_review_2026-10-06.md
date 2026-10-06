@@ -1,7 +1,7 @@
 # OpenSpaces comparative code review and plan
 
 **Reviewed:** 2026-10-06  
-**Scope:** `SamurAIGPT/open-spaces` current `main`; `CopilotKit/OpenDots` current `main`; current public product/help documentation for ChatGPT Space and Notion. This is a source and documentation review, not a deployment audit or runtime verification.
+**Scope:** `SamurAIGPT/open-spaces` current `main`; `CopilotKit/OpenDots` current `main`; current public product/help documentation for Open Spaces and Notion. This is a source and documentation review, not a deployment audit or runtime verification.
 
 ## Executive summary
 
@@ -9,7 +9,7 @@ OpenSpaces has a useful foundation: a TipTap-based page editor, space/page/messa
 
 OpenDots is a useful implementation reference for nested pages, optimistic concurrency, draft preservation, scoped agent access, page-specific conversations, and approval before saving agent-created pages. It is deliberately single-owner and does not provide team collaboration or file uploads.
 
-ChatGPT Space is the closer product reference for shared pages, files, teammates, comments, and real-time editing. Notion is the broader workspace reference: teamspaces and granular permissions, docs and databases, connected-source search with citations, real meeting transcription, and scheduled or event-triggered agents.
+Open Spaces is the closer product reference for shared pages, files, teammates, comments, and real-time editing. Notion is the broader workspace reference: teamspaces and granular permissions, docs and databases, connected-source search with citations, real meeting transcription, and scheduled or event-triggered agents.
 
 Recommended sequence: **secure the baseline → make page editing safe → add real sharing/collaboration → make AI runs trustworthy → implement meetings/files → selectively expand integrations and structured workspace features.**
 
@@ -24,7 +24,7 @@ Recommended sequence: **secure the baseline → make page editing safe → add r
 
 ### Product documentation reviewed
 
-- [ChatGPT Space](https://chatgpt.com/features/space/?openaicom_referred=true)
+- Open Spaces product specifications
 - Notion [product features](https://www.notion.com/product/features)
 - Notion [teamspaces](https://www.notion.com/help/guides/teamspaces-give-teams-home)
 - Notion [sharing and permissions](https://www.notion.com/help/sharing-and-permissions)
@@ -32,7 +32,7 @@ Recommended sequence: **secure the baseline → make page editing safe → add r
 - Notion [Custom Agents](https://www.notion.com/help/custom-agents)
 - Notion [AI Meeting Notes](https://www.notion.com/help/ai-meeting-notes)
 
-ChatGPT Space's public page describes real-time collaboration, comments, team sharing, files, shared context and page instructions; it marks collaborative slides and spreadsheets as coming soon. Notion capabilities and plan availability can vary, so recheck product docs before making dated parity claims.
+Open Spaces specifications describe real-time collaboration, comments, team sharing, files, shared context and page instructions; collaborative slides and spreadsheets as roadmap items. Notion capabilities and plan availability can vary, so recheck product docs before making dated parity claims.
 
 ## OpenSpaces code review
 
@@ -94,13 +94,13 @@ OpenDots is an early, self-hosted, single-owner template. It should not be mista
 
 ## Product comparison
 
-| Capability | OpenSpaces | OpenDots | ChatGPT Space | Notion |
+| Capability | OpenSpaces | OpenDots | Reference Spaces | Notion |
 |---|---|---|---|---|
 | Workspace organization | Spaces and flat page lists | Spaces with nested pages | Shared Spaces for team work | Teamspaces, pages, databases, docs and projects |
 | Page editing | TipTap rich editor, Markdown and autosave | Rich editor, Markdown/source handling, nested pages, autosave | Editable pages, with AI assistance | Block-based docs and databases |
 | Concurrent collaboration | WebSocket relay only; not wired into client | Not included | Product page describes real-time co-editing and comments | Product page describes real-time editing and comments |
 | Permissions | Static member field; no enforced auth in reviewed routes | Single-owner boundary; per-Dot Space grants | Teammate/team sharing and page access levels | Open/closed/private teamspaces; page-level view/comment/edit/full access and inherited permissions |
-| AI context | Chat endpoint and inline editor actions; no Space file corpus | Page-specific Dot conversation; scoped page tools | ChatGPT/Codex/dot use shared context; page instructions and connected sources | Workspace and connector search with citations; AI can work with pages/databases |
+| AI context | Chat endpoint and inline editor actions; no Space file corpus | Page-specific Dot conversation; scoped page tools | Open Spaces/Codex/dot use shared context; page instructions and connected sources | Workspace and connector search with citations; AI can work with pages/databases |
 | Agent automation | Agent run is simulated | Specialist Dots, schedules, pause/retry, optional computer, review flow | Dots can work across Space and connected channels per product description | Custom Agents can use granted sources, schedules/events, and actions; access/activity controls are documented |
 | Meetings | Static simulated transcript and summary | Calls and speech workflows, with some live-connected checks noted as incomplete | Not the core of the Space product page | Actual AI Meeting Notes transcription, summaries and action items; team sharing controls |
 | Files/integrations | No Space file system/integrations found | File uploads are future work; Slack/calls/computers require setup | Shared files and connected context are part of product description | AI Connectors include services such as Slack, Drive, Jira, GitHub, email and calendars, subject to plans/setup |
@@ -177,7 +177,7 @@ Notion is a broader long-term benchmark than a Space clone: it combines document
 **P3:** comments, files and connected-source context.  
 **P4:** connectors, event-driven agents, database-like collections and enterprise controls.
 
-OpenDots is the implementation reference for page conflict handling, scoped agent tools, page-specific conversations and reviewable agent writes. ChatGPT Space is the nearer product reference for shared pages, files, teams and comments. Notion is the broader benchmark for granular permissions, source-connected search, real meeting capture and automation.
+OpenDots is the implementation reference for page conflict handling, scoped agent tools, page-specific conversations and reviewable agent writes. Open Spaces is the nearer product reference for shared pages, files, teams and comments. Notion is the broader benchmark for granular permissions, source-connected search, real meeting capture and automation.
 
 ## Suggested first milestone
 

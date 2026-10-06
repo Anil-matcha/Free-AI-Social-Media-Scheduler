@@ -74,7 +74,7 @@ export default function Sidebar({
                 OSS
               </span>
             </div>
-            <p className="text-[11px] text-zinc-500 dark:text-zinc-400">ChatGPT Spaces Replica</p>
+            <p className="text-[11px] text-zinc-500 dark:text-zinc-400">Open Spaces Studio</p>
           </div>
         </div>
 

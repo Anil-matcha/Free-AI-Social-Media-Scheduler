@@ -1,7 +1,7 @@
 # 🎨 OpenSpaces Theme System: Light & Dark Mode Design Plan
 
 ## 1. Objective & Philosophy
-To deliver an authentic, distraction-free collaborative experience modeled on OpenAI's ChatGPT Spaces and Canvas. The theme system dynamically adapts between a deep obsidian dark mode and a crisp, readable paper-white light mode using `next-themes` with zero layout shift or hydration flicker.
+To deliver an authentic, distraction-free collaborative experience designed for Open Spaces and Canvas. The theme system dynamically adapts between a deep obsidian dark mode and a crisp, readable paper-white light mode using `next-themes` with zero layout shift or hydration flicker.
 
 ---
 

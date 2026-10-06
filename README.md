@@ -1,6 +1,6 @@
 # 🌌 OpenSpaces
 
-> An open-source, self-hostable **ChatGPT Spaces** alternative built with Next.js (App Router, JavaScript), Tailwind CSS v4, FastAPI, Supabase PostgreSQL, and native **MuAPI** model intelligence.
+> An open-source, self-hostable **Open Spaces** collaborative AI workspace built with Next.js (App Router, JavaScript), Tailwind CSS v4, FastAPI, Supabase PostgreSQL, and native **MuAPI** model intelligence.
 
 OpenSpaces bridges the gap between static documents and collaborative intelligence. It provides persistent shared workspaces where human teams, living editable **Pages (Canvas)**, autonomous **Dot Agents**, and inline **AI Generators** collaborate in real-time.
 
@@ -31,10 +31,10 @@ OpenSpaces is exclusively powered by MuAPI's **GPT-6 Series** models through dir
 - **No Blob Leaks**: Frontend uploads files immediately upon selection, displays a local thumbnail preview with a removal button, and enforces that only verified public CDN URLs are dispatched to AI models.
 - **Send Guard**: The send button is disabled while an upload is in progress to prevent sending prematurely.
 
-### 4. 🎨 ChatGPT Spaces Native UI & Interaction Design
+### 4. 🎨 Open Spaces Native UI & Interaction Design
 - **Input Card Layout**: Floating, rounded card design with embedded auto-resizing textarea, paperclip attachment button, and dynamic send pill button.
 - **Custom Model Selector Dropdown**: Custom dropdown showcasing model icons, titles, and capability tags (`Fast & Capable`, `Deep Reasoning`, `Balanced`, `Ultra Light`).
-- **Workspace Navigation & Sidebar**: Space switching, search, and page grouping matching modern ChatGPT Spaces.
+- **Workspace Navigation & Sidebar**: Space switching, search, and page grouping matching modern Open Spaces.
 
 ### 5. 📜 Living Document Versioning & Collaboration
 - **Revision History Drawer**: Version history tracking page revisions with one-click restore and timestamps.
@@ -68,7 +68,8 @@ open-spaces/
 │   │   └── components/
 │   │       ├── CanvasPage.js    # Living canvas page with revision history drawer & source mode
 │   │       ├── OpenSpacesApp.js # Primary router, space switcher, and state management
-│   │       ├── HomeWorkView.js  # ChatGPT-style card input, attachment preview & GPT-6 selector
+│   │       ├── OpenSpacesSidebar.js # Persistent conversation history & search sidebar
+│   │       ├── HomeWorkView.js  # Open Spaces card input, attachment preview & GPT-6 selector
 │   │       ├── CustomDropdown.js# Custom accessible dropdown with capability tags
 │   │       ├── SpaceSidebar.js  # Spaces navigation, search, and space management
 │   │       ├── SpaceLibrary.js  # Living pages library & document browser
@@ -177,7 +178,7 @@ Invoke-RestMethod -Uri "http://localhost:8000/api/upload_file" -Method POST -For
 - **GPT-6 Series Integration**: Migrated chat backend to native MuAPI endpoints (`POST /api/v1/{model}/stream`) for `gpt-6-1-sol`, `gpt-6-astra`, `gpt-6-sol`, and `gpt-6-luna`.
 - **System Prompt & History Refactor**: Formatted last 10 messages chat history into `system_prompt` while maintaining purely user input in `prompt`.
 - **Media Upload Pipeline**: Implemented `POST /api/upload_file` forwarding to `https://api.muapi.ai/api/v1/upload_file` returning CDN URLs.
-- **ChatGPT Native Input Card**: Rebuilt prompt bar with attachment preview thumbnail, remove button, and upload guard.
+- **Open Spaces Native Input Card**: Rebuilt prompt bar with attachment preview thumbnail, remove button, and upload guard.
 - **Document History & Collaboration**: Added revision history drawer, activity logging, and space membership management.
-- **Tutorial & Walkthrough Video**: Embedded high-resolution demo walkthrough highlighting ChatGPT Spaces UI, living canvas, and GPT-6 integration.
+- **Tutorial & Walkthrough Video**: Embedded high-resolution demo walkthrough highlighting Open Spaces UI, living canvas, and GPT-6 integration.
 - **API Key Security**: Purged all hardcoded keys and enforced dynamic `.env` loading.

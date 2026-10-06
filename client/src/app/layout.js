@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "OpenSpaces - Autonomous AI Workspace & Pages",
-  description: "Open-source ChatGPT Spaces replica with Pages, Dots (autonomous agents), and meeting intelligence.",
+  description: "Open Spaces collaborative workspace with Pages, Dots (autonomous agents), and meeting intelligence.",
 };
 
 export default function RootLayout({ children }) {

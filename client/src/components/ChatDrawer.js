@@ -311,7 +311,7 @@ export default function ChatDrawer({
               <div className="text-center py-10 text-zinc-400 dark:text-zinc-500 text-xs">
                 <SparklesIcon className="w-6 h-6 mx-auto mb-2 text-indigo-400 opacity-60" />
                 <p>No messages yet.</p>
-                <p className="text-[11px] mt-1 text-zinc-400">Ask ChatGPT or tag a Dot to iterate on this page.</p>
+                <p className="text-[11px] mt-1 text-zinc-400">Ask Open Spaces or tag a Dot to iterate on this page.</p>
               </div>
             ) : (
               messages.map((m) => {
@@ -344,7 +344,7 @@ export default function ChatDrawer({
                 value={selectedAgentName}
                 onChange={setSelectedAgentName}
                 options={[
-                  { label: "General ChatGPT", value: "", icon: "✨" },
+                  { label: "General Open Spaces", value: "", icon: "✨" },
                   ...agents.map((a) => ({
                     label: `@${a.name}`,
                     value: a.name,
@@ -367,7 +367,7 @@ export default function ChatDrawer({
                 placeholder={
                   selectedAgentName
                     ? `Message directed to @${selectedAgentName}...`
-                    : "Ask ChatGPT to assist with this page..."
+                    : "Ask Open Spaces to assist with this page..."
                 }
                 className="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-lg pl-3 pr-8 py-1.5 text-xs text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:border-zinc-500 shadow-2xs"
               />

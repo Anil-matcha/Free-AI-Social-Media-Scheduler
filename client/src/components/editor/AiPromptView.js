@@ -98,7 +98,7 @@ export function AiPromptComponent({ editor, node, getPos, deleteNode }) {
       }
 
       // 3. Construct targeted system prompt
-      const systemPrompt = `You are OpenAI's latest model in ChatGPT Spaces (GPT-6.1 Sol Light).
+      const systemPrompt = `You are an advanced model in Open Spaces (GPT-6.1 Sol Light).
 You are writing content to be inserted directly into an active document at a specific location between existing sections.
 
 DOCUMENT TITLE:

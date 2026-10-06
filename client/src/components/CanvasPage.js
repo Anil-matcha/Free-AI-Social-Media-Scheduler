@@ -577,17 +577,17 @@ export default function CanvasPage({
             </div>
           )}
 
-          {/* Inline ChatGPT / Dot Directive Box */}
+          {/* Inline Open Spaces / Dot Directive Box */}
           <div className="mt-12 p-4 rounded-xl bg-zinc-50 dark:bg-[#18181e] border border-zinc-200 dark:border-zinc-800 space-y-2 select-none">
             <div className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">
               <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                Work with ChatGPT.
+                Work with Open Spaces.
               </span>{" "}
               Type{" "}
               <span className="bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300 font-medium px-1.5 py-0.5 rounded text-[11px] border border-indigo-200 dark:border-indigo-800">
-                @ChatGPT
+                @OpenSpaces
               </span>
-              , followed by your request, and ChatGPT will jump in to help with whatever you need.
+              , followed by your request, and Open Spaces will jump in to help with whatever you need.
             </div>
 
             <div className="flex items-center gap-2 pt-1">

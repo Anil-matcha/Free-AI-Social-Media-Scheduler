@@ -203,7 +203,7 @@ Our objective with **OpenSpaces** is to bridge the gap between static documents 
                 content="""# Competitive Landscape: Spaces & Agent Workspaces
 
 ### Key Market Players
-1. **ChatGPT Spaces (OpenAI DevDay)**: Deep agent integration ("Dots"), living Pages, meeting voice notes.
+1. **Open Spaces**: Deep agent integration ("Dots"), living Pages, meeting voice notes.
 2. **Notion AI Workspace**: Database-centric, document-first, limited autonomous background workers.
 3. **OpenSpaces**: 100% Open-source, Supabase-backed, self-hostable, Next.js + FastAPI.
 """,
@@ -241,7 +241,7 @@ Our objective with **OpenSpaces** is to bridge the gap between static documents 
                 space_id=space1_id,
                 title="Q4 Kickoff & Feature Prioritization",
                 duration_seconds=1420,
-                summary="Discussed the ChatGPT Spaces feature parity: Pages canvas, Dot autonomous agents, meeting audio ingestion, and multiplayer collaboration.",
+                summary="Discussed Open Spaces features: Pages canvas, Dot autonomous agents, meeting audio ingestion, and multiplayer collaboration.",
                 action_items=[
                     "Configure Next.js App Router + Tailwind CSS frontend",
                     "Connect FastAPI backend with Supabase PostgreSQL",
