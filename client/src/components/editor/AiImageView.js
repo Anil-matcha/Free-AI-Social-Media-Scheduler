@@ -12,10 +12,22 @@ import {
   LuRefreshCw,
   LuWand,
 } from "react-icons/lu";
+import CustomDropdown from "../CustomDropdown";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8000/api";
 
-const ASPECT_RATIOS = ["1:1", "16:9", "4:3"];
+const ASPECT_RATIO_OPTIONS = [
+  { label: "1:1 Square", value: "1:1" },
+  { label: "16:9 Landscape", value: "16:9" },
+  { label: "9:16 Portrait", value: "9:16" },
+  { label: "4:3 Classic", value: "4:3" },
+];
+
+const RESOLUTION_OPTIONS = [
+  { label: "2K High Res", value: "2K" },
+  { label: "4K Ultra HD", value: "4K" },
+  { label: "1K Preview", value: "1K" },
+];
 
 const QUICK_IMAGE_CHIPS = [
   { label: "Concept illustration", prompt: "A sleek conceptual editorial 3D illustration with glowing soft lighting" },
@@ -26,6 +38,7 @@ const QUICK_IMAGE_CHIPS = [
 export function AiImageComponent({ editor, node, getPos, deleteNode }) {
   const [promptText, setPromptText] = useState("");
   const [aspectRatio, setAspectRatio] = useState("1:1");
+  const [resolution, setResolution] = useState("2K");
   const [loading, setLoading] = useState(false);
   const [analyzingContext, setAnalyzingContext] = useState(false);
   const [statusMsg, setStatusMsg] = useState("");
@@ -130,6 +143,7 @@ export function AiImageComponent({ editor, node, getPos, deleteNode }) {
           body: JSON.stringify({
             prompt: activePrompt,
             aspect_ratio: aspectRatio,
+            resolution: resolution,
             model: "gpt-image-2-text-to-image",
           }),
         });
@@ -209,7 +223,7 @@ export function AiImageComponent({ editor, node, getPos, deleteNode }) {
         setLoading(false);
       }
     },
-    [promptText, aspectRatio, loading, editor, getPos, node, deleteNode]
+    [promptText, aspectRatio, resolution, loading, editor, getPos, node, deleteNode]
   );
 
   return (
@@ -320,23 +334,22 @@ export function AiImageComponent({ editor, node, getPos, deleteNode }) {
 
             {/* Controls: Aspect Ratio + Quick Chips */}
             <div className="flex items-center justify-between flex-wrap gap-1.5 pt-0.5">
-              {/* Aspect Ratio Selector */}
-              <div className="flex items-center gap-1">
-                <span className="text-[10px] text-zinc-400 dark:text-zinc-500">Ratio:</span>
-                {ASPECT_RATIOS.map((ratio) => (
-                  <button
-                    key={ratio}
-                    type="button"
-                    onClick={() => setAspectRatio(ratio)}
-                    className={`px-1.5 py-0.5 rounded text-[10px] font-medium transition-colors ${
-                      aspectRatio === ratio
-                        ? "bg-purple-600 text-white font-semibold"
-                        : "bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200"
-                    }`}
-                  >
-                    {ratio}
-                  </button>
-                ))}
+              {/* Custom Dropdowns for Aspect Ratio & Resolution */}
+              <div className="flex items-center gap-1.5">
+                <CustomDropdown
+                  value={aspectRatio}
+                  onChange={setAspectRatio}
+                  options={ASPECT_RATIO_OPTIONS}
+                  size="xs"
+                  buttonClassName="bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-md py-0.5 px-2 text-[10px]"
+                />
+                <CustomDropdown
+                  value={resolution}
+                  onChange={setResolution}
+                  options={RESOLUTION_OPTIONS}
+                  size="xs"
+                  buttonClassName="bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-md py-0.5 px-2 text-[10px]"
+                />
               </div>
 
               {/* Quick style inspiration */}

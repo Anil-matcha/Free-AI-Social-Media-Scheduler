@@ -4,6 +4,12 @@ from app.core.config import settings
 
 # Clean database URL if needed (convert postgres:// to postgresql://)
 db_url = settings.DATABASE_URL
+if not db_url:
+    raise RuntimeError(
+        "DATABASE_URL or DIRECT_URL environment variable is missing. "
+        "Please configure server/.env with your database connection string."
+    )
+
 if db_url.startswith("postgres://"):
     db_url = db_url.replace("postgres://", "postgresql://", 1)
 

@@ -6,39 +6,46 @@ OpenSpaces bridges the gap between static documents and collaborative intelligen
 
 ---
 
-## 🌟 Key Features
+## 🌟 Key Features & Updates
 
-### 1. ✍️ OpenDots Living Document Canvas (TipTap)
-- **Rich Document Editor**: Powered by TipTap, supporting standard Markdown, multi-level headings, tables, task lists, blockquotes, and custom code blocks.
-- **Slash Commands Menu (`/`)**: Compact, keyboard-first menu to insert blocks, lists, formatting, and AI generators on the fly.
-- **Insert Menu Toolbar**: Dropdown in the format toolbar to easily add tables, task lists, code blocks, dividers, and AI nodes.
-- **Seamless Markdown Round-Tripping**: Synchronized with `@tiptap/markdown` for source editing and persistent storage.
+### 1. 🧠 GPT-6 Series Intelligence (Native MuAPI Endpoints)
+OpenSpaces is exclusively powered by MuAPI's **GPT-6 Series** models through direct streaming endpoints (`POST /api/v1/{model}/stream`):
+- **⚡ GPT-6.1 Sol Light (`gpt-6-1-sol`)**: Fast, capable multimodal flagship supporting text & image inputs.
+- **🧠 GPT-6 Astra (`gpt-6-astra`)**: Deep reasoning model with multimodal vision capability for complex analysis.
+- **✨ GPT-6 Sol (`gpt-6-sol`)**: Balanced, high-precision general text generation.
+- **🌙 GPT-6 Luna (`gpt-6-luna`)**: Ultra-lightweight, high-speed drafting and conversational model.
+- **Smart Vision Routing**: If an image is attached while a text-only model (`gpt-6-sol` or `gpt-6-luna`) is active, requests seamlessly route to `gpt-6-1-sol` so visual understanding succeeds without throwing schema errors.
 
-### 2. 🤖 Inline AI Writing Assistant
-- **Context-Aware In-Place Generation**: Triggered via `/` -> **✨ AI Assistant (Context Prompt)**.
-- **Surrounding Context Injection**: Gathers full-document metadata, title, and immediate before-and-after paragraph context to ensure perfect stylistic and structural continuity.
-- **In-Place Shimmering Skeleton Loader**: Displays a shimmering progress skeleton directly at the cursor insertion point while generating.
-- **Seamless Inline Replacement**: Replaces only that exact position with formatted Markdown without disturbing surrounding content.
+### 2. 💬 Clean Prompt & History Architecture
+- **Isolated User Prompt**: The `prompt` parameter receives strictly the current user prompt.
+- **Contextual System Prompt**: Base system instructions plus the last 10 messages of conversation history are formatted and passed via `system_prompt`, maintaining clean token budgeting and model coherence.
 
-### 3. 🖼️ AI Image Generation (`gpt-image-2-text-to-image`)
-- **Native MuAPI Image Generation**: Triggered via `/` -> **🖼️ Generate Image** or the `+ Insert` dropdown.
-- **Aspect Ratio Control**: Select from `1:1` (Square), `16:9` (Widescreen), or `4:3` (Editorial).
-- **✨ Use Page Content (Smart Prompting)**: Automatically analyzes surrounding section context and calls MuAPI's text model to suggest an optimal, vivid image prompt.
-- **Style Quick Chips**: One-click prompt modifiers (*Concept illustration*, *Architecture / Tech*, *Minimalist banner*).
-- **Unbounded Polling**: Polling loop without premature timeouts that monitors task progress until completed or failed, then automatically embeds the high-resolution image into the document with responsive styling.
+### 3. 📎 Native Media Upload & Hosted CDN Pipeline (`/api/upload_file`)
+- **Direct MuAPI File Proxy**: Backend endpoint `POST /api/upload_file` receives multipart uploads, forwards them to `https://api.muapi.ai/api/v1/upload_file`, and returns persistent CDN links (`https://cdn.muapi.ai/...`).
+- **No Blob Leaks**: Frontend uploads files immediately upon selection, displays a local thumbnail preview with a removal button, and enforces that only verified public CDN URLs are dispatched to AI models.
+- **Send Guard**: The send button is disabled while an upload is in progress to prevent sending prematurely.
 
-### 4. 🧠 Exclusively Powered by MuAPI Models
-- **Text & Chat Intelligence**: Fast, high-capacity completions powered by `mimo-v2-6-flash-abliterated` and `glm-5-3-flash-abliterated`.
-- **Image Generation**: Powered by `gpt-image-2-text-to-image`.
-- **Zero Gemini Footprint**: Completely migrated away from Gemini models and endpoints.
-- **Secure Architecture**: API keys reside strictly on the backend (`server/.env`) and are never exposed to client bundles or browser network tabs.
+### 4. 🎨 ChatGPT Spaces Native UI & Interaction Design
+- **Input Card Layout**: Floating, rounded card design with embedded auto-resizing textarea, paperclip attachment button, and dynamic send pill button.
+- **Custom Model Selector Dropdown**: Custom dropdown showcasing model icons, titles, and capability tags (`Fast & Capable`, `Deep Reasoning`, `Balanced`, `Ultra Light`).
+- **Workspace Navigation & Sidebar**: Space switching, search, and page grouping matching modern ChatGPT Spaces.
 
-### 5. 👥 Persistent Team Spaces & Autonomous Dot Agents
-- **Multi-Workspace Organization**: Organize projects, research, and roadmaps in dedicated team spaces.
-- **Autonomous Dot Agents**: Specialized workers (*Synthesizer Dot*, *Copywriter Dot*, *Architect Dot*) to execute multi-step space directives.
-- **Discussion Threads**: Multi-turn chat with direct `@Dot` mentions and living page links.
-- **Meeting Audio Notes**: Audio recorder and transcript synthesizer that extracts action items directly into new living pages.
-- **Supabase PostgreSQL Persistence**: Fully relational data model (`open_spaces`, `open_pages`, `open_agents`, `open_messages`, `open_meetings`) with automated migrations and seeding.
+### 5. 📜 Living Document Versioning & Collaboration
+- **Revision History Drawer**: Version history tracking page revisions with one-click restore and timestamps.
+- **Space Members & Permissions**: Modal to manage space members, roles (`Owner`, `Admin`, `Member`, `Viewer`), and invite links.
+- **Space Activity Logs**: Real-time auditing of document edits, agent executions, and membership updates.
+- **Dual Storage Persistence**: In-memory store with automated fallback to Supabase PostgreSQL for seamless local development and production persistence.
+
+### 6. ✍️ OpenDots Living Document Canvas (TipTap)
+- **Rich Document Editor**: Powered by TipTap, supporting Markdown, multi-level headings, tables, task lists, and custom code blocks.
+- **Slash Commands Menu (`/`)**: Compact keyboard-first menu to insert blocks, lists, and AI generators on the fly.
+- **Inline AI Writing Assistant**: Context-aware in-place generation gathering surrounding document context with shimmering skeleton loader.
+- **AI Image Generation**: Inline `/` -> **🖼️ Generate Image** powered by `gpt-image-2-text-to-image` with aspect ratio controls and smart prompt suggestion.
+
+### 7. 🔒 Security & Key Isolation
+- **Zero API Key Leakage**: API keys reside strictly on the backend (`server/.env`).
+- **Dynamic Environment Loading**: Backend dynamically loads keys using `load_dotenv(override=True)` and `os.getenv("MUAPI_API_KEY")`.
+- **Zero Client Footprint**: No sensitive credentials are ever embedded in frontend bundles or client network requests.
 
 ---
 
@@ -53,37 +60,45 @@ open-spaces/
 │   │   │   ├── page.js          # Core application dashboard & state orchestration
 │   │   │   └── globals.css      # Design tokens, typography & markdown body styling
 │   │   └── components/
-│   │       ├── CanvasPage.js    # Living canvas page with source mode and auto-save
-│   │       ├── OpenSpacesApp.js # Primary router, space switcher, and layout manager
-│   │       ├── Sidebar.js       # Spaces navigation, search, and DB health indicator
+│   │       ├── CanvasPage.js    # Living canvas page with revision history drawer & source mode
+│   │       ├── OpenSpacesApp.js # Primary router, space switcher, and state management
+│   │       ├── HomeWorkView.js  # ChatGPT-style card input, attachment preview & GPT-6 selector
+│   │       ├── CustomDropdown.js# Custom accessible dropdown with capability tags
+│   │       ├── SpaceSidebar.js  # Spaces navigation, search, and space management
+│   │       ├── SpaceLibrary.js  # Living pages library & document browser
 │   │       ├── SpaceChat.js     # Space chat with agent mentions & living page citations
+│   │       ├── ChatDrawer.js    # Slide-out assistant chat drawer with multi-turn memory
 │   │       └── editor/          # TipTap Rich Document Editor
 │   │           ├── RichEditor.js    # TipTap editor with toolbar and slash command trigger
 │   │           ├── AiPromptView.js  # Inline AI text generation node with local shimmering loader
 │   │           ├── AiImageView.js   # Inline image generation node with aspect ratios & prompt helper
 │   │           ├── slash-commands.js # Slash command definitions and fuzzy search
-│   │           ├── markdown.js      # TipTap extension registry & MarkdownManager
-│   │           └── editor.css       # Editor toolbar, menus, popups, and image styles
+│   │           └── markdown.js      # TipTap extension registry & MarkdownManager
 │   └── package.json
 │
 └── server/                      # Backend (FastAPI, SQLAlchemy, Supabase PostgreSQL, MuAPI Gateway)
     ├── app/
-    │   ├── main.py              # FastAPI app setup, CORS, and WebSocket router
-    │   ├── core/config.py       # Configuration and MuAPI environment variables
+    │   ├── main.py              # FastAPI app setup, CORS, and router registration
+    │   ├── core/
+    │   │   ├── config.py        # Settings and environment variables
+    │   │   └── auth.py          # User authentication and token helpers
     │   ├── db/
     │   │   ├── session.py       # SQLAlchemy engine with SSL pooling for Supabase
-    │   │   └── models.py        # Database schema definitions
+    │   │   └── models.py        # Database models (Spaces, Pages, Revisions, Activity, Members)
     │   ├── models/schemas.py    # Pydantic request/response schemas
+    │   ├── services/
+    │   │   └── space_store.py   # Dual-storage layer (Supabase + In-Memory Fallback)
     │   └── api/routers/
-    │       ├── chat.py          # Chat completions router powered by MuAPI text models
+    │       ├── chat.py          # GPT-6 series chat completions router (/api/v1/{model}/stream)
+    │       ├── files.py         # File & image upload router proxying to MuAPI CDN
     │       ├── images.py        # gpt-image-2 generation & prompt suggestion via MuAPI
-    │       ├── spaces.py        # Spaces CRUD & chat endpoints
-    │       ├── pages.py         # Living pages CRUD endpoints
+    │       ├── spaces.py        # Spaces CRUD, members, and activity log endpoints
+    │       ├── pages.py         # Living pages CRUD and revision history endpoints
     │       ├── agents.py        # Dot agent execution endpoints
     │       └── meetings.py      # Meeting audio notes & intelligence
     ├── run.py                   # Server runner on port 8000
     ├── requirements.txt
-    └── .env                     # Server environment variables & MuAPI key
+    └── .env                     # Server environment variables & MUAPI_API_KEY
 ```
 
 ---
@@ -102,7 +117,6 @@ DATABASE_URL=postgresql://postgres.xxx:password@aws-0-region.pooler.supabase.com
 DIRECT_URL=postgresql://postgres.xxx:password@aws-0-region.pooler.supabase.com:6543/postgres
 
 # MuAPI Configuration
-DEFAULT_MODEL=mimo-v2-6-flash-abliterated
 MUAPI_API_KEY=your_muapi_api_key_here
 ```
 
@@ -129,25 +143,34 @@ npm run dev
 
 ---
 
-## 🧪 Testing MuAPI Endpoints
+## 🧪 Testing Endpoints
 
-### Test Text / Chat Completions
+### 1. Test GPT-6 Series Chat Completions
 ```powershell
 Invoke-RestMethod -Uri "http://localhost:8000/api/chat" -Method POST `
   -ContentType "application/json" `
-  -Body '{"prompt": "Summarize vector search in 2 sentences"}'
+  -Body '{"model": "gpt-6-1-sol", "prompt": "Summarize vector search in 2 sentences"}'
 ```
 
-### Test Context-Aware Image Prompt Suggestion
+### 2. Test Multimodal Image Analysis
 ```powershell
-Invoke-RestMethod -Uri "http://localhost:8000/api/images/suggest-prompt" -Method POST `
+Invoke-RestMethod -Uri "http://localhost:8000/api/chat" -Method POST `
   -ContentType "application/json" `
-  -Body '{"context": "Deep learning transformer attention mechanisms", "title": "AI Architectures"}'
+  -Body '{"model": "gpt-6-1-sol", "prompt": "Describe this image", "image_url": "https://cdn.muapi.ai/outputs/sample.png"}'
 ```
 
-### Test Image Generation (Polls MuAPI until Completed)
+### 3. Test Direct Media Upload
 ```powershell
-Invoke-RestMethod -Uri "http://localhost:8000/api/images/generate" -Method POST `
-  -ContentType "application/json" `
-  -Body '{"prompt": "A modern glass architecture building at dusk, 8k", "aspect_ratio": "16:9"}'
+$form = @{ file = Get-Item "sample.jpg" }
+Invoke-RestMethod -Uri "http://localhost:8000/api/upload_file" -Method POST -Form $form
 ```
+
+---
+
+## 📄 Recent Changelog
+- **GPT-6 Series Integration**: Migrated chat backend to native MuAPI endpoints (`POST /api/v1/{model}/stream`) for `gpt-6-1-sol`, `gpt-6-astra`, `gpt-6-sol`, and `gpt-6-luna`.
+- **System Prompt & History Refactor**: Formatted last 10 messages chat history into `system_prompt` while maintaining purely user input in `prompt`.
+- **Media Upload Pipeline**: Implemented `POST /api/upload_file` forwarding to `https://api.muapi.ai/api/v1/upload_file` returning CDN URLs.
+- **ChatGPT Native Input Card**: Rebuilt prompt bar with attachment preview thumbnail, remove button, and upload guard.
+- **Document History & Collaboration**: Added revision history drawer, activity logging, and space membership management.
+- **API Key Security**: Purged all hardcoded keys and enforced dynamic `.env` loading.

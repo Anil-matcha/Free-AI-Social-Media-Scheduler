@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { SendIcon, SparklesIcon, BotIcon, PageIcon } from "./Icons";
+import CustomDropdown from "./CustomDropdown";
 
 export default function SpaceChat({
   messages = [],
@@ -106,23 +107,25 @@ export default function SpaceChat({
       {/* Input bar */}
       <div className="p-4 border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#19191d] transition-colors">
         <div className="max-w-4xl mx-auto space-y-2">
-          {/* Quick Tag Dot Agent pill */}
+          {/* Quick Tag Dot Agent with CustomDropdown */}
           <div className="flex items-center gap-2">
-            <span className="text-[11px] text-zinc-500 dark:text-zinc-400">Mention Dot:</span>
-            {agents.map((agent) => (
-              <button
-                key={agent.id}
-                type="button"
-                onClick={() => setSelectedAgent(agent.name)}
-                className={`text-[11px] px-2 py-0.5 rounded-full transition-colors ${
-                  selectedAgent === agent.name
-                    ? "bg-indigo-600 text-white"
-                    : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
-                }`}
-              >
-                @{agent.name.split(" ")[0]}
-              </button>
-            ))}
+            <span className="text-[11px] text-zinc-500 dark:text-zinc-400">Direct to:</span>
+            <CustomDropdown
+              value={selectedAgent}
+              onChange={setSelectedAgent}
+              options={[
+                { label: "Everyone (Space)", value: "", icon: "👥" },
+                ...agents.map((agent) => ({
+                  label: `@${agent.name}`,
+                  value: agent.name,
+                  icon: "🤖",
+                  description: agent.role,
+                })),
+              ]}
+              size="xs"
+              direction="up"
+              buttonClassName="bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-md py-0.5 px-2 text-[11px]"
+            />
           </div>
 
           <form onSubmit={handleSubmit} className="flex gap-2">

@@ -4,15 +4,34 @@ import React, { useState } from "react";
 import {
   SearchIcon,
   NewPageIcon,
-  PageIcon,
   FolderIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   PlusIcon,
-  CloseIcon,
   TrashIcon,
 } from "./Icons";
 import ThemeToggle from "./ThemeToggle";
+import CustomDropdown from "./CustomDropdown";
+
+const ICON_OPTIONS = [
+  { label: "📁 Folder", value: "📁" },
+  { label: "🚀 Launch", value: "🚀" },
+  { label: "🧠 Research", value: "🧠" },
+  { label: "💡 Ideation", value: "💡" },
+  { label: "⚡ Fast", value: "⚡" },
+  { label: "🎨 Design", value: "🎨" },
+  { label: "📊 Analytics", value: "📊" },
+  { label: "🛡️ Security", value: "🛡️" },
+];
+
+const COLOR_OPTIONS = [
+  { label: "Indigo", value: "indigo" },
+  { label: "Emerald", value: "emerald" },
+  { label: "Amber", value: "amber" },
+  { label: "Rose", value: "rose" },
+  { label: "Sky", value: "sky" },
+  { label: "Purple", value: "purple" },
+];
 
 export default function SpaceSidebar({
   spaces = [],
@@ -24,15 +43,27 @@ export default function SpaceSidebar({
   activePageId,
   onSelectPage,
   onCreatePage,
+  onDeletePage,
   isCreatingPage = false,
 }) {
   const [showNewSpaceModal, setShowNewSpaceModal] = useState(false);
   const [newSpaceName, setNewSpaceName] = useState("");
   const [newSpaceDesc, setNewSpaceDesc] = useState("");
+  const [newSpaceIcon, setNewSpaceIcon] = useState("📁");
+  const [newSpaceColor, setNewSpaceColor] = useState("indigo");
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedSpaces, setExpandedSpaces] = useState({
     [activeSpaceId]: true,
   });
+  const [expandedPages, setExpandedPages] = useState({});
+
+  const togglePageExpand = (pageId, e) => {
+    if (e) e.stopPropagation();
+    setExpandedPages((prev) => ({
+      ...prev,
+      [pageId]: prev[pageId] === undefined ? false : !prev[pageId],
+    }));
+  };
 
   const toggleSpaceExpand = (spaceId, e) => {
     if (e) e.stopPropagation();
@@ -48,11 +79,13 @@ export default function SpaceSidebar({
     onCreateSpace({
       name: newSpaceName.trim(),
       description: newSpaceDesc.trim(),
-      icon: "📁",
-      color: "indigo",
+      icon: newSpaceIcon,
+      color: newSpaceColor,
     });
     setNewSpaceName("");
     setNewSpaceDesc("");
+    setNewSpaceIcon("📁");
+    setNewSpaceColor("indigo");
     setShowNewSpaceModal(false);
   };
 
@@ -175,34 +208,102 @@ export default function SpaceSidebar({
                 )}
               </div>
 
-              {/* Nested Pages for this Space (OpenDots branches view) */}
+              {/* Nested Pages for this Space (Hierarchical Tree View) */}
               {isExpanded && (
-                <div className="pl-6 pr-1 space-y-0.5 border-l border-zinc-200 dark:border-zinc-800 ml-3">
+                <div className="pl-1 pr-1 space-y-0.5 border-l border-zinc-200 dark:border-zinc-800 ml-3">
                   {isSpaceActive && matchingPages.length > 0 ? (
-                    matchingPages.map((page) => {
-                      const isPageSelected = activePageId === page.id;
-                      return (
-                        <button
-                          key={page.id}
-                          onClick={() => {
-                            onSelectSpace(space.id);
-                            onSelectPage(page.id);
-                          }}
-                          className={`w-full flex items-center gap-1.5 px-2 py-1 rounded-md text-xs text-left transition-colors truncate cursor-pointer ${
-                            isPageSelected
-                              ? "bg-zinc-200/90 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-medium"
-                              : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/40 dark:hover:bg-zinc-800/40 hover:text-zinc-900 dark:hover:text-zinc-200"
-                          }`}
-                        >
-                          <span className="text-xs shrink-0">
-                            {page.icon || "📄"}
-                          </span>
-                          <span className="truncate">
-                            {page.title || "Untitled"}
-                          </span>
-                        </button>
-                      );
-                    })
+                    (() => {
+                      const pageIdSet = new Set(matchingPages.map((p) => p.id));
+                      const renderTree = (parentId = null, depth = 0) => {
+                        const levelPages = matchingPages.filter((p) => {
+                          if (parentId === null) {
+                            return !p.parent_id || !pageIdSet.has(p.parent_id);
+                          }
+                          return p.parent_id === parentId;
+                        });
+
+                        return levelPages.map((page) => {
+                          const isPageSelected = activePageId === page.id;
+                          const children = matchingPages.filter((c) => c.parent_id === page.id);
+                          const hasChildren = children.length > 0;
+                          const isPageExpanded = expandedPages[page.id] ?? true;
+
+                          return (
+                            <div key={page.id} className="space-y-0.5">
+                              <div
+                                className={`group/page flex items-center justify-between py-1 px-1.5 rounded-md text-xs transition-colors cursor-pointer ${
+                                  isPageSelected
+                                    ? "bg-zinc-200/90 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-medium"
+                                    : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/40 dark:hover:bg-zinc-800/40 hover:text-zinc-900 dark:hover:text-zinc-200"
+                                }`}
+                                style={{ paddingLeft: `${4 + depth * 12}px` }}
+                                onClick={() => {
+                                  onSelectSpace(space.id);
+                                  onSelectPage(page.id);
+                                }}
+                              >
+                                <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                                  {hasChildren ? (
+                                    <button
+                                      type="button"
+                                      onClick={(e) => togglePageExpand(page.id, e)}
+                                      className="p-0.5 rounded hover:bg-zinc-300/50 dark:hover:bg-zinc-600 text-zinc-400 shrink-0"
+                                      title={isPageExpanded ? "Collapse sub-pages" : "Expand sub-pages"}
+                                    >
+                                      {isPageExpanded ? (
+                                        <ChevronDownIcon className="w-2.5 h-2.5" />
+                                      ) : (
+                                        <ChevronRightIcon className="w-2.5 h-2.5" />
+                                      )}
+                                    </button>
+                                  ) : (
+                                    <span className="w-2.5 shrink-0" />
+                                  )}
+                                  <span className="text-xs shrink-0">{page.icon || "📄"}</span>
+                                  <span className="truncate">{page.title || "Untitled"}</span>
+                                </div>
+
+                                <div className="flex items-center gap-0.5 opacity-0 group-hover/page:opacity-100 transition-opacity shrink-0">
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      onCreatePage({
+                                        title: "Untitled sub-page",
+                                        content: "",
+                                        parent_id: page.id,
+                                      });
+                                      setExpandedPages((prev) => ({ ...prev, [page.id]: true }));
+                                    }}
+                                    title="Add sub-page"
+                                    className="p-0.5 rounded hover:bg-zinc-300/60 dark:hover:bg-zinc-600 text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400"
+                                  >
+                                    <PlusIcon className="w-3 h-3" />
+                                  </button>
+                                  {onDeletePage && (
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        onDeletePage(page.id);
+                                      }}
+                                      title="Delete page"
+                                      className="p-0.5 rounded hover:bg-zinc-300/60 dark:hover:bg-zinc-600 text-zinc-400 hover:text-red-500"
+                                    >
+                                      <TrashIcon className="w-3 h-3" />
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+
+                              {hasChildren && isPageExpanded && renderTree(page.id, depth + 1)}
+                            </div>
+                          );
+                        });
+                      };
+
+                      return renderTree(null, 0);
+                    })()
                   ) : (
                     <div className="text-[11px] text-zinc-400 px-2 py-1 italic">
                       No pages yet
@@ -263,6 +364,33 @@ export default function SpaceSidebar({
                   onChange={(e) => setNewSpaceDesc(e.target.value)}
                   className="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-xl px-3 py-1.5 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-zinc-500 resize-none"
                 />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label className="block text-[11px] font-medium text-zinc-500 mb-1">
+                    Icon
+                  </label>
+                  <CustomDropdown
+                    value={newSpaceIcon}
+                    onChange={setNewSpaceIcon}
+                    options={ICON_OPTIONS}
+                    className="w-full"
+                    buttonClassName="w-full justify-between bg-zinc-50 dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 rounded-xl"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-medium text-zinc-500 mb-1">
+                    Theme Color
+                  </label>
+                  <CustomDropdown
+                    value={newSpaceColor}
+                    onChange={setNewSpaceColor}
+                    options={COLOR_OPTIONS}
+                    className="w-full"
+                    buttonClassName="w-full justify-between bg-zinc-50 dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 rounded-xl"
+                  />
+                </div>
               </div>
 
               <div className="flex justify-end gap-2 pt-1">

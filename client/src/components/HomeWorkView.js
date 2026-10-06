@@ -17,6 +17,7 @@ import {
   ShareIcon,
 } from "./Icons";
 import MarkdownRenderer from "./MarkdownRenderer";
+import CustomDropdown from "./CustomDropdown";
 
 export default function HomeWorkView({
   activeProject = "General",
@@ -29,8 +30,8 @@ export default function HomeWorkView({
   onOpenCanvas,
 }) {
   const [promptText, setPromptText] = useState("");
-  const [showModelMenu, setShowModelMenu] = useState(false);
-  const [attachedFile, setAttachedFile] = useState(null);
+  const [attachedImage, setAttachedImage] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
   const [copiedIdx, setCopiedIdx] = useState(null);
 
   const fileInputRef = useRef(null);
@@ -68,44 +69,81 @@ export default function HomeWorkView({
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
-      const nextHeight = Math.min(textareaRef.current.scrollHeight, 180);
-      textareaRef.current.style.height = `${Math.max(nextHeight, 28)}px`;
+      const nextHeight = Math.min(textareaRef.current.scrollHeight, 200);
+      textareaRef.current.style.height = `${Math.max(nextHeight, 36)}px`;
     }
   }, [promptText]);
 
-  const handleFileUpload = (e) => {
+  const handleFileUpload = async (e) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file || !file.type.startsWith("image/")) return;
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      setAttachedFile({
-        name: file.name,
-        size: (file.size / 1024).toFixed(1) + " KB",
-        content: event.target.result,
-        type: file.type,
+    const localPreviewUrl = URL.createObjectURL(file);
+
+    // Show preview thumbnail locally while uploading, url is null until upload returns hosted link
+    setAttachedImage({
+      name: file.name,
+      previewUrl: localPreviewUrl,
+      url: null,
+    });
+
+    setIsUploading(true);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("http://localhost:8000/api/upload_file", {
+        method: "POST",
+        headers: { "X-User-Id": "usr-1" },
+        body: formData,
       });
-    };
-    reader.readAsText(file);
-    e.target.value = "";
+
+      if (res.ok) {
+        const data = await res.json();
+        // data.url is the hosted public link from MuAPI (https://cdn.muapi.ai/...)
+        setAttachedImage((prev) => ({
+          ...prev,
+          url: data.url,
+        }));
+        setIsUploading(false);
+        e.target.value = "";
+        return;
+      } else {
+        const err = await res.json().catch(() => ({}));
+        console.error("Upload failed:", res.status, err);
+        alert(`Image upload failed: ${err.detail || res.statusText || res.status}`);
+        setAttachedImage(null);
+      }
+    } catch (err) {
+      console.error("Upload to server failed:", err);
+      alert("Failed to connect to upload server. Please check your network or server status.");
+      setAttachedImage(null);
+    } finally {
+      setIsUploading(false);
+      if (e.target) e.target.value = "";
+    }
   };
 
   const handleSend = (e) => {
     if (e) e.preventDefault();
-    if ((!promptText.trim() && !attachedFile) || isLoading) return;
+    if (isLoading || isUploading) return;
+    if (!promptText.trim() && !attachedImage) return;
 
-    let finalPrompt = promptText.trim();
-    if (attachedFile) {
-      finalPrompt = finalPrompt
-        ? `[Attached File: ${attachedFile.name}]\n${attachedFile.content}\n\n${finalPrompt}`
-        : `[Attached File: ${attachedFile.name}]\nPlease analyze this attached document:\n${attachedFile.content}`;
+    // Must wait for image to upload and obtain its hosted link
+    if (attachedImage && !attachedImage.url) {
+      return;
     }
 
-    onSubmitPrompt(finalPrompt);
+    const finalPrompt = promptText.trim();
+    // Strictly the hosted public link (https://...), NEVER a local blob
+    const imageUrl = attachedImage?.url || null;
+
+    onSubmitPrompt(finalPrompt, imageUrl);
     setPromptText("");
-    setAttachedFile(null);
+    setAttachedImage(null);
     if (textareaRef.current) {
-      textareaRef.current.style.height = "28px";
+      textareaRef.current.style.height = "36px";
     }
   };
 
@@ -115,136 +153,99 @@ export default function HomeWorkView({
     setTimeout(() => setCopiedIdx(null), 2000);
   };
 
-  // Reusable Pill / Capsule Input Box complying with THEME_PLAN.md
+  // ChatGPT Native Card Input Box matching screenshot
   const renderInputBar = () => {
-    const isMultiline =
-      (promptText.match(/\n/g) || []).length > 0 || promptText.length > 80;
-
     return (
       <div className="w-full max-w-3xl mx-auto relative select-none">
-        {/* Models Switcher Popover Menu */}
-        {showModelMenu && (
-          <div className="absolute right-12 bottom-full mb-2 w-64 bg-white dark:bg-[#1f1f23] text-zinc-900 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700/80 rounded-xl shadow-xl p-1.5 z-40 backdrop-blur-md">
-            <div className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400 px-2.5 py-1.5 flex items-center justify-between border-b border-zinc-200 dark:border-zinc-700/60 mb-1">
-              <span>ChatGPT 6 Series (MuAPI)</span>
+        {/* Outer Card Container */}
+        <div className="flex flex-col bg-[#f4f4f5] dark:bg-[#212121] border border-zinc-200 dark:border-zinc-700/70 p-3 sm:p-3.5 rounded-3xl shadow-sm hover:border-zinc-300 dark:hover:border-zinc-600 focus-within:border-zinc-300 dark:focus-within:border-zinc-600 transition-all">
+          {/* Top Section: Uploaded Image Preview Thumbnail */}
+          {attachedImage && (
+            <div className="relative group w-20 h-20 mb-3 shrink-0">
+              <img
+                src={attachedImage.previewUrl || attachedImage.url}
+                alt={attachedImage.name || "Preview"}
+                className="w-20 h-20 rounded-2xl object-cover border border-zinc-300/60 dark:border-zinc-700/80 shadow-xs"
+              />
+              {isUploading && (
+                <div className="absolute inset-0 bg-black/40 rounded-2xl flex items-center justify-center backdrop-blur-[1px]">
+                  <div className="w-5 h-5 border-2 border-white/80 border-t-transparent rounded-full animate-spin" />
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={() => setAttachedImage(null)}
+                title="Remove image"
+                className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-zinc-800 text-white dark:bg-zinc-700 hover:bg-black dark:hover:bg-zinc-600 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity shadow-sm cursor-pointer"
+              >
+                <CloseIcon className="w-3 h-3" />
+              </button>
             </div>
-            <div className="space-y-0.5">
-              {models.map((m) => {
-                const isSelected = selectedModel === m.id;
-                return (
-                  <button
-                    key={m.id}
-                    type="button"
-                    onClick={() => {
-                      onSelectModel(m.id);
-                      setShowModelMenu(false);
-                    }}
-                    className={`w-full text-left px-2.5 py-2 rounded-xl text-xs flex items-center justify-between transition-colors cursor-pointer ${
-                      isSelected
-                        ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white font-medium shadow-2xs"
-                        : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800/60 hover:text-zinc-900 dark:hover:text-white"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm">{m.icon}</span>
-                      <div>
-                        <div className="leading-snug">{m.name}</div>
-                        <div className="text-[10px] text-zinc-400">{m.tag}</div>
-                      </div>
-                    </div>
-                    {isSelected && (
-                      <CheckIcon className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400 shrink-0" />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
+          )}
 
-        {/* Outer Capsule / Pill conforming to THEME_PLAN */}
-        <div
-          className={`flex items-end gap-2 bg-[#f4f4f5] dark:bg-[#212121] border border-zinc-200 dark:border-zinc-700/70 p-2 px-3 shadow-sm hover:border-zinc-300 dark:hover:border-zinc-600 transition-all ${
-            isMultiline || attachedFile ? "rounded-3xl" : "rounded-full"
-          }`}
-        >
-          {/* Left: Upload + Button */}
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            title="Attach file or image"
-            className="w-8 h-8 rounded-full text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-200/80 dark:hover:bg-zinc-700/50 flex items-center justify-center transition-colors shrink-0 mb-0.5 cursor-pointer"
-          >
-            <PlusIcon className="w-4 h-4" />
-          </button>
+          {/* Middle Section: Expandable Textarea */}
+          <textarea
+            ref={textareaRef}
+            rows={1}
+            value={promptText}
+            onChange={(e) => setPromptText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
+            }}
+            placeholder="Ask ChatGPT"
+            className="w-full bg-transparent text-sm sm:text-base text-zinc-900 dark:text-zinc-100 placeholder-zinc-500 dark:placeholder-zinc-400 resize-none focus:outline-none leading-relaxed py-1 px-1 min-h-[36px] max-h-48 overflow-y-auto"
+          />
 
-          {/* Middle: Attached file chip + Expandable Textarea */}
-          <div className="flex-1 flex flex-col min-w-0">
-            {attachedFile && (
-              <div className="flex items-center gap-1.5 px-2 py-0.5 mb-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-xs w-fit text-zinc-800 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700">
-                <PageIcon className="w-3 h-3 text-indigo-500" />
-                <span className="truncate max-w-xs text-[11px] font-medium">
-                  {attachedFile.name}
-                </span>
-                <span className="text-[10px] text-zinc-500 dark:text-zinc-400">
-                  ({attachedFile.size})
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setAttachedFile(null)}
-                  className="text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white ml-0.5"
-                >
-                  <CloseIcon className="w-3 h-3" />
-                </button>
-              </div>
-            )}
-
-            <textarea
-              ref={textareaRef}
-              rows={1}
-              value={promptText}
-              onChange={(e) => setPromptText(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
-              placeholder="Ask ChatGPT"
-              className="w-full bg-transparent text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-500 dark:placeholder-zinc-400 resize-none focus:outline-none leading-relaxed py-1.5 px-1 max-h-48 overflow-y-auto"
-            />
-          </div>
-
-          {/* Right: Models button & Send Arrow button */}
-          <div className="flex items-center gap-1.5 shrink-0 mb-0.5">
-            {/* Models Dropdown Button */}
+          {/* Bottom Row: Left (+) and Right (Think, Mic, Green Send Arrow) */}
+          <div className="flex items-center justify-between pt-2 select-none">
+            {/* Left: Upload Image + Button */}
             <button
               type="button"
-              onClick={() => setShowModelMenu(!showModelMenu)}
-              title={`Switch Model: ${currentModelObj.name}`}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors border cursor-pointer ${
-                showModelMenu
-                  ? "bg-zinc-200 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 text-zinc-900 dark:text-white"
-                  : "bg-transparent hover:bg-zinc-200/80 dark:hover:bg-zinc-800/80 border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 text-zinc-700 dark:text-zinc-300"
-              }`}
+              onClick={() => fileInputRef.current?.click()}
+              title="Attach image"
+              className="w-8 h-8 rounded-full text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-200/80 dark:hover:bg-zinc-800/80 flex items-center justify-center transition-colors cursor-pointer"
             >
-              <span>{currentModelObj.icon}</span>
-              <span className="truncate max-w-[130px]">
-                {currentModelObj.name}
-              </span>
-              <ChevronDownIcon className="w-3 h-3 text-zinc-400 ml-0.5" />
+              <PlusIcon className="w-4 h-4" />
             </button>
+
+            {/* Right: Think, Mic, and Circular Green Send Button */}
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              {/* Think Button (Models Dropdown) */}
+              <CustomDropdown
+                value={selectedModel}
+                onChange={onSelectModel}
+                options={models.map((m) => ({
+                  label: m.name,
+                  value: m.id,
+                  icon: m.icon,
+                  tag: m.tag,
+                }))}
+                direction="up"
+                align="right"
+              header="ChatGPT 6 Series (MuAPI)"
+                menuClassName="w-64 bg-white dark:bg-[#1f1f23] border-zinc-200 dark:border-zinc-700/80 p-1.5 shadow-2xl backdrop-blur-md"
+              buttonClassName="bg-transparent hover:bg-zinc-200/80 dark:hover:bg-zinc-800/80 border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-full px-3 py-1.5"
+              />
 
             {/* Send Arrow Button */}
-            <button
-              type="button"
-              onClick={handleSend}
-              disabled={isLoading || (!promptText.trim() && !attachedFile)}
-              title="Send message"
-              className="w-8 h-8 rounded-full bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:hover:bg-zinc-200 dark:text-zinc-900 flex items-center justify-center transition-transform hover:scale-105 shadow-sm shrink-0 cursor-pointer disabled:opacity-30 disabled:hover:scale-100"
-            >
-              <ArrowUpIcon className="w-4 h-4 stroke-[2.5]" />
-            </button>
+              <button
+                type="button"
+                onClick={handleSend}
+                disabled={
+                  isLoading ||
+                  isUploading ||
+                  (!promptText.trim() && !attachedImage) ||
+                  (attachedImage && !attachedImage.url)
+                }
+                title="Send message"
+                className="w-8 h-8 rounded-full bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:hover:bg-zinc-200 dark:text-zinc-900 flex items-center justify-center transition-transform hover:scale-105 shadow-sm shrink-0 cursor-pointer disabled:opacity-30 disabled:hover:scale-100 disabled:cursor-not-allowed"
+              >
+                <ArrowUpIcon className="w-4 h-4 stroke-[2.5]" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -253,13 +254,13 @@ export default function HomeWorkView({
 
   return (
     <div className="flex-1 flex flex-col h-full bg-[#fbfbfa] dark:bg-[#141416] text-zinc-900 dark:text-zinc-100 overflow-hidden transition-colors duration-150 select-none">
-      {/* Hidden File Input for the upload + button */}
+      {/* Hidden File Input strictly for images */}
       <input
         type="file"
         ref={fileInputRef}
         onChange={handleFileUpload}
         className="hidden"
-        accept=".txt,.md,.json,.js,.py,.csv,.html,.css,.doc,.pdf"
+        accept="image/*"
       />
 
       {/* 1. Chat Conversation Active Mode */}
@@ -277,7 +278,14 @@ export default function HomeWorkView({
                   >
                     {isUser ? (
                       /* User message styled for both Light and Dark mode */
-                      <div className="bg-[#f4f4f5] dark:bg-[#1a402d] text-zinc-900 dark:text-zinc-100 border border-zinc-200/80 dark:border-transparent px-4 py-2.5 rounded-3xl text-sm leading-relaxed max-w-xl shadow-xs select-text">
+                      <div className="bg-[#f4f4f5] dark:bg-[#1a402d] text-zinc-900 dark:text-zinc-100 border border-zinc-200/80 dark:border-transparent px-4 py-2.5 rounded-3xl text-sm leading-relaxed max-w-xl shadow-xs select-text space-y-2">
+                        {msg.image_url && (
+                          <img
+                            src={msg.image_url}
+                            alt="Attached image"
+                            className="max-h-60 rounded-xl object-contain border border-zinc-200 dark:border-zinc-700/60 shadow-xs"
+                          />
+                        )}
                         <p className="whitespace-pre-wrap">{msg.content}</p>
                       </div>
                     ) : (
@@ -387,7 +395,7 @@ export default function HomeWorkView({
         /* 2. Initial Centered "What should we work on?" view */
         <div className="flex-1 flex flex-col items-center justify-center px-4 -mt-12">
           <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 mb-8 text-center">
-            What should we work on?
+            What's on the agenda today?
           </h1>
 
           {/* Capsule Input Field */}

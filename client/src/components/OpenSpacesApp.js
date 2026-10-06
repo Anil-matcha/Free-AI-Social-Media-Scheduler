@@ -11,6 +11,7 @@ import HomeWorkView from "./HomeWorkView";
 import ChatDrawer from "./ChatDrawer";
 
 const API_BASE = "http://localhost:8000/api";
+const AUTH_HEADERS = { "X-User-Id": "usr-1" };
 const STORAGE_KEY = "open_spaces_chat_history";
 const LAST_ROUTE_KEY = "open_spaces_last_route";
 
@@ -46,6 +47,7 @@ export default function OpenSpacesApp({
   const [isCreatingPage, setIsCreatingPage] = useState(false);
   const [messages, setMessages] = useState([]);
   const [chatOpen, setChatOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [saveTrigger, setSaveTrigger] = useState(0);
 
@@ -121,7 +123,7 @@ export default function OpenSpacesApp({
   // 2. Fetch Spaces on load and restore route from URL or localStorage
   const fetchSpaces = useCallback(async () => {
     try {
-      const res = await fetch(`${API_BASE}/spaces`);
+      const res = await fetch(`${API_BASE}/spaces`, { headers: AUTH_HEADERS });
       if (res.ok) {
         const data = await res.json();
         setSpaces(data);
@@ -188,7 +190,7 @@ export default function OpenSpacesApp({
   const fetchSpaceDetails = useCallback(async (spaceId, targetPageId = null) => {
     if (!spaceId) return;
     try {
-      const pRes = await fetch(`${API_BASE}/spaces/${spaceId}/pages`);
+      const pRes = await fetch(`${API_BASE}/spaces/${spaceId}/pages`, { headers: AUTH_HEADERS });
       if (pRes.ok) {
         const pData = await pRes.json();
         setPages(pData);
@@ -200,7 +202,7 @@ export default function OpenSpacesApp({
         }
       }
 
-      const mRes = await fetch(`${API_BASE}/spaces/${spaceId}/messages`);
+      const mRes = await fetch(`${API_BASE}/spaces/${spaceId}/messages`, { headers: AUTH_HEADERS });
       if (mRes.ok) {
         const mData = await mRes.json();
         setMessages(mData);
@@ -354,8 +356,14 @@ export default function OpenSpacesApp({
   };
 
   // Submit prompt to ChatGPT 6 series
-  const handleSubmitPrompt = async (prompt) => {
-    const userMsg = { role: "user", content: prompt };
+  const handleSubmitPrompt = async (prompt, imageUrl = null) => {
+    if ((!prompt || !prompt.trim()) && !imageUrl) return;
+
+    const userMsg = {
+      role: "user",
+      content: prompt,
+      ...(imageUrl ? { image_url: imageUrl } : {}),
+    };
     const updatedConv = [...conversation, userMsg];
     setConversation(updatedConv);
     setIsGenerating(true);
@@ -368,7 +376,7 @@ export default function OpenSpacesApp({
       currentId = "chat-" + generateUUID();
       setActiveConversationId(currentId);
       const title =
-        prompt.length > 36 ? prompt.slice(0, 36).trim() + "..." : prompt;
+        prompt && prompt.length > 36 ? prompt.slice(0, 36).trim() + "..." : (prompt || "Image Analysis");
       const newConv = {
         id: currentId,
         title,
@@ -397,6 +405,7 @@ export default function OpenSpacesApp({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           prompt,
+          image_url: imageUrl || undefined,
           model: selectedModel,
           project: activeProject,
           history: updatedConv,
@@ -408,7 +417,8 @@ export default function OpenSpacesApp({
         const data = await res.json();
         assistantReply = data.reply;
       } else {
-        assistantReply = `[${selectedModel}] I received your prompt. Let's begin drafting the plan in your Space.`;
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.detail || `AI service returned error status ${res.status}`);
       }
 
       const finalConv = [
@@ -426,10 +436,10 @@ export default function OpenSpacesApp({
       persistConversations(finalizedList);
     } catch (err) {
       console.error("Error calling chat endpoint:", err);
-      const fallbackReply = `[GPT-6.1 Sol Light] Here is the outline for "${prompt}":\n\n1. Scope and target deliverables.\n2. Ingest contextual documents into Living Pages.\n3. Delegate tasks to autonomous Dot agents.`;
+      const errorMsg = `⚠️ Generation failed: ${err.message || "Unable to reach AI service"}`;
       const finalConv = [
         ...updatedConv,
-        { role: "assistant", content: fallbackReply },
+        { role: "assistant", content: errorMsg, isError: true },
       ];
       setConversation(finalConv);
       const finalizedList = currentList.map((c) =>
@@ -477,7 +487,7 @@ export default function OpenSpacesApp({
     try {
       const res = await fetch(`${API_BASE}/spaces`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { ...AUTH_HEADERS, "Content-Type": "application/json" },
         body: JSON.stringify(spaceData),
       });
       if (res.ok) {
@@ -498,6 +508,7 @@ export default function OpenSpacesApp({
     try {
       const res = await fetch(`${API_BASE}/spaces/${spaceId}`, {
         method: "DELETE",
+        headers: AUTH_HEADERS,
       });
       if (res.ok) {
         const remaining = spaces.filter((s) => s.id !== spaceId);
@@ -521,7 +532,7 @@ export default function OpenSpacesApp({
         targetSpace = spaces[0];
       } else {
         try {
-          const sRes = await fetch(`${API_BASE}/spaces`);
+          const sRes = await fetch(`${API_BASE}/spaces`, { headers: AUTH_HEADERS });
           if (sRes.ok) {
             const list = await sRes.json();
             if (list.length > 0) {
@@ -568,7 +579,7 @@ export default function OpenSpacesApp({
     try {
       const res = await fetch(`${API_BASE}/spaces/${targetSpace.id}/pages`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { ...AUTH_HEADERS, "Content-Type": "application/json" },
         body: JSON.stringify({
           title: titleStr,
           content: contentStr,
@@ -600,9 +611,14 @@ export default function OpenSpacesApp({
     try {
       const res = await fetch(`${API_BASE}/spaces/${activeSpace.id}/pages/${pageId}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { ...AUTH_HEADERS, "Content-Type": "application/json" },
         body: JSON.stringify(updateData),
       });
+      if (res && res.status === 409) {
+        const conflictData = await res.json();
+        setSaveStatus("Conflict");
+        return { conflict: true, detail: conflictData.detail };
+      }
       if (res && res.ok) {
         const updated = await res.json();
         setPages((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
@@ -621,11 +637,33 @@ export default function OpenSpacesApp({
     }
   };
 
+  const handleRestoreRevision = async (pageId, version) => {
+    if (!activeSpace || !pageId) return null;
+    setSaveStatus("Saving...");
+    try {
+      const res = await fetch(`${API_BASE}/spaces/${activeSpace.id}/pages/${pageId}/revisions/${version}/restore`, {
+        method: "POST",
+        headers: AUTH_HEADERS,
+      });
+      if (res.ok) {
+        const restored = await res.json();
+        setPages((prev) => prev.map((p) => (p.id === restored.id ? restored : p)));
+        setSaveStatus("Saved");
+        return restored;
+      }
+    } catch (err) {
+      console.error("Error restoring revision:", err);
+    }
+    setSaveStatus("Failed");
+    return null;
+  };
+
   const handleDeletePage = async (pageId) => {
     if (!activeSpace || !pageId) return;
     try {
       const res = await fetch(`${API_BASE}/spaces/${activeSpace.id}/pages/${pageId}`, {
         method: "DELETE",
+        headers: AUTH_HEADERS,
       });
       if (res.ok) {
         setPages((prev) => prev.filter((p) => p.id !== pageId));
@@ -686,6 +724,7 @@ export default function OpenSpacesApp({
           activePageId={activePageId}
           onSelectPage={handleSelectPage}
           onCreatePage={handleCreatePage}
+          onDeletePage={handleDeletePage}
           isCreatingPage={isCreatingPage}
         />
       )}
@@ -739,6 +778,8 @@ export default function OpenSpacesApp({
               onNewPage={() => handleCreatePage({ title: "Untitled page", content: "" })}
               onToggleChat={() => setChatOpen(!chatOpen)}
               chatOpen={chatOpen}
+              onToggleHistory={() => setHistoryOpen(!historyOpen)}
+              historyOpen={historyOpen}
               onTriggerAI={() => setChatOpen(true)}
               onDownloadMarkdown={handleDownloadMarkdown}
               onDeletePage={() => handleDeletePage(activePageId)}
@@ -752,6 +793,9 @@ export default function OpenSpacesApp({
                 onUpdatePage={handleUpdatePage}
                 onStatusChange={setSaveStatus}
                 saveTrigger={saveTrigger}
+                historyOpen={historyOpen}
+                onCloseHistory={() => setHistoryOpen(false)}
+                onRestoreRevision={handleRestoreRevision}
                 onTriggerAI={(p) => handleSubmitPrompt(p)}
               />
 
@@ -763,6 +807,8 @@ export default function OpenSpacesApp({
                   onSendMessage={() => {}}
                   agents={activeSpace?.agents || []}
                   activePageTitle={activePage?.title}
+                  activePageId={activePage?.id}
+                  spaceId={activeSpace?.id}
                 />
               )}
             </div>

@@ -1,13 +1,17 @@
 import asyncio
 from typing import List
-from fastapi import APIRouter, HTTPException, BackgroundTasks
+from fastapi import APIRouter, HTTPException, Depends, BackgroundTasks
 from app.models.schemas import AgentDot, AgentRunRequest, MessageCreate
 from app.services.space_store import store
+from app.core.auth import require_space_access
 
 router = APIRouter(prefix="/spaces/{space_id}/agents", tags=["Dots (AI Agents)"])
 
 @router.get("", response_model=List[AgentDot])
-def list_agents(space_id: str):
+def list_agents(
+    space_id: str,
+    _role: str = Depends(require_space_access(["viewer", "commenter", "editor", "owner"]))
+):
     space = store.get_space(space_id)
     if not space:
         raise HTTPException(status_code=404, detail="Space not found")
@@ -41,7 +45,8 @@ async def _simulate_agent_execution(space_id: str, agent_name: str, prompt: str,
 async def run_agent_task(
     space_id: str,
     payload: AgentRunRequest,
-    background_tasks: BackgroundTasks
+    background_tasks: BackgroundTasks,
+    _role: str = Depends(require_space_access(["editor", "owner"]))
 ):
     space = store.get_space(space_id)
     if not space:

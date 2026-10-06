@@ -161,11 +161,22 @@ async def suggest_image_prompt(payload: SuggestPromptRequest):
                 text = data["choices"][0]["message"]["content"].strip()
                 cleaned = text.strip('"\'`').replace("\n", " ")
                 return SuggestPromptResponse(suggested_prompt=cleaned)
+            else:
+                err_detail = resp.text
+                try:
+                    err_json = resp.json()
+                    err_detail = err_json.get("error", {}).get("message") or err_json.get("detail") or resp.text
+                except Exception:
+                    pass
+                raise HTTPException(
+                    status_code=502,
+                    detail=f"MuAPI upstream provider error: HTTP {resp.status_code} - {err_detail}"
+                )
+    except HTTPException:
+        raise
     except Exception as e:
         print(f"Error suggesting image prompt: {e}")
-
-    # Fallback contextual prompt
-    snippet = context.split("\n")[0][:60]
-    return SuggestPromptResponse(
-        suggested_prompt=f"Minimalist editorial 3D concept render illustrating {snippet}, soft studio lighting, high resolution"
-    )
+        raise HTTPException(
+            status_code=502,
+            detail=f"Failed to generate suggested prompt: {str(e)}"
+        )
