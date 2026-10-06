@@ -313,30 +313,6 @@ export default function HomeWorkView({
 
                             <button
                               type="button"
-                              title="Bad response"
-                              className="p-1.5 rounded-md hover:bg-zinc-200/60 dark:hover:bg-zinc-800 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
-                            >
-                              <ThumbsDownIcon className="w-3.5 h-3.5" />
-                            </button>
-
-                            <button
-                              type="button"
-                              title="Share"
-                              className="p-1.5 rounded-md hover:bg-zinc-200/60 dark:hover:bg-zinc-800 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
-                            >
-                              <ShareIcon className="w-3.5 h-3.5" />
-                            </button>
-
-                            <button
-                              type="button"
-                              title="Read aloud"
-                              className="p-1.5 rounded-md hover:bg-zinc-200/60 dark:hover:bg-zinc-800 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
-                            >
-                              <VolumeIcon className="w-3.5 h-3.5" />
-                            </button>
-
-                            <button
-                              type="button"
                               onClick={() =>
                                 onSubmitPrompt(
                                   conversation[idx - 1]?.content || "Retry",
@@ -346,14 +322,6 @@ export default function HomeWorkView({
                               className="p-1.5 rounded-md hover:bg-zinc-200/60 dark:hover:bg-zinc-800 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
                             >
                               <RotateIcon className="w-3.5 h-3.5" />
-                            </button>
-
-                            <button
-                              type="button"
-                              title="More options"
-                              className="p-1.5 rounded-md hover:bg-zinc-200/60 dark:hover:bg-zinc-800 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
-                            >
-                              <MoreIcon className="w-3.5 h-3.5" />
                             </button>
                           </div>
 
@@ -387,7 +355,7 @@ export default function HomeWorkView({
           </div>
 
           {/* Sticky Bottom Bar (Always pinned at bottom, never overflows) */}
-          <div className="shrink-0 p-3 sm:p-4 bg-transparent border-t border-transparent">
+          <div className="shrink-0 bg-transparent border-t border-transparent">
             {renderInputBar()}
           </div>
         </>

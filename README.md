@@ -6,6 +6,12 @@ OpenSpaces bridges the gap between static documents and collaborative intelligen
 
 ---
 
+## 🎥 Walkthrough & Demo
+
+https://github.com/user-attachments/assets/3823b656-c8c2-4912-9b31-6db7f438dd2c
+
+---
+
 ## 🌟 Key Features & Updates
 
 ### 1. 🧠 GPT-6 Series Intelligence (Native MuAPI Endpoints)
@@ -173,4 +179,5 @@ Invoke-RestMethod -Uri "http://localhost:8000/api/upload_file" -Method POST -For
 - **Media Upload Pipeline**: Implemented `POST /api/upload_file` forwarding to `https://api.muapi.ai/api/v1/upload_file` returning CDN URLs.
 - **ChatGPT Native Input Card**: Rebuilt prompt bar with attachment preview thumbnail, remove button, and upload guard.
 - **Document History & Collaboration**: Added revision history drawer, activity logging, and space membership management.
+- **Tutorial & Walkthrough Video**: Embedded high-resolution demo walkthrough highlighting ChatGPT Spaces UI, living canvas, and GPT-6 integration.
 - **API Key Security**: Purged all hardcoded keys and enforced dynamic `.env` loading.
