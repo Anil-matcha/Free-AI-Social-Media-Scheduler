@@ -18,6 +18,7 @@ import {
 } from "./Icons";
 import MarkdownRenderer from "./MarkdownRenderer";
 import CustomDropdown from "./CustomDropdown";
+import { AI_MODELS } from "../constants/models";
 
 export default function HomeWorkView({
   activeProject = "General",
@@ -38,22 +39,7 @@ export default function HomeWorkView({
   const textareaRef = useRef(null);
   const messagesEndRef = useRef(null);
 
-  const models = [
-    {
-      id: "gpt-6-1-sol",
-      name: "GPT-6.1 Sol Light",
-      tag: "Fast & Capable",
-      icon: "⚡",
-    },
-    {
-      id: "gpt-6-astra",
-      name: "GPT-6 Astra",
-      tag: "Deep Reasoning",
-      icon: "🧠",
-    },
-    { id: "gpt-6-sol", name: "GPT-6 Sol", tag: "Balanced", icon: "✨" },
-    { id: "gpt-6-luna", name: "GPT-6 Luna", tag: "Ultra Light", icon: "🌙" },
-  ];
+  const models = AI_MODELS;
 
   const currentModelObj =
     models.find((m) => m.id === selectedModel) || models[0];
@@ -222,12 +208,14 @@ export default function HomeWorkView({
                   value: m.id,
                   icon: m.icon,
                   tag: m.tag,
+                  group: m.group,
                 }))}
-                direction="up"
+                searchable={true}
+                direction="auto"
                 align="right"
-                header="Open Spaces 6 Series (MuAPI)"
-                menuClassName="w-64 bg-white dark:bg-[#1f1f23] border-zinc-200 dark:border-zinc-700/80 p-1.5 shadow-2xl backdrop-blur-md"
-              buttonClassName="bg-transparent hover:bg-zinc-200/80 dark:hover:bg-zinc-800/80 border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-full px-3 py-1.5"
+                header="Open Spaces AI Models (MuAPI)"
+                menuClassName="w-80 bg-white dark:bg-[#1f1f23] border-zinc-200 dark:border-zinc-700/80 p-1.5 shadow-2xl backdrop-blur-md"
+                buttonClassName="bg-transparent hover:bg-zinc-200/80 dark:hover:bg-zinc-800/80 border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-full px-3 py-1.5 text-xs"
               />
 
             {/* Send Arrow Button */}
