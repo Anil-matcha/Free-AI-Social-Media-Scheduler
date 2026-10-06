@@ -11,6 +11,25 @@ ROLE_HIERARCHY = {
     "viewer": 1
 }
 
+def get_optional_current_user(
+    x_user_id: Optional[str] = Header(None, alias="X-User-Id"),
+    authorization: Optional[str] = Header(None),
+    db: Session = Depends(get_db)
+) -> Optional[UserDB]:
+    """
+    Returns the current user if authenticated, or None if guest.
+    """
+    user_id = x_user_id
+    if not user_id and authorization and authorization.startswith("Bearer "):
+        token = authorization[7:].strip()
+        if token.startswith("usr-"):
+            user_id = token
+
+    if not user_id:
+        return None
+
+    return db.query(UserDB).filter(UserDB.id == user_id).first()
+
 def get_current_user(
     x_user_id: Optional[str] = Header(None, alias="X-User-Id"),
     authorization: Optional[str] = Header(None),
@@ -20,39 +39,34 @@ def get_current_user(
     Resolves the current authenticated user.
     Requires verified X-User-Id or Bearer token header.
     """
-    user_id = x_user_id
-    if not user_id and authorization and authorization.startswith("Bearer "):
-        token = authorization[7:].strip()
-        if token.startswith("usr-"):
-            user_id = token
-
-    if not user_id:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Authentication required: Provide X-User-Id or Authorization header",
-        )
-
-    user = db.query(UserDB).filter(UserDB.id == user_id).first()
+    user = get_optional_current_user(x_user_id=x_user_id, authorization=authorization, db=db)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"User '{user_id}' not found or session invalid",
+            detail="Authentication required: Please login first",
         )
-
     return user
 
 def require_space_access(allowed_roles: List[str]):
     """
     FastAPI dependency factory enforcing verified space membership and role hierarchy.
     """
-    async def dependency(
+    def dependency(
         space_id: str,
-        user: UserDB = Depends(get_current_user),
+        user: Optional[UserDB] = Depends(get_optional_current_user),
         db: Session = Depends(get_db)
     ) -> str:
         space = db.query(OpenSpaceDB).filter(OpenSpaceDB.id == space_id).first()
         if not space:
             raise HTTPException(status_code=404, detail="Space not found")
+
+        if not user:
+            if "viewer" in allowed_roles:
+                return "viewer"
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Authentication required: Please login first"
+            )
 
         # Check membership table
         member = db.query(SpaceMemberDB).filter(
@@ -73,10 +87,13 @@ def require_space_access(allowed_roles: List[str]):
                     break
 
         if not user_role:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Access denied: You are not a member of this space"
-            )
+            if "viewer" in allowed_roles:
+                user_role = "viewer"
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="Access denied: Please login first"
+                )
 
         user_level = ROLE_HIERARCHY.get(user_role, 0)
         min_required_level = min(ROLE_HIERARCHY.get(r, 1) for r in allowed_roles)

@@ -52,6 +52,9 @@ export default function SpaceLibrary({
   onDeletePage,
   isCreatingPage = false,
   onSpaceUpdated,
+  authHeaders = {},
+  currentUser = null,
+  onRequireLogin,
 }) {
   const [activeTab, setActiveTab] = useState("pages"); // 'pages' | 'activity'
   const [query, setQuery] = useState("");
@@ -75,7 +78,7 @@ export default function SpaceLibrary({
     if (!space?.id) return;
     try {
       const res = await fetch(`${API_BASE}/spaces/${space.id}/members`, {
-        headers: { "X-User-Id": "usr-1" },
+        headers: authHeaders,
       });
       if (res.ok) {
         const data = await res.json();
@@ -92,7 +95,7 @@ export default function SpaceLibrary({
     setIsLoadingActivities(true);
     try {
       const res = await fetch(`${API_BASE}/spaces/${space.id}/activity?limit=30`, {
-        headers: { "X-User-Id": "usr-1" },
+        headers: authHeaders,
       });
       if (res.ok) {
         const data = await res.json();
@@ -116,6 +119,10 @@ export default function SpaceLibrary({
 
   const handleInviteSubmit = async (e) => {
     e.preventDefault();
+    if (!currentUser) {
+      if (onRequireLogin) onRequireLogin("invite team members");
+      return;
+    }
     if (!inviteEmail.trim() || !space?.id) return;
 
     setIsInviting(true);
@@ -125,7 +132,7 @@ export default function SpaceLibrary({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-User-Id": "usr-1",
+          ...authHeaders,
         },
         body: JSON.stringify({
           email: inviteEmail.trim(),
@@ -154,11 +161,15 @@ export default function SpaceLibrary({
   };
 
   const handleRemoveMember = async (userId) => {
+    if (!currentUser) {
+      if (onRequireLogin) onRequireLogin("remove team members");
+      return;
+    }
     if (!space?.id || !userId) return;
     try {
       const res = await fetch(`${API_BASE}/spaces/${space.id}/members/${userId}`, {
         method: "DELETE",
-        headers: { "X-User-Id": "usr-1" },
+        headers: authHeaders,
       });
       if (res.ok) {
         setMembers((prev) => prev.filter((m) => m.user_id !== userId));
@@ -170,13 +181,17 @@ export default function SpaceLibrary({
   };
 
   const handleUpdateMemberRole = async (userId, newRole) => {
+    if (!currentUser) {
+      if (onRequireLogin) onRequireLogin("change member roles");
+      return;
+    }
     if (!space?.id || !userId) return;
     try {
       const res = await fetch(`${API_BASE}/spaces/${space.id}/members`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-User-Id": "usr-1",
+          ...authHeaders,
         },
         body: JSON.stringify({ user_id: userId, role: newRole }),
       });

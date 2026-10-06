@@ -49,6 +49,7 @@ class SupabaseSpaceService:
                 conn.execute(text("ALTER TABLE open_spaces ADD COLUMN IF NOT EXISTS owner_id VARCHAR(64);"))
                 conn.execute(text("ALTER TABLE open_pages ADD COLUMN IF NOT EXISTS parent_id VARCHAR(64);"))
                 conn.execute(text('ALTER TABLE open_pages ADD COLUMN IF NOT EXISTS "order" INTEGER DEFAULT 0;'))
+                conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash VARCHAR(255);"))
                 conn.commit()
         except Exception as e:
             print(f"Migration note: {e}")
@@ -294,10 +295,20 @@ How Dot agents communicate within a shared Space:
             db.close()
 
     # --- Space Operations ---
-    def get_all_spaces(self) -> List[Space]:
+    def get_all_spaces(self, user_id: Optional[str] = None) -> List[Space]:
         db: Session = SessionLocal()
         try:
-            records = db.query(OpenSpaceDB).order_by(OpenSpaceDB.pinned.desc(), OpenSpaceDB.updated_at.desc()).all()
+            query = db.query(OpenSpaceDB)
+            if user_id:
+                member_space_ids = [m[0] for m in db.query(SpaceMemberDB.space_id).filter(SpaceMemberDB.user_id == user_id).all()]
+                query = query.filter(
+                    (OpenSpaceDB.owner_id == user_id) |
+                    (OpenSpaceDB.id.in_(member_space_ids))
+                )
+            records = query.order_by(OpenSpaceDB.pinned.desc(), OpenSpaceDB.updated_at.desc()).all()
+            # If user has no spaces yet (newly registered or guest), fallback to all spaces so they aren't blank
+            if not records and user_id:
+                records = db.query(OpenSpaceDB).order_by(OpenSpaceDB.pinned.desc(), OpenSpaceDB.updated_at.desc()).all()
             result = []
             for r in records:
                 pages_cnt = db.query(OpenPageDB).filter(OpenPageDB.space_id == r.id).count()

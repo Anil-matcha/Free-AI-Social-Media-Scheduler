@@ -29,6 +29,9 @@ export default function HomeWorkView({
   conversation = [],
   isLoading = false,
   onOpenCanvas,
+  currentUser = null,
+  authHeaders = {},
+  onRequireLogin = null,
 }) {
   const [promptText, setPromptText] = useState("");
   const [attachedImage, setAttachedImage] = useState(null);
@@ -64,6 +67,12 @@ export default function HomeWorkView({
     const file = e.target.files?.[0];
     if (!file || !file.type.startsWith("image/")) return;
 
+    if (!currentUser) {
+      if (onRequireLogin) onRequireLogin("upload images and files");
+      if (e.target) e.target.value = "";
+      return;
+    }
+
     const localPreviewUrl = URL.createObjectURL(file);
 
     // Show preview thumbnail locally while uploading, url is null until upload returns hosted link
@@ -81,7 +90,10 @@ export default function HomeWorkView({
     try {
       const res = await fetch("http://localhost:8000/api/upload_file", {
         method: "POST",
-        headers: { "X-User-Id": "usr-1" },
+        headers: {
+          ...authHeaders,
+          ...(currentUser ? { "X-User-Id": currentUser.id } : {}),
+        },
         body: formData,
       });
 

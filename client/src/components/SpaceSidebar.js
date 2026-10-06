@@ -45,6 +45,8 @@ export default function SpaceSidebar({
   onCreatePage,
   onDeletePage,
   isCreatingPage = false,
+  currentUser = null,
+  onRequireLogin = null,
 }) {
   const [showNewSpaceModal, setShowNewSpaceModal] = useState(false);
   const [newSpaceName, setNewSpaceName] = useState("");
@@ -99,7 +101,10 @@ export default function SpaceSidebar({
         </div>
 
         <button
-          onClick={() => setShowNewSpaceModal(true)}
+          onClick={() => {
+            if (onRequireLogin && !onRequireLogin("create a workspace")) return;
+            setShowNewSpaceModal(true);
+          }}
           className="p-1 rounded-lg hover:bg-zinc-200/70 dark:hover:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors cursor-pointer"
           title="Create new Space"
         >
@@ -110,7 +115,14 @@ export default function SpaceSidebar({
       {/* New Page Button for Active Space */}
       <div className="px-3 pt-3 pb-1">
         <button
-          onClick={!isCreatingPage ? () => onCreatePage({ title: "Untitled page", content: "" }) : undefined}
+          onClick={
+            !isCreatingPage
+              ? () => {
+                  if (onRequireLogin && !onRequireLogin("create a new page")) return;
+                  onCreatePage({ title: "Untitled page", content: "" });
+                }
+              : undefined
+          }
           disabled={isCreatingPage}
           className={`w-full flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-zinc-800/90 border border-zinc-200 dark:border-zinc-700/80 text-zinc-800 dark:text-zinc-200 font-medium transition-colors shadow-2xs ${
             isCreatingPage
@@ -198,6 +210,7 @@ export default function SpaceSidebar({
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
+                      if (onRequireLogin && !onRequireLogin("delete a workspace")) return;
                       onDeleteSpace(space.id);
                     }}
                     title="Delete space"
@@ -268,6 +281,7 @@ export default function SpaceSidebar({
                                     type="button"
                                     onClick={(e) => {
                                       e.stopPropagation();
+                                      if (onRequireLogin && !onRequireLogin("create a sub-page")) return;
                                       onCreatePage({
                                         title: "Untitled sub-page",
                                         content: "",
@@ -285,6 +299,7 @@ export default function SpaceSidebar({
                                       type="button"
                                       onClick={(e) => {
                                         e.stopPropagation();
+                                        if (onRequireLogin && !onRequireLogin("delete a page")) return;
                                         onDeletePage(page.id);
                                       }}
                                       title="Delete page"

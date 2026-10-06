@@ -17,15 +17,27 @@ if db_url.startswith("postgres://"):
 if "pooler.supabase.com:5432" in db_url:
     db_url = db_url.replace("pooler.supabase.com:5432", "pooler.supabase.com:6543")
 
-# Connection pool optimized for Supabase transaction pooler
-engine = create_engine(
-    db_url,
-    pool_pre_ping=True,
-    pool_size=3,
-    max_overflow=5,
-    pool_recycle=300,
-    connect_args={"sslmode": "require"} if "supabase.com" in db_url else {}
-)
+from sqlalchemy.pool import NullPool
+
+is_supabase_pooler = "pooler.supabase.com" in db_url or ":6543" in db_url
+
+if is_supabase_pooler:
+    # Supabase Transaction Pooler (PgBouncer port 6543) manages connection pooling on the server.
+    # NullPool disables SQLAlchemy client-side connection pooling, eliminating QueuePool timeouts.
+    engine = create_engine(
+        db_url,
+        poolclass=NullPool,
+        connect_args={"sslmode": "require"} if "supabase.com" in db_url else {}
+    )
+else:
+    engine = create_engine(
+        db_url,
+        pool_pre_ping=True,
+        pool_size=20,
+        max_overflow=40,
+        pool_recycle=300,
+        connect_args={"sslmode": "require"} if "supabase.com" in db_url else {}
+    )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()

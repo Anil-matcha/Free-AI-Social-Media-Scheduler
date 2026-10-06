@@ -9,9 +9,9 @@ import PageHeaderBar from "./PageHeaderBar";
 import CanvasPage from "./CanvasPage";
 import HomeWorkView from "./HomeWorkView";
 import ChatDrawer from "./ChatDrawer";
+import AuthModal from "./AuthModal";
 
 const API_BASE = "http://localhost:8000/api";
-const AUTH_HEADERS = { "X-User-Id": "usr-1" };
 const STORAGE_KEY = "open_spaces_chat_history";
 const LAST_ROUTE_KEY = "open_spaces_last_route";
 
@@ -28,6 +28,11 @@ export default function OpenSpacesApp({
   initialPageId = null,
   initialChatId = null,
 }) {
+  // Auth & Multi-User State (Strict Auth - No fallback user data)
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isAuthChecking, setIsAuthChecking] = useState(true);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+
   const [activeRailTab, setActiveRailTab] = useState(initialRailTab);
   const [activeProject, setActiveProject] = useState("General");
   const [selectedModel, setSelectedModel] = useState("gpt-6-1-sol");
@@ -51,8 +56,29 @@ export default function OpenSpacesApp({
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [saveTrigger, setSaveTrigger] = useState(0);
 
+  // Dynamic Auth Headers based strictly on authenticated user
+  const authHeaders = currentUser
+    ? { "X-User-Id": currentUser.id, "Authorization": `Bearer ${currentUser.id}` }
+    : {};
+
   // Track initialization
   const initializedFromUrlRef = useRef(false);
+
+  // Load authenticated user on initial render - no fallback dummy data
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("open_spaces_user");
+      if (stored) {
+        setCurrentUser(JSON.parse(stored));
+      } else {
+        setCurrentUser(null);
+      }
+    } catch (_) {
+      setCurrentUser(null);
+    } finally {
+      setIsAuthChecking(false);
+    }
+  }, []);
 
   // 1. Load real chat history from localStorage on initial render
   useEffect(() => {
@@ -120,13 +146,43 @@ export default function OpenSpacesApp({
     }
   }, []);
 
-  // 2. Fetch Spaces on load and restore route from URL or localStorage
-  const fetchSpaces = useCallback(async () => {
+  // Action notification toast state & timer
+  const [toastMessage, setToastMessage] = useState("");
+  const toastTimerRef = useRef(null);
+
+  // Action guard: "don't block ui when no login just say login first when any action triggers"
+  const requireLogin = useCallback((actionName = "perform this action") => {
+    if (!currentUser) {
+      if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+      setToastMessage(`Please login first to ${actionName}.`);
+      toastTimerRef.current = setTimeout(() => {
+        setToastMessage("");
+      }, 4500);
+      return false;
+    }
+    return true;
+  }, [currentUser]);
+
+  // 2. Fetch Spaces on load (public viewing supported so UI is never blocked)
+  const fetchSpaces = useCallback(async (overrideUserId = null) => {
+    const userId = overrideUserId || currentUser?.id;
     try {
-      const res = await fetch(`${API_BASE}/spaces`, { headers: AUTH_HEADERS });
+      const effectiveHeaders = userId
+        ? { "X-User-Id": userId, "Authorization": `Bearer ${userId}` }
+        : {};
+      const res = await fetch(`${API_BASE}/spaces`, { headers: effectiveHeaders });
       if (res.ok) {
         const data = await res.json();
         setSpaces(data);
+
+        // If current active space doesn't exist in data, select first space
+        if (data.length > 0) {
+          const match = data.find((s) => s.id === activeSpaceId);
+          if (!match) {
+            setActiveSpaceId(data[0].id);
+            setActivePageId(null);
+          }
+        }
 
         // Parse path from URL if initial props were not passed
         const pathname = typeof window !== "undefined" ? window.location.pathname : "";
@@ -180,9 +236,33 @@ export default function OpenSpacesApp({
     } catch (err) {
       console.warn("Backend connecting on port 8000...", err);
     }
-  }, [initialSpaceId, initialPageId, initialChatId, updateRoute]);
+  }, [currentUser?.id, activeSpaceId, initialSpaceId, initialPageId, initialChatId, updateRoute]);
 
   useEffect(() => {
+    fetchSpaces();
+  }, [fetchSpaces, currentUser?.id]);
+
+  // Auth Action Handlers
+  const handleAuthSuccess = useCallback((user, token) => {
+    setCurrentUser(user);
+    try {
+      localStorage.setItem("open_spaces_user", JSON.stringify(user));
+      if (token) localStorage.setItem("open_spaces_token", token);
+    } catch (_) {}
+    setAuthModalOpen(false);
+    setToastMessage(`Welcome back, ${user.name}!`);
+    setTimeout(() => setToastMessage(""), 3500);
+    fetchSpaces(user.id);
+  }, [fetchSpaces]);
+
+  const handleLogout = useCallback(() => {
+    try {
+      localStorage.removeItem("open_spaces_user");
+      localStorage.removeItem("open_spaces_token");
+    } catch (_) {}
+    setCurrentUser(null);
+    setToastMessage("Signed out. You can browse spaces in guest view.");
+    setTimeout(() => setToastMessage(""), 4000);
     fetchSpaces();
   }, [fetchSpaces]);
 
@@ -190,7 +270,7 @@ export default function OpenSpacesApp({
   const fetchSpaceDetails = useCallback(async (spaceId, targetPageId = null) => {
     if (!spaceId) return;
     try {
-      const pRes = await fetch(`${API_BASE}/spaces/${spaceId}/pages`, { headers: AUTH_HEADERS });
+      const pRes = await fetch(`${API_BASE}/spaces/${spaceId}/pages`, { headers: authHeaders });
       if (pRes.ok) {
         const pData = await pRes.json();
         setPages(pData);
@@ -202,7 +282,7 @@ export default function OpenSpacesApp({
         }
       }
 
-      const mRes = await fetch(`${API_BASE}/spaces/${spaceId}/messages`, { headers: AUTH_HEADERS });
+      const mRes = await fetch(`${API_BASE}/spaces/${spaceId}/messages`, { headers: authHeaders });
       if (mRes.ok) {
         const mData = await mRes.json();
         setMessages(mData);
@@ -210,7 +290,7 @@ export default function OpenSpacesApp({
     } catch (err) {
       console.error("Error fetching space details:", err);
     }
-  }, []);
+  }, [authHeaders]);
 
   useEffect(() => {
     if (activeSpaceId) {
@@ -317,6 +397,7 @@ export default function OpenSpacesApp({
 
   // Handlers for real conversation management
   const handleNewChat = () => {
+    if (!requireLogin("start a new chat")) return;
     setActiveConversationId(null);
     setConversation([]);
     setActiveRailTab("home");
@@ -338,6 +419,7 @@ export default function OpenSpacesApp({
 
   const handleDeleteConversation = (id, e) => {
     if (e) e.stopPropagation();
+    if (!requireLogin("delete conversations")) return;
     const updated = conversations.filter((c) => c.id !== id);
     persistConversations(updated);
     if (activeConversationId === id) {
@@ -357,6 +439,7 @@ export default function OpenSpacesApp({
 
   // Submit prompt to Open Spaces 6 series
   const handleSubmitPrompt = async (prompt, imageUrl = null) => {
+    if (!requireLogin("send messages and chat with AI")) return;
     if ((!prompt || !prompt.trim()) && !imageUrl) return;
 
     const userMsg = {
@@ -484,10 +567,11 @@ export default function OpenSpacesApp({
 
   // Spaces Management
   const handleCreateSpace = async (spaceData) => {
+    if (!requireLogin("create a new workspace")) return;
     try {
       const res = await fetch(`${API_BASE}/spaces`, {
         method: "POST",
-        headers: { ...AUTH_HEADERS, "Content-Type": "application/json" },
+        headers: { ...authHeaders, "Content-Type": "application/json" },
         body: JSON.stringify(spaceData),
       });
       if (res.ok) {
@@ -505,10 +589,11 @@ export default function OpenSpacesApp({
   };
 
   const handleDeleteSpace = async (spaceId) => {
+    if (!requireLogin("delete a workspace")) return;
     try {
       const res = await fetch(`${API_BASE}/spaces/${spaceId}`, {
         method: "DELETE",
-        headers: AUTH_HEADERS,
+        headers: authHeaders,
       });
       if (res.ok) {
         const remaining = spaces.filter((s) => s.id !== spaceId);
@@ -526,13 +611,14 @@ export default function OpenSpacesApp({
 
   // Pages Management: Instant 0ms optimistic page creation (zero lag, no double spinners)
   const handleCreatePage = async (pageData) => {
+    if (!requireLogin("create a new document page")) return;
     let targetSpace = activeSpace;
     if (!targetSpace) {
       if (spaces.length > 0) {
         targetSpace = spaces[0];
       } else {
         try {
-          const sRes = await fetch(`${API_BASE}/spaces`, { headers: AUTH_HEADERS });
+          const sRes = await fetch(`${API_BASE}/spaces`, { headers: authHeaders });
           if (sRes.ok) {
             const list = await sRes.json();
             if (list.length > 0) {
@@ -563,7 +649,7 @@ export default function OpenSpacesApp({
       content: contentStr,
       icon: iconStr,
       status: "draft",
-      author: "You",
+      author: currentUser?.name || "Author",
       version: 1,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
@@ -579,7 +665,7 @@ export default function OpenSpacesApp({
     try {
       const res = await fetch(`${API_BASE}/spaces/${targetSpace.id}/pages`, {
         method: "POST",
-        headers: { ...AUTH_HEADERS, "Content-Type": "application/json" },
+        headers: { ...authHeaders, "Content-Type": "application/json" },
         body: JSON.stringify({
           title: titleStr,
           content: contentStr,
@@ -606,12 +692,13 @@ export default function OpenSpacesApp({
   };
 
   const handleUpdatePage = async (pageId, updateData) => {
+    if (!requireLogin("save document changes")) return null;
     if (!activeSpace || !pageId) return null;
     setSaveStatus("Saving...");
     try {
       const res = await fetch(`${API_BASE}/spaces/${activeSpace.id}/pages/${pageId}`, {
         method: "PATCH",
-        headers: { ...AUTH_HEADERS, "Content-Type": "application/json" },
+        headers: { ...authHeaders, "Content-Type": "application/json" },
         body: JSON.stringify(updateData),
       });
       if (res && res.status === 409) {
@@ -638,12 +725,13 @@ export default function OpenSpacesApp({
   };
 
   const handleRestoreRevision = async (pageId, version) => {
+    if (!requireLogin("restore page revisions")) return null;
     if (!activeSpace || !pageId) return null;
     setSaveStatus("Saving...");
     try {
       const res = await fetch(`${API_BASE}/spaces/${activeSpace.id}/pages/${pageId}/revisions/${version}/restore`, {
         method: "POST",
-        headers: AUTH_HEADERS,
+        headers: authHeaders,
       });
       if (res.ok) {
         const restored = await res.json();
@@ -659,11 +747,12 @@ export default function OpenSpacesApp({
   };
 
   const handleDeletePage = async (pageId) => {
+    if (!requireLogin("delete a document page")) return;
     if (!activeSpace || !pageId) return;
     try {
       const res = await fetch(`${API_BASE}/spaces/${activeSpace.id}/pages/${pageId}`, {
         method: "DELETE",
-        headers: AUTH_HEADERS,
+        headers: authHeaders,
       });
       if (res.ok) {
         setPages((prev) => prev.filter((p) => p.id !== pageId));
@@ -694,11 +783,45 @@ export default function OpenSpacesApp({
   };
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#fbfbfa] dark:bg-[#141416] text-zinc-900 dark:text-zinc-100 transition-colors duration-150">
+    <div className="flex h-screen w-screen overflow-hidden bg-[#fbfbfa] dark:bg-[#141416] text-zinc-900 dark:text-zinc-100 transition-colors duration-150 relative">
+      {/* Action Notification Toast ("Please login first") - Non-blocking floating pill */}
+      {toastMessage && (
+        <div
+          role="alert"
+          className="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-4 py-2.5 rounded-full bg-zinc-900/95 dark:bg-zinc-100/95 text-white dark:text-zinc-900 text-xs font-medium shadow-2xl backdrop-blur-md border border-zinc-700/50 dark:border-zinc-300/50 animate-in fade-in slide-in-from-top-3 duration-150"
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-sm">🔒</span>
+            <span>{toastMessage}</span>
+          </div>
+          <div className="flex items-center gap-1.5 pl-2 border-l border-zinc-700/60 dark:border-zinc-300/60">
+            <button
+              onClick={() => {
+                setToastMessage("");
+                setAuthModalOpen(true);
+              }}
+              className="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full text-[11px] font-semibold transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-sm"
+            >
+              Sign In / Sign Up
+            </button>
+            <button
+              onClick={() => setToastMessage("")}
+              className="p-1 text-zinc-400 hover:text-white dark:hover:text-zinc-900 transition-colors cursor-pointer rounded-full"
+              title="Dismiss"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* 1. Slim Left Navigation Rail (~48px) */}
       <IconRail
         activeRailTab={activeRailTab}
         onSelectRailTab={handleSelectRailTab}
+        currentUser={currentUser}
+        onOpenAuth={() => setAuthModalOpen(true)}
+        onLogout={handleLogout}
       />
 
       {/* 2. Middle Sidebar */}
@@ -726,6 +849,8 @@ export default function OpenSpacesApp({
           onCreatePage={handleCreatePage}
           onDeletePage={handleDeletePage}
           isCreatingPage={isCreatingPage}
+          currentUser={currentUser}
+          onRequireLogin={(act) => requireLogin(act || "perform this workspace action")}
         />
       )}
 
@@ -742,6 +867,9 @@ export default function OpenSpacesApp({
             conversation={conversation}
             isLoading={isGenerating}
             onOpenCanvas={handleOpenCanvas}
+            currentUser={currentUser}
+            authHeaders={authHeaders}
+            onRequireLogin={(act) => requireLogin(act || "chat with AI")}
           />
         ) : !activePageId ? (
           /* OpenDots SpaceLibrary: Searchable library, grid/list view, page excerpts */
@@ -752,6 +880,9 @@ export default function OpenSpacesApp({
             onNewPage={() => handleCreatePage({ title: "Untitled page", content: "" })}
             onDeletePage={handleDeletePage}
             isCreatingPage={isCreatingPage}
+            currentUser={currentUser}
+            authHeaders={authHeaders}
+            onRequireLogin={(act) => requireLogin(act || "manage members")}
           />
         ) : !activePage && pages.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-3 text-zinc-400 select-none bg-white dark:bg-[#141416]">
@@ -797,6 +928,7 @@ export default function OpenSpacesApp({
                 onCloseHistory={() => setHistoryOpen(false)}
                 onRestoreRevision={handleRestoreRevision}
                 onTriggerAI={(p) => handleSubmitPrompt(p)}
+                authHeaders={authHeaders}
               />
 
               {chatOpen && (
@@ -809,12 +941,25 @@ export default function OpenSpacesApp({
                   activePageTitle={activePage?.title}
                   activePageId={activePage?.id}
                   spaceId={activeSpace?.id}
+                  currentUser={currentUser}
+                  authHeaders={authHeaders}
+                  onRequireLogin={(act) => requireLogin(act || "participate in page discussion")}
                 />
               )}
             </div>
           </>
         )}
       </div>
+
+      {/* Switch Account or Re-authenticate Modal */}
+      {authModalOpen && (
+        <AuthModal
+          isOpen={authModalOpen}
+          allowClose={true}
+          onClose={() => setAuthModalOpen(false)}
+          onSuccess={handleAuthSuccess}
+        />
+      )}
     </div>
   );
 }

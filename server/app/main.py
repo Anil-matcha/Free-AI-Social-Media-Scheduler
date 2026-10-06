@@ -3,7 +3,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query, status
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.api.routers import spaces, pages, agents, meetings, chat, images, files
+from app.api.routers import spaces, pages, agents, meetings, chat, images, files, auth
 from app.db.session import SessionLocal
 from app.db.models import UserDB, OpenSpaceDB, SpaceMemberDB
 
@@ -23,6 +23,7 @@ app.add_middleware(
 )
 
 # Include Routers
+app.include_router(auth.router, prefix=settings.API_V1_STR)
 app.include_router(spaces.router, prefix=settings.API_V1_STR)
 app.include_router(pages.router, prefix=settings.API_V1_STR)
 app.include_router(agents.router, prefix=settings.API_V1_STR)

@@ -5,7 +5,7 @@ from app.models.schemas import (
     SpaceMemberDetail, SpaceMemberAdd, ActivityItem, ScopedSearchResult
 )
 from app.services.space_store import store
-from app.core.auth import get_current_user, require_space_access
+from app.core.auth import get_current_user, get_optional_current_user, require_space_access
 from app.db.models import UserDB
 
 router = APIRouter(prefix="/spaces", tags=["Spaces"])
@@ -18,8 +18,8 @@ def search_scoped(
     return store.search_scoped(user_id=current_user.id, query=q)
 
 @router.get("", response_model=List[Space])
-def get_spaces(current_user: UserDB = Depends(get_current_user)):
-    return store.get_all_spaces()
+def get_spaces(current_user: Optional[UserDB] = Depends(get_optional_current_user)):
+    return store.get_all_spaces(user_id=current_user.id if current_user else None)
 
 @router.post("", response_model=Space, status_code=status.HTTP_201_CREATED)
 def create_space(payload: SpaceCreate, current_user: UserDB = Depends(get_current_user)):

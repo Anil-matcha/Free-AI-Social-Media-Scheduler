@@ -30,6 +30,9 @@ export default function ChatDrawer({
   activePageTitle,
   activePageId,
   spaceId,
+  currentUser = null,
+  authHeaders = {},
+  onRequireLogin,
 }) {
   const [activeTab, setActiveTab] = useState("comments"); // 'comments' | 'ai'
   const [inputText, setInputText] = useState("");
@@ -45,7 +48,7 @@ export default function ChatDrawer({
     setIsLoadingComments(true);
     try {
       const res = await fetch(`${API_BASE}/spaces/${spaceId}/pages/${activePageId}/comments`, {
-        headers: { "X-User-Id": "usr-1" },
+        headers: authHeaders,
       });
       if (res.ok) {
         const data = await res.json();
@@ -68,6 +71,10 @@ export default function ChatDrawer({
 
   const handleAiSubmit = (e) => {
     e.preventDefault();
+    if (!currentUser) {
+      if (onRequireLogin) onRequireLogin("chat with Dot AI agents");
+      return;
+    }
     if (!inputText.trim()) return;
 
     let textToSend = inputText.trim();
@@ -79,7 +86,7 @@ export default function ChatDrawer({
       onSendMessage({
         content: textToSend,
         sender_type: "user",
-        sender_name: "You",
+        sender_name: currentUser?.name || "You",
       });
     }
     setInputText("");
@@ -87,6 +94,10 @@ export default function ChatDrawer({
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
+    if (!currentUser) {
+      if (onRequireLogin) onRequireLogin("post comments in discussion");
+      return;
+    }
     if (!commentText.trim() || !spaceId || !activePageId) return;
 
     try {
@@ -94,7 +105,7 @@ export default function ChatDrawer({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-User-Id": "usr-1",
+          ...authHeaders,
         },
         body: JSON.stringify({ content: commentText.trim() }),
       });
@@ -109,6 +120,10 @@ export default function ChatDrawer({
   };
 
   const handleToggleResolve = async (commentId, currentResolved) => {
+    if (!currentUser) {
+      if (onRequireLogin) onRequireLogin("resolve comments");
+      return;
+    }
     try {
       const res = await fetch(
         `${API_BASE}/spaces/${spaceId}/pages/${activePageId}/comments/${commentId}`,
@@ -116,7 +131,7 @@ export default function ChatDrawer({
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            "X-User-Id": "usr-1",
+            ...authHeaders,
           },
           body: JSON.stringify({ resolved: !currentResolved }),
         }
@@ -132,12 +147,16 @@ export default function ChatDrawer({
   };
 
   const handleDeleteComment = async (commentId) => {
+    if (!currentUser) {
+      if (onRequireLogin) onRequireLogin("delete comments");
+      return;
+    }
     try {
       const res = await fetch(
         `${API_BASE}/spaces/${spaceId}/pages/${activePageId}/comments/${commentId}`,
         {
           method: "DELETE",
-          headers: { "X-User-Id": "usr-1" },
+          headers: authHeaders,
         }
       );
       if (res.ok) {

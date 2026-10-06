@@ -30,6 +30,7 @@ export default function CanvasPage({
   historyOpen = false,
   onCloseHistory,
   onRestoreRevision,
+  authHeaders = {},
 }) {
   const [title, setTitle] = useState(page?.title || "Untitled page");
   const [icon, setIcon] = useState(page?.icon || "📄");
@@ -143,7 +144,7 @@ export default function CanvasPage({
     let isMounted = true;
     setIsLoadingRevisions(true);
     fetch(`http://localhost:8000/api/spaces/${page.space_id}/pages/${page.id}/revisions`, {
-      headers: { "X-User-Id": "usr-1" },
+      headers: authHeaders,
     })
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
