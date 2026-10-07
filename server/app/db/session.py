@@ -21,13 +21,23 @@ from sqlalchemy.pool import NullPool
 
 is_supabase_pooler = "pooler.supabase.com" in db_url or ":6543" in db_url
 
+connect_args = {
+    "sslmode": "require",
+    "keepalives": 1,
+    "keepalives_idle": 30,
+    "keepalives_interval": 10,
+    "keepalives_count": 5,
+} if "supabase.com" in db_url else {}
+
 if is_supabase_pooler:
     # Supabase Transaction Pooler (PgBouncer port 6543) manages connection pooling on the server.
-    # NullPool disables SQLAlchemy client-side connection pooling, eliminating QueuePool timeouts.
+    # NullPool disables client-side connection pooling, eliminating QueuePool timeouts.
+    # pool_pre_ping=True automatically tests connections and reconnects if SSL was dropped.
     engine = create_engine(
         db_url,
         poolclass=NullPool,
-        connect_args={"sslmode": "require"} if "supabase.com" in db_url else {}
+        pool_pre_ping=True,
+        connect_args=connect_args
     )
 else:
     engine = create_engine(
@@ -36,7 +46,7 @@ else:
         pool_size=20,
         max_overflow=40,
         pool_recycle=300,
-        connect_args={"sslmode": "require"} if "supabase.com" in db_url else {}
+        connect_args=connect_args
     )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

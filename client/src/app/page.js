@@ -6,7 +6,7 @@ import OpenSpacesApp from "../components/OpenSpacesApp";
 export default function HomePage() {
   return (
     <OpenSpacesApp
-      initialRailTab="spaces" // Default to pages & spaces on homepage
+      initialRailTab="home"
     />
   );
 }

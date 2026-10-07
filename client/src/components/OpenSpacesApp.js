@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import IconRail from "./IconRail";
 import OpenSpacesSidebar from "./OpenSpacesSidebar";
 import SpaceSidebar from "./SpaceSidebar";
@@ -23,7 +23,7 @@ const generateUUID = () => {
 };
 
 export default function OpenSpacesApp({
-  initialRailTab = "spaces", // Default to "spaces" so pages/spaces are shown on the homepage
+  initialRailTab = "home", // Default to "home" view on the homepage
   initialSpaceId = null,
   initialPageId = null,
   initialChatId = null,
@@ -56,10 +56,18 @@ export default function OpenSpacesApp({
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [saveTrigger, setSaveTrigger] = useState(0);
 
-  // Dynamic Auth Headers based strictly on authenticated user
-  const authHeaders = currentUser
-    ? { "X-User-Id": currentUser.id, "Authorization": `Bearer ${currentUser.id}` }
-    : {};
+  // Ref tracking activeSpaceId to avoid recreating callbacks
+  const activeSpaceIdRef = useRef(activeSpaceId);
+  useEffect(() => {
+    activeSpaceIdRef.current = activeSpaceId;
+  }, [activeSpaceId]);
+
+  // Dynamic Auth Headers based strictly on authenticated user (memoized to prevent render loops)
+  const authHeaders = useMemo(() => {
+    return currentUser?.id
+      ? { "X-User-Id": currentUser.id, Authorization: `Bearer ${currentUser.id}` }
+      : {};
+  }, [currentUser?.id]);
 
   // Track initialization
   const initializedFromUrlRef = useRef(false);
@@ -177,7 +185,7 @@ export default function OpenSpacesApp({
 
         // If current active space doesn't exist in data, select first space
         if (data.length > 0) {
-          const match = data.find((s) => s.id === activeSpaceId);
+          const match = data.find((s) => s.id === activeSpaceIdRef.current);
           if (!match) {
             setActiveSpaceId(data[0].id);
             setActivePageId(null);
@@ -224,9 +232,9 @@ export default function OpenSpacesApp({
               }
             } catch (_) {}
 
-            // Default to first space and pages view on homepage
+            // Default to home tab on homepage root
+            setActiveRailTab("home");
             if (data.length > 0) {
-              setActiveRailTab("spaces");
               setActiveSpaceId(data[0].id);
               setActivePageId(null);
             }
@@ -236,7 +244,7 @@ export default function OpenSpacesApp({
     } catch (err) {
       console.warn("Backend connecting on port 8000...", err);
     }
-  }, [currentUser?.id, activeSpaceId, initialSpaceId, initialPageId, initialChatId, updateRoute]);
+  }, [currentUser?.id, initialSpaceId, initialPageId, initialChatId, updateRoute]);
 
   useEffect(() => {
     fetchSpaces();
@@ -294,7 +302,7 @@ export default function OpenSpacesApp({
 
   useEffect(() => {
     if (activeSpaceId) {
-      fetchSpaceDetails(activeSpaceId, activePageId);
+      fetchSpaceDetails(activeSpaceId);
     }
   }, [activeSpaceId, fetchSpaceDetails]);
 
@@ -324,7 +332,7 @@ export default function OpenSpacesApp({
         }
       } else {
         // Root /
-        setActiveRailTab("spaces");
+        setActiveRailTab("home");
       }
     };
 
