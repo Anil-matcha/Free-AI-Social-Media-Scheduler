@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), sans-serif;
+  --font-outfit: var(--font-inter), sans-serif;
+}
+
+@layer base {
+  html,
+  body {
+    @apply h-full w-full antialiased;
+  }
+}

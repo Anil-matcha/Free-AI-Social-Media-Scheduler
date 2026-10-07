@@ -1,0 +1,170 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String             @id @default(cuid())
+  name          String?
+  email         String?            @unique
+  emailVerified DateTime?
+  image         String?
+  credits       Int                @default(10)
+  accounts      Account[]
+  sessions      Session[]
+  groups        BlogGroup[]
+  blogs         BlogPost[]
+  creations     Creation[]
+  enhancements  Enhancement[]
+  petCreations  PetCreation[]
+  restorations  PhotoRestoration[]
+}
+
+model BlogGroup {
+  id        String     @id @default(cuid())
+  name      String
+  userId    String
+  createdAt DateTime   @default(now())
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blogs     BlogPost[]
+}
+
+model BlogPost {
+  id             String    @id @default(cuid())
+  title          String
+  content        String    @db.Text
+  author         String
+  coverImage     String?   @db.Text
+  status         String    @default("draft")
+  createTime     DateTime  @default(now())
+  publishTime    DateTime?
+  updateTime     DateTime  @default(now())
+  
+  seoTitle       String?   @db.Text
+  seoDescription String?   @db.Text
+  seoKeywords    String?   @db.Text
+  canonicalUrl   String?   @db.Text
+  
+  keyword        String?   @db.Text
+  blogTopic      String?   @db.Text
+  
+  requestId      String?   @unique
+  creditCost     Int       @default(5)
+  
+  userId         String
+  groupId        String
+  
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group          BlogGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+}
+
+model Creation {
+  id           String   @id @default(cuid())
+  category     String?
+  imageUrl     String?  @db.Text
+  isPack       Boolean  @default(false)
+  aspectRatio  String?
+  createdAt    DateTime @default(now())
+  userId       String
+  
+  requestId    String?  @unique
+  status       String   @default("processing")
+  error        String?  @db.Text
+  
+  inputImages  String?  @db.Text
+  mode         String?
+  modelId      String?
+  prompt       String?  @db.Text
+  resolution   String?
+  title        String?
+  type         String?
+  url          String?  @db.Text
+  duration     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Enhancement {
+  id            String   @id @default(cuid())
+  userId        String
+  inputUrl      String   @db.Text
+  outputUrl     String?  @db.Text
+  prompt        String   @db.Text
+  templateName  String?
+  aspectRatio   String?
+  status        String   @default("processing")
+  requestId     String?  @unique
+  error         String?  @db.Text
+  createdAt     DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PetCreation {
+  id           String   @id @default(cuid())
+  userId       String
+  inputUrls    String   @db.Text
+  outputUrl    String?  @db.Text
+  prompt       String   @db.Text
+  aspectRatio  String?
+  status       String   @default("processing")
+  requestId    String?  @unique
+  error        String?  @db.Text
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PhotoRestoration {
+  id           String   @id @default(cuid())
+  userId       String
+  inputUrl     String   @db.Text
+  outputUrl    String?  @db.Text
+  prompt       String   @db.Text
+  mode         String   @default("full")
+  status       String   @default("processing")
+  requestId    String?  @unique
+  error        String?  @db.Text
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
