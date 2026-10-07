@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), sans-serif;
+  --font-outfit: var(--font-inter), sans-serif;
+  
+  --color-bg-page: #09090b;
+  --color-bg-card: #121215;
+  --color-bg-card-hover: #18181b;
+  --color-bg-elevated: #1c1c20;
+  --color-divider: #27272a;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-primary-text: #f4f4f5;
+  --color-secondary-text: #a1a1aa;
+  --color-primary-btn-text: #09090b;
+}
+
+@layer base {
+  html, body {
+    background-color: #09090b;
+    color: #f4f4f5;
+    font-family: var(--font-sans);
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Minimal Dark Scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #09090b;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #27272a;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3f3f46;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #27272a #09090b;
+  }
+}
+
+/* Minimal Utilities */
+.glass-panel {
+  background: rgba(9, 9, 11, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid #27272a;
+}
+
+.glass-dropdown {
+  background: #121215;
+  border: 1px solid #27272a;
+}
+
+.scrollbar-subtle::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.scrollbar-subtle::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-subtle::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 4px;
+}
+
+.scrollbar-subtle::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+

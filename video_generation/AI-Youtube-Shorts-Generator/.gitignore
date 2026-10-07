@@ -1,8 +1,0 @@
-.env
-__pycache__/
-*.pyc
-.venv/
-venv/
-output/
-*.mp4
-.DS_Store
